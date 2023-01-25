@@ -1,13 +1,7 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import {LinkedDataObject} from "ldo";
-import {TodoList} from "@/ldo/todo.typings";
-import {TodoListFactory} from "@/ldo/todo.ldoFactory";
 
 export default function Home() {
-    const list: LinkedDataObject<TodoList> = TodoListFactory.new();
-    list.listName = "This is my cool todo list";
-    console.log(list.$changes());
     return (
         <>
             <Head>
@@ -17,8 +11,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
             <main className={styles.main}>
-                <h1>{list.listName}</h1>
-                test
+                <h1>test</h1>
             </main>
         </>
     )

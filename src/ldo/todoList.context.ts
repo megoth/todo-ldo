@@ -2,17 +2,13 @@ import { ContextDefinition } from "jsonld";
 
 /**
  * =============================================================================
- * todoContext: JSONLD Context for todo
+ * todoListContext: JSONLD Context for todoList
  * =============================================================================
  */
-export const todoContext: ContextDefinition = {
+export const todoListContext: ContextDefinition = {
   type: {
     "@id": "@type",
-    "@type": [
-      "https://icanhasweb.net/vocab/todo.ttl#TodoList",
-      "https://icanhasweb.net/vocab/todo.ttl#TodoTask",
-    ],
-    "@container": "@set",
+    "@type": "https://icanhasweb.net/vocab/todo.ttl#TodoList",
   },
   listName: {
     "@id": "https://icanhasweb.net/vocab/todo.ttl#listName",
@@ -22,13 +18,5 @@ export const todoContext: ContextDefinition = {
     "@id": "https://icanhasweb.net/vocab/todo.ttl#hasTask",
     "@type": "https://icanhasweb.net/vocab/todo.ttl#TodoTask",
     "@container": "@set",
-  },
-  taskDescription: {
-    "@id": "https://icanhasweb.net/vocab/todo.ttl#taskDescription",
-    "@type": "http://www.w3.org/2001/XMLSchema#string",
-  },
-  taskDone: {
-    "@id": "https://icanhasweb.net/vocab/todo.ttl#taskDone",
-    "@type": "http://www.w3.org/2001/XMLSchema#boolean",
   },
 };

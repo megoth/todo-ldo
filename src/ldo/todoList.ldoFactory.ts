@@ -1,9 +1,9 @@
 import { LdoFactory } from "ldo";
-import { TodoListShapeType, TodoTaskShapeType } from "./todo.shapeTypes";
+import { TodoListShapeType } from "./todoList.shapeTypes";
 
 /**
  * =============================================================================
- * LDO Factories for todo
+ * LDO Factories for todoList
  * =============================================================================
  */
 
@@ -11,8 +11,3 @@ import { TodoListShapeType, TodoTaskShapeType } from "./todo.shapeTypes";
  * TodoList LdoFactory
  */
 export const TodoListFactory = new LdoFactory(TodoListShapeType);
-
-/**
- * TodoTask LdoFactory
- */
-export const TodoTaskFactory = new LdoFactory(TodoTaskShapeType);
