@@ -1,7 +1,23 @@
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
+import {useSession} from "@inrupt/solid-ui-react";
+import Loading from "@/components/loading";
+import LoginForm from "@/components/loginForm";
+import LogoutButton from "@/components/logoutButton";
 
 export default function Home() {
+    const {sessionRequestInProgress, session} = useSession();
+    const {info} = session;
+    console.log("SESSION", session);
+
+    if (sessionRequestInProgress) {
+        return <Loading />
+    }
+
+    if (!info.isLoggedIn) {
+        return <LoginForm />
+    }
+
     return (
         <>
             <Head>
@@ -12,6 +28,7 @@ export default function Home() {
             </Head>
             <main className={styles.main}>
                 <h1>test</h1>
+                <LogoutButton />
             </main>
         </>
     )
