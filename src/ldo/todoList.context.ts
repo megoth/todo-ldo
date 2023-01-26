@@ -16,7 +16,7 @@ export const todoListContext: ContextDefinition = {
   },
   hasTask: {
     "@id": "https://icanhasweb.net/vocab/todo.ttl#hasTask",
-    "@type": "https://icanhasweb.net/vocab/todo.ttl#TodoTask",
+    "@type": "https://ldo.js.org/TodoTaskShape",
     "@container": "@set",
   },
 };

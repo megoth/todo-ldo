@@ -16,7 +16,7 @@ export const webIdProfileContext: ContextDefinition = {
   },
   storage: {
     "@id": "http://www.w3.org/ns/pim/space#storage",
-    "@type": "http://www.w3.org/ns/pim/space#Storage",
+    "@type": "@id",
     "@container": "@set",
   },
 };

@@ -9,7 +9,7 @@ export const webIdProfileSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/WebIdProfile",
+      id: "https://ldo.js.org/WebIdProfileShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -39,7 +39,7 @@ export const webIdProfileSchema: Schema = {
               predicate: "http://www.w3.org/ns/pim/space#storage",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "http://www.w3.org/ns/pim/space#Storage",
+                nodeKind: "iri",
               },
               min: 1,
               max: -1,

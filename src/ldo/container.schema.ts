@@ -2,14 +2,14 @@ import { Schema } from "shexj";
 
 /**
  * =============================================================================
- * todoListSchema: ShexJ Schema for todoList
+ * containerSchema: ShexJ Schema for container
  * =============================================================================
  */
-export const todoListSchema: Schema = {
+export const containerSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/TodoListShape",
+      id: "https://ldo.js.org/ContainerShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -21,31 +21,25 @@ export const todoListSchema: Schema = {
               predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "https://icanhasweb.net/vocab/todo.ttl#TodoList",
+                values: [
+                  "http://www.w3.org/ns/ldp#BasicContainer",
+                  "http://www.w3.org/ns/ldp#Container",
+                ],
               },
             },
             {
               type: "TripleConstraint",
-              predicate: "https://icanhasweb.net/vocab/todo.ttl#listName",
+              predicate: "http://www.w3.org/ns/ldp#contains",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "http://www.w3.org/2001/XMLSchema#string",
-              },
-              min: 0,
-              max: 1,
-            },
-            {
-              type: "TripleConstraint",
-              predicate: "https://icanhasweb.net/vocab/todo.ttl#hasTask",
-              valueExpr: {
-                type: "NodeConstraint",
-                datatype: "https://ldo.js.org/TodoTaskShape",
+                nodeKind: "iri",
               },
               min: 0,
               max: -1,
             },
           ],
         },
+        extra: ["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"],
       },
     },
   ],

@@ -1,13 +1,13 @@
 import { LdoFactory } from "ldo";
-import { TodoListShapeShapeType } from "./todoList.shapeTypes";
+import { ResourceShapeShapeType } from "./resource.shapeTypes";
 
 /**
  * =============================================================================
- * LDO Factories for todoList
+ * LDO Factories for resource
  * =============================================================================
  */
 
 /**
- * TodoListShape LdoFactory
+ * ResourceShape LdoFactory
  */
-export const TodoListShapeFactory = new LdoFactory(TodoListShapeShapeType);
+export const ResourceShapeFactory = new LdoFactory(ResourceShapeShapeType);

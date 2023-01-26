@@ -2,17 +2,12 @@ import { ContextDefinition } from "jsonld";
 
 /**
  * =============================================================================
- * Typescript Typings for todoList
+ * resourceContext: JSONLD Context for resource
  * =============================================================================
  */
-
-/**
- * TodoListShape Type
- */
-export interface TodoListShape {
-  "@id"?: string;
-  "@context"?: ContextDefinition;
-  type: string;
-  listName?: string;
-  hasTask?: string[];
-}
+export const resourceContext: ContextDefinition = {
+  type: {
+    "@id": "@type",
+    "@type": "http://www.w3.org/ns/ldp#Resource",
+  },
+};

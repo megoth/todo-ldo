@@ -7,14 +7,16 @@ import { ContextDefinition } from "jsonld";
  */
 
 /**
- * WebIdProfile Type
+ * WebIdProfileShape Type
  */
-export interface WebIdProfile {
+export interface WebIdProfileShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: {
     "@id": "Person";
   };
   name?: string;
-  storage: string[];
+  storage: {
+    "@id": string;
+  }[];
 }

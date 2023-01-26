@@ -1,5 +1,5 @@
 import { LdoFactory } from "ldo";
-import { WebIdProfileShapeType } from "./webIdProfile.shapeTypes";
+import { WebIdProfileShapeShapeType } from "./webIdProfile.shapeTypes";
 
 /**
  * =============================================================================
@@ -8,6 +8,8 @@ import { WebIdProfileShapeType } from "./webIdProfile.shapeTypes";
  */
 
 /**
- * WebIdProfile LdoFactory
+ * WebIdProfileShape LdoFactory
  */
-export const WebIdProfileFactory = new LdoFactory(WebIdProfileShapeType);
+export const WebIdProfileShapeFactory = new LdoFactory(
+  WebIdProfileShapeShapeType
+);
