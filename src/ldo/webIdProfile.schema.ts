@@ -2,14 +2,14 @@ import { Schema } from "shexj";
 
 /**
  * =============================================================================
- * todoTaskSchema: ShexJ Schema for todoTask
+ * webIdProfileSchema: ShexJ Schema for webIdProfile
  * =============================================================================
  */
-export const todoTaskSchema: Schema = {
+export const webIdProfileSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/TodoTask",
+      id: "https://ldo.js.org/WebIdProfile",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -21,30 +21,32 @@ export const todoTaskSchema: Schema = {
               predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "https://icanhasweb.net/vocab/todo.ttl#TodoTask",
+                values: ["http://xmlns.com/foaf/0.1/Person"],
               },
             },
             {
               type: "TripleConstraint",
-              predicate:
-                "https://icanhasweb.net/vocab/todo.ttl#taskDescription",
+              predicate: "http://xmlns.com/foaf/0.1/name",
               valueExpr: {
                 type: "NodeConstraint",
                 datatype: "http://www.w3.org/2001/XMLSchema#string",
               },
-            },
-            {
-              type: "TripleConstraint",
-              predicate: "https://icanhasweb.net/vocab/todo.ttl#taskDone",
-              valueExpr: {
-                type: "NodeConstraint",
-                datatype: "http://www.w3.org/2001/XMLSchema#boolean",
-              },
               min: 0,
               max: 1,
             },
+            {
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/ns/pim/space#storage",
+              valueExpr: {
+                type: "NodeConstraint",
+                datatype: "http://www.w3.org/ns/pim/space#Storage",
+              },
+              min: 1,
+              max: -1,
+            },
           ],
         },
+        extra: ["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"],
       },
     },
   ],

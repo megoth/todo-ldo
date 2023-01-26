@@ -1,13 +1,13 @@
 import { LdoFactory } from "ldo";
-import { FoafProfileShapeType } from "./foafProfile.shapeTypes";
+import { WebIdProfileShapeType } from "./webIdProfile.shapeTypes";
 
 /**
  * =============================================================================
- * LDO Factories for foafProfile
+ * LDO Factories for webIdProfile
  * =============================================================================
  */
 
 /**
- * FoafProfile LdoFactory
+ * WebIdProfile LdoFactory
  */
-export const FoafProfileFactory = new LdoFactory(FoafProfileShapeType);
+export const WebIdProfileFactory = new LdoFactory(WebIdProfileShapeType);

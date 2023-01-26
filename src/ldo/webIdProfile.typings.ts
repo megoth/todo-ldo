@@ -2,17 +2,19 @@ import { ContextDefinition } from "jsonld";
 
 /**
  * =============================================================================
- * Typescript Typings for todoTask
+ * Typescript Typings for webIdProfile
  * =============================================================================
  */
 
 /**
- * TodoTask Type
+ * WebIdProfile Type
  */
-export interface TodoTask {
+export interface WebIdProfile {
   "@id"?: string;
   "@context"?: ContextDefinition;
-  type: string;
-  taskDescription: string;
-  taskDone?: boolean;
+  type: {
+    "@id": "Person";
+  };
+  name?: string;
+  storage: string[];
 }
