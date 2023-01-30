@@ -8,14 +8,14 @@ interface TodoTaskProps {
     taskUrl: string | undefined | null;
 }
 
-export default function TodoTask({ taskUrl }: TodoTaskProps) {
-    const [task, taskError] = useSubject<TodoTaskShape>(taskUrl, TodoTaskShapeFactory);
+export default function TodoTask({taskUrl}: TodoTaskProps) {
+    const {data: task, error: taskError, isLoading} = useSubject<TodoTaskShape>(taskUrl, TodoTaskShapeFactory);
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>
     }
 
-    if (!taskUrl || !task) {
+    if (!taskUrl || !task || isLoading) {
         return <Loading/>
     }
 

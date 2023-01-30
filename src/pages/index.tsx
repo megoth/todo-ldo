@@ -12,7 +12,11 @@ import TodoList from "@/components/todoList";
 export default function Home() {
     const {session, sessionRequestInProgress} = useSession();
     const {webId, isLoggedIn} = session.info;
-    const [profile, profileError] = useSubject<WebIdProfileShape>(webId, WebIdProfileShapeFactory);
+    const {
+        data: profile,
+        error: profileError,
+        isLoading: profileIsLoading
+    } = useSubject<WebIdProfileShape>(webId, WebIdProfileShapeFactory);
     // TODO: For now we just choose first storage available (usually just one)
     const storageUrl = profile?.storage?.[0]?.["@id"];
     // TODO: We should follow links to find it, but for now we cheat and just assumes the Subject URL
@@ -23,17 +27,17 @@ export default function Home() {
     }
 
     if (profileError) {
-        return <ErrorDetails error={profileError} />
+        return <ErrorDetails error={profileError}/>
     }
 
-    if (!defaultTodoListId) {
-        return <Loading />
+    if (!defaultTodoListId || profileIsLoading) {
+        return <Loading/>
     }
 
     return (
         <Layout>
             <h1>Welcome, {profile?.name}</h1>
-            <TodoList listUrl={defaultTodoListId} />
+            <TodoList listUrl={defaultTodoListId}/>
         </Layout>
     )
 }

@@ -1,6 +1,4 @@
-import {LinkedDataObject} from "ldo";
 import {TodoListShape} from "@/ldo/todoList.typings";
-import {TodoTaskShape} from "@/ldo/todoTask.typings";
 import useSubject from "@/hooks/useSubject";
 import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
 import Loading from "@/components/loading";
@@ -13,13 +11,13 @@ interface TodoListProps {
 
 
 export default function TodoList({listUrl}: TodoListProps) {
-    const [list, listError] = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
+    const {data: list, error: listError, isLoading} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
 
     if (listError) {
         return <ErrorDetails error={listError}/>
     }
 
-    if (!list) {
+    if (!list || isLoading) {
         return <Loading/>
     }
 
@@ -28,7 +26,7 @@ export default function TodoList({listUrl}: TodoListProps) {
         <div>
             <h2>{list.listName}</h2>
             <ul>
-                {list.hasTask?.map((task: TodoTaskShape, index: number) => (
+                {list.hasTask?.map((task, index) => (
                     <TodoTask key={`task-${index}`} taskUrl={task["@id"]}/>
                 ))}
             </ul>
