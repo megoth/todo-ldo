@@ -1,6 +1,6 @@
 @prefix todo: <https://icanhasweb.net/vocab/todo.ttl#> .
 
-<#list-1>
+<#defaultList>
     a             todo:TodoList ;
     todo:listName "Todo list A" ;
     todo:hasTask  <#task-1>, <#task-2> .

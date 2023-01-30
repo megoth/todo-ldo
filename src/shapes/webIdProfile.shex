@@ -4,8 +4,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX space: <http://www.w3.org/ns/pim/space#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-<WebIdProfile> EXTRA rdf:type {
+<WebIdProfileShape> EXTRA rdf:type {
   rdf:type [ foaf:Person ] ;
   foaf:name xsd:string? ;
-  space:storage space:Storage+ ;
+  space:storage IRI+ ;
 }

@@ -9,7 +9,7 @@ export const todoListSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/TodoList",
+      id: "https://ldo.js.org/TodoListShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",

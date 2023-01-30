@@ -2,14 +2,14 @@ import { Schema } from "shexj";
 
 /**
  * =============================================================================
- * webIdProfileSchema: ShexJ Schema for webIdProfile
+ * containerSchema: ShexJ Schema for container
  * =============================================================================
  */
-export const webIdProfileSchema: Schema = {
+export const containerSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/WebIdProfileShape",
+      id: "https://ldo.js.org/ContainerShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -21,27 +21,20 @@ export const webIdProfileSchema: Schema = {
               predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
                 type: "NodeConstraint",
-                values: ["http://xmlns.com/foaf/0.1/Person"],
+                values: [
+                  "http://www.w3.org/ns/ldp#BasicContainer",
+                  "http://www.w3.org/ns/ldp#Container",
+                ],
               },
             },
             {
               type: "TripleConstraint",
-              predicate: "http://xmlns.com/foaf/0.1/name",
-              valueExpr: {
-                type: "NodeConstraint",
-                datatype: "http://www.w3.org/2001/XMLSchema#string",
-              },
-              min: 0,
-              max: 1,
-            },
-            {
-              type: "TripleConstraint",
-              predicate: "http://www.w3.org/ns/pim/space#storage",
+              predicate: "http://www.w3.org/ns/ldp#contains",
               valueExpr: {
                 type: "NodeConstraint",
                 nodeKind: "iri",
               },
-              min: 1,
+              min: 0,
               max: -1,
             },
           ],

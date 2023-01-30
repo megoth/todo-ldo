@@ -2,17 +2,17 @@ import { ContextDefinition } from "jsonld";
 
 /**
  * =============================================================================
- * Typescript Typings for todoList
+ * Typescript Typings for todoTask
  * =============================================================================
  */
 
 /**
- * TodoListShape Type
+ * TodoTaskShape Type
  */
-export interface TodoListShape {
+export interface TodoTaskShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: string;
-  listName?: string;
-  hasTask?: string[];
+  taskDescription: string;
+  taskDone?: boolean;
 }

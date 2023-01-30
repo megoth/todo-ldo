@@ -1,7 +1,7 @@
 import { ShapeType } from "ldo";
 import { webIdProfileSchema } from "./webIdProfile.schema";
 import { webIdProfileContext } from "./webIdProfile.context";
-import { WebIdProfile } from "./webIdProfile.typings";
+import { WebIdProfileShape } from "./webIdProfile.typings";
 
 /**
  * =============================================================================
@@ -10,10 +10,10 @@ import { WebIdProfile } from "./webIdProfile.typings";
  */
 
 /**
- * WebIdProfile ShapeType
+ * WebIdProfileShape ShapeType
  */
-export const WebIdProfileShapeType: ShapeType<WebIdProfile> = {
+export const WebIdProfileShapeShapeType: ShapeType<WebIdProfileShape> = {
   schema: webIdProfileSchema,
-  shape: "https://ldo.js.org/WebIdProfile",
+  shape: "https://ldo.js.org/WebIdProfileShape",
   context: webIdProfileContext,
 };

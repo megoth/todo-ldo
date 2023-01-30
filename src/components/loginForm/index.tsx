@@ -17,7 +17,7 @@ export default function LoginForm() {
                 clientName
             })
         } catch (error) {
-            // TODO: Better error handling
+            // TODO: Better errorDetails handling
             console.error(error);
         }
     }
