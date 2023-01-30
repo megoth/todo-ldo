@@ -16,6 +16,7 @@ export interface WebIdProfileShape {
     "@id": "Person";
   };
   name?: string;
+  fn?: string;
   storage: {
     "@id": string;
   }[];

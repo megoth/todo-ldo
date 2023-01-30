@@ -36,6 +36,16 @@ export const webIdProfileSchema: Schema = {
             },
             {
               type: "TripleConstraint",
+              predicate: "http://www.w3.org/2006/vcard/ns#fn",
+              valueExpr: {
+                type: "NodeConstraint",
+                datatype: "http://www.w3.org/2001/XMLSchema#string",
+              },
+              min: 0,
+              max: 1,
+            },
+            {
+              type: "TripleConstraint",
               predicate: "http://www.w3.org/ns/pim/space#storage",
               valueExpr: {
                 type: "NodeConstraint",

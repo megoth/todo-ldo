@@ -4,6 +4,12 @@ import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
+import {FormEvent, useContext, useEffect} from "react";
+import EditModeContext from "@/contexts/editMode";
+import TodoListTitle from "@/components/todoList/title";
+import {hasChanges, update} from "@/libs/ldo";
+import {useSession} from "@inrupt/solid-ui-react";
+import {LinkedDataObject} from "ldo";
 
 interface TodoListProps {
     listUrl: string | null;
@@ -11,7 +17,21 @@ interface TodoListProps {
 
 
 export default function TodoList({listUrl}: TodoListProps) {
-    const {data: list, error: listError, isLoading} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
+    const {data: list, error: listError, isLoading, mutate} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
+    const {editMode, setEditMode, setUpdating} = useContext(EditModeContext);
+    const {fetch} = useSession();
+
+    useEffect(() => {
+        if (!list || (editMode || (!editMode && !hasChanges(list)))) {
+            return;
+        }
+        (async () => {
+            setUpdating(true);
+            await update(list, fetch);
+            await mutate(list.$clone());
+            setUpdating(false);
+        })();
+    }, [editMode, list]);
 
     if (listError) {
         return <ErrorDetails error={listError}/>
@@ -21,15 +41,22 @@ export default function TodoList({listUrl}: TodoListProps) {
         return <Loading/>
     }
 
+    const toggleEditMode = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setEditMode(!editMode);
+    }
 
     return (
-        <div>
-            <h2>{list.listName}</h2>
+        <form onSubmit={toggleEditMode}>
+            <TodoListTitle list={list}/>
+            <button>{editMode ? "Close edit mode" : "Toggle edit mode"}</button>
             <ul>
-                {list.hasTask?.map((task, index) => (
-                    <TodoTask key={`task-${index}`} taskUrl={task["@id"]}/>
+                {list.hasTask?.map((task: LinkedDataObject<any>, index) => (
+                    <li key={task["@id"]}>
+                        <TodoTask taskUrl={task["@id"]}/>
+                    </li>
                 ))}
             </ul>
-        </div>
+        </form>
     )
 }

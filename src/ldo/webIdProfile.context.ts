@@ -14,6 +14,10 @@ export const webIdProfileContext: ContextDefinition = {
     "@id": "http://xmlns.com/foaf/0.1/name",
     "@type": "http://www.w3.org/2001/XMLSchema#string",
   },
+  fn: {
+    "@id": "http://www.w3.org/2006/vcard/ns#fn",
+    "@type": "http://www.w3.org/2001/XMLSchema#string",
+  },
   storage: {
     "@id": "http://www.w3.org/ns/pim/space#storage",
     "@type": "@id",

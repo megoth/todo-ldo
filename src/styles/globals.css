@@ -86,14 +86,17 @@ body {
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  padding: 1em;
 }
+
+@media (min-width: 400px) {
+  body {
+    width: 350px;
+    margin: 0 auto;
+    padding: 1em 0;
+  }
+}
+
 
 a {
   color: inherit;

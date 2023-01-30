@@ -3,11 +3,11 @@ import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
 import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
 import {WebIdProfileShapeFactory} from "@/ldo/webIdProfile.ldoFactory";
-import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
-import {TodoListShape} from "@/ldo/todoList.typings";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoList from "@/components/todoList";
+import {EditModeContextProvider} from "@/contexts/editMode";
+import {getName} from "@/libs/profile";
 
 export default function Home() {
     const {session, sessionRequestInProgress} = useSession();
@@ -30,14 +30,16 @@ export default function Home() {
         return <ErrorDetails error={profileError}/>
     }
 
-    if (!defaultTodoListId || profileIsLoading) {
+    if (!defaultTodoListId || !profile || profileIsLoading) {
         return <Loading/>
     }
 
     return (
         <Layout>
-            <h1>Welcome, {profile?.name}</h1>
-            <TodoList listUrl={defaultTodoListId}/>
+            <h1>Welcome, {getName(profile)}</h1>
+            <EditModeContextProvider>
+                <TodoList listUrl={defaultTodoListId}/>
+            </EditModeContextProvider>
         </Layout>
     )
 }

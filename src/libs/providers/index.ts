@@ -15,6 +15,12 @@ export function getProviders(): Array<ProviderModel> {
         //     signupIri: "https://signup.pod.inrupt.com/",
         // },
         {
+            label: "solidweb.me",
+            logoSrc: "/logos/solid-emblem.svg",
+            loginIri: "https://solidweb.me",
+            signupIri: "https://solidweb.me/idp/register/",
+        },
+        {
             label: "solidcommunity.net",
             logoSrc: "/logos/solid-emblem.svg",
             loginIri: "https://solidcommunity.net/",
