@@ -17,24 +17,23 @@ export default function Home() {
     const storageUrl = profile?.storage?.[0]?.["@id"];
     // TODO: We should follow links to find it, but for now we cheat and just assumes the Subject URL
     const defaultTodoListId = storageUrl ? `${storageUrl}todo.ttl#defaultList` : null;
-    const [list, listError] = useSubject<TodoListShape>(defaultTodoListId, TodoListShapeFactory);
 
     if (!isLoggedIn || sessionRequestInProgress) {
         return <Layout/>
     }
 
-    if (profileError || listError) {
-        return <ErrorDetails error={profileError || listError} />
+    if (profileError) {
+        return <ErrorDetails error={profileError} />
     }
 
-    if (!list) {
+    if (!defaultTodoListId) {
         return <Loading />
     }
 
     return (
         <Layout>
             <h1>Welcome, {profile?.name}</h1>
-            <TodoList list={list} />
+            <TodoList listUrl={defaultTodoListId} />
         </Layout>
     )
 }

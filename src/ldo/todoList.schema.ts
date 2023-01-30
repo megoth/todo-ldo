@@ -39,7 +39,7 @@ export const todoListSchema: Schema = {
               predicate: "https://icanhasweb.net/vocab/todo.ttl#hasTask",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "https://ldo.js.org/TodoTaskShape",
+                datatype: "https://icanhasweb.net/vocab/todo.ttl#TodoTask",
               },
               min: 0,
               max: -1,

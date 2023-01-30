@@ -6,5 +6,5 @@ PREFIX todo: <https://icanhasweb.net/vocab/todo.ttl#>
 <TodoListShape> {
   rdf:type todo:TodoList ;
   todo:listName xsd:string? ;
-  todo:hasTask <TodoTaskShape>* ;
+  todo:hasTask todo:TodoTask* ;
 }
