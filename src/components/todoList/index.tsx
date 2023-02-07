@@ -21,16 +21,6 @@ export default function TodoList({listUrl}: TodoListProps) {
     const {data: list, error: listError, isLoading, mutate} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
     const {editMode, setEditMode, setUpdating} = useContext(EditModeContext);
     const {fetch} = useSession();
-    const [turtle, setTurtle] = useState<string>();
-
-    useEffect(() => {
-        if (!list) {
-            return;
-        }
-        (async () => {
-            setTurtle(await list?.$toTurtle());
-        })();
-    }, [list])
 
     useEffect(() => {
         if (!list || (editMode || (!editMode && !hasChanges(list)))) {
@@ -68,8 +58,6 @@ export default function TodoList({listUrl}: TodoListProps) {
                     </li>
                 ))}
             </ul>
-            <h2>Turtle fetched from Pod</h2>
-            <Code>{turtle}</Code>
         </form>
     )
 }

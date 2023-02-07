@@ -2,7 +2,7 @@ import styles from "./styles.module.css";
 import Container from "@/components/container";
 import {useSession} from "@inrupt/solid-ui-react";
 import LogoutButton from "@/components/logoutButton";
-import DeveloperModeButton from "@/components/developerModeButton";
+import Link from "next/link";
 
 export default function LayoutHeader() {
     const {session} = useSession();
@@ -11,8 +11,7 @@ export default function LayoutHeader() {
         <div className={styles.header}>
             <Container>
                 <div className={styles.headerContent}>
-                    <div className={styles.appName}>Solid Todo App</div>
-                    {info.isLoggedIn && <DeveloperModeButton />}
+                    <Link className={styles.appName} href={"/"}>Solid Todo App</Link>
                     {info.isLoggedIn && <LogoutButton />}
                 </div>
             </Container>

@@ -2,4 +2,22 @@
     background-color: var(--text-color, black);
     color: var(--background-color, white);
     padding: 1em;
+    overflow: auto;
+    resize: vertical;
+}
+
+.bars {
+    display: flex;
+    gap: 1em;
+    list-style: none;
+    margin-bottom: 0.5em;
+}
+
+.selectedBar {
+    font-weight: bold;
+}
+
+.developerModeToggleBar {
+    flex-grow: 1;
+    text-align: end;
 }
