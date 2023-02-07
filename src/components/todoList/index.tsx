@@ -4,12 +4,13 @@ import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
-import {FormEvent, useContext, useEffect} from "react";
+import {FormEvent, useContext, useEffect, useState} from "react";
 import EditModeContext from "@/contexts/editMode";
 import TodoListTitle from "@/components/todoList/title";
 import {hasChanges, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {LinkedDataObject} from "ldo";
+import Code from "@/components/code";
 
 interface TodoListProps {
     listUrl: string | null;
@@ -20,6 +21,16 @@ export default function TodoList({listUrl}: TodoListProps) {
     const {data: list, error: listError, isLoading, mutate} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
     const {editMode, setEditMode, setUpdating} = useContext(EditModeContext);
     const {fetch} = useSession();
+    const [turtle, setTurtle] = useState<string>();
+
+    useEffect(() => {
+        if (!list) {
+            return;
+        }
+        (async () => {
+            setTurtle(await list?.$toTurtle());
+        })();
+    }, [list])
 
     useEffect(() => {
         if (!list || (editMode || (!editMode && !hasChanges(list)))) {
@@ -57,6 +68,8 @@ export default function TodoList({listUrl}: TodoListProps) {
                     </li>
                 ))}
             </ul>
+            <h2>Turtle fetched from Pod</h2>
+            <Code>{turtle}</Code>
         </form>
     )
 }

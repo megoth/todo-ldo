@@ -1,0 +1,5 @@
+.toolbar {
+    background-color: var(--text-color, black);
+    color: var(--background-color, white);
+    padding: 1em;
+}

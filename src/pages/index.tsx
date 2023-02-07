@@ -8,6 +8,7 @@ import ErrorDetails from "@/components/errorDetails";
 import TodoList from "@/components/todoList";
 import {EditModeContextProvider} from "@/contexts/editMode";
 import {getName} from "@/libs/profile";
+import {DeveloperModeContextProvider} from "@/contexts/developerMode";
 
 export default function Home() {
     const {session, sessionRequestInProgress} = useSession();
@@ -36,7 +37,10 @@ export default function Home() {
 
     return (
         <Layout>
-            <h1>Welcome, {getName(profile)}</h1>
+            <h1>
+                <span>Welcome, </span>
+                <a href={profile["@id"]}>{getName(profile)}</a>
+            </h1>
             <EditModeContextProvider>
                 <TodoList listUrl={defaultTodoListId}/>
             </EditModeContextProvider>

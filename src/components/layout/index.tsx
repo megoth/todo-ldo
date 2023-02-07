@@ -3,7 +3,10 @@ import {ReactNode} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
 import Loading from "@/components/loading";
 import LoginForm from "@/components/loginForm";
-import LogoutButton from "@/components/logoutButton";
+import LayoutHeader from "@/components/layout/header";
+import Container from "@/components/container";
+import ToolBox from "@/components/toolBox";
+import styles from "./styles.module.css";
 
 interface LayoutProps {
     children?: ReactNode
@@ -17,10 +20,6 @@ export default function Layout({ children }: LayoutProps) {
         return <Loading/>
     }
 
-    if (!info.isLoggedIn) {
-        return <LoginForm/>
-    }
-
     return (
         <>
             <Head>
@@ -29,10 +28,15 @@ export default function Layout({ children }: LayoutProps) {
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            <main>
-                {children}
-                <LogoutButton/>
-            </main>
+            <div className={styles.layoutContainer}>
+                <LayoutHeader />
+                <main className={styles.layoutMain}>
+                    <Container>
+                        {info.isLoggedIn ? children : <LoginForm/>}
+                    </Container>
+                </main>
+                <ToolBox />
+            </div>
         </>
     )
 }
