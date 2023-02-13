@@ -62,7 +62,7 @@ export default function TodoList({listUrl}: TodoListProps) {
             <TodoListTitle list={list}/>
             <button>{editMode ? "Close edit mode" : "Toggle edit mode"}</button>
             <ul>
-                {list.hasTask?.map((task: LinkedDataObject<any>, index) => (
+                {list.task?.map((task: LinkedDataObject<any>, index) => (
                     <li key={task["@id"]}>
                         <TodoTask taskUrl={task["@id"]}/>
                     </li>

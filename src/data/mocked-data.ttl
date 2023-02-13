@@ -1,14 +1,12 @@
 @prefix : <#>.
 @prefix todo: <https://icanhasweb.net/vocab/todo.ttl#>.
-@prefix meg: </>.
 
 :defaultList
-    a todo:TodoList;
-    todo:hasTask :task-1, :task-2;
-    todo:listName "Todo list";
-    meg:taskDone "true".
+    a todo:List;
+    todo:task :task-1, :task-2;
+    todo:name "Todo list".
 
-:task-1 a todo:TodoTask; todo:taskDescription "Foo"; todo:taskDone false.
+:task-1 a todo:Task; todo:description "Foo".
 
-:task-2 a todo:TodoTask; todo:taskDescription "Bar"; todo:taskDone false.
+:task-2 a todo:Task; todo:description "Bar".
 

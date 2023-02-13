@@ -8,15 +8,15 @@ import { ContextDefinition } from "jsonld";
 export const todoListContext: ContextDefinition = {
   type: {
     "@id": "@type",
-    "@type": "https://icanhasweb.net/vocab/todo.ttl#TodoList",
+    "@type": "https://icanhasweb.net/vocab/todo.ttl#List",
   },
-  listName: {
-    "@id": "https://icanhasweb.net/vocab/todo.ttl#listName",
+  name: {
+    "@id": "https://icanhasweb.net/vocab/todo.ttl#name",
     "@type": "http://www.w3.org/2001/XMLSchema#string",
   },
-  hasTask: {
-    "@id": "https://icanhasweb.net/vocab/todo.ttl#hasTask",
-    "@type": "https://icanhasweb.net/vocab/todo.ttl#TodoTask",
+  task: {
+    "@id": "https://icanhasweb.net/vocab/todo.ttl#task",
+    "@type": "https://icanhasweb.net/vocab/todo.ttl#Task",
     "@container": "@set",
   },
 };

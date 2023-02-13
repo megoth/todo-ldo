@@ -13,6 +13,6 @@ export interface TodoTaskShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: string;
-  taskDescription: string;
-  taskDone?: boolean;
+  description: string;
+  status?: string;
 }
