@@ -1,25 +1,19 @@
-import {useSession} from "@inrupt/solid-ui-react";
 import useSWR, {SWRResponse} from "swr";
 import {LinkedDataObject} from "ldo";
-import {Headers} from "cross-fetch";
+import useResource from "@/hooks/useResource";
 
 // TODO: Replace any in factory with proper type
 export default function useSubject<T>(subjectIdUrl: string | undefined | null, factory: any): SWRResponse<LinkedDataObject<T>> {
-    const {fetch} = useSession();
     const subjectResourceUrl = subjectIdUrl ? subjectIdUrl.split("#")[0] : null;
-    return useSWR(subjectResourceUrl, async (url: RequestInfo | URL, init: RequestInit | undefined) => {
-        if (!subjectResourceUrl) {
+    const { data, error } = useResource(subjectResourceUrl);
+    return useSWR([subjectIdUrl, data, error], async () => {
+        if (!subjectResourceUrl || !data) {
             return;
         }
-        const response = await fetch(url, {
-            ...(init || {}),
-            headers: new Headers({
-                ...(init?.headers || {}),
-                'Content-Type': 'text/turtle'
-            }),
-        });
-        const rawDocument = await response.text();
-        return factory.parse(subjectIdUrl, rawDocument, {
+        if (error) {
+            throw error;
+        }
+        return factory.parse(subjectIdUrl, data, {
             format: "Turtle",
             baseIRI: subjectResourceUrl
         });
