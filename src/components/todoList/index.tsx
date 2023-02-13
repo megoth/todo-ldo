@@ -4,7 +4,7 @@ import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
-import {FormEvent, useContext, useEffect, useState} from "react";
+import {FormEvent, MouseEvent, useContext, useEffect, useState} from "react";
 import EditModeContext from "@/contexts/editMode";
 import TodoListTitle from "@/components/todoList/title";
 import {hasChanges, update} from "@/libs/ldo";
@@ -12,6 +12,7 @@ import {useSession} from "@inrupt/solid-ui-react";
 import {LinkedDataObject} from "ldo";
 import Code from "@/components/code";
 import {NOT_FOUND} from "@/libs/httpStatus";
+import {TodoTaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
 
 interface TodoListProps {
     listUrl: string | null;
@@ -65,6 +66,13 @@ export default function TodoList({listUrl}: TodoListProps) {
         setEditMode(!editMode);
     }
 
+    const addTask = (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        const task = TodoTaskShapeFactory.new();
+        // list.task?.push(task["@id"]!);
+        console.log(task["@id"]);
+    }
+
     return (
         <form onSubmit={toggleEditMode}>
             <TodoListTitle list={list}/>
@@ -76,6 +84,7 @@ export default function TodoList({listUrl}: TodoListProps) {
                     </li>
                 ))}
             </ul>
+            <button type={"button"} onClick={addTask}>Add task</button>
             <h2>Turtle fetched from Pod</h2>
             <Code>{turtle}</Code>
         </form>
