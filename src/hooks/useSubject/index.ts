@@ -7,11 +7,14 @@ export default function useSubject<T>(subjectIdUrl: string | undefined | null, f
     const subjectResourceUrl = subjectIdUrl ? subjectIdUrl.split("#")[0] : null;
     const { data, error, mutate } = useResource(subjectResourceUrl);
     const swrResponse = useSWR([subjectIdUrl, data, error], async () => {
-        if (!subjectResourceUrl || !data) {
+        if (!subjectResourceUrl || !subjectIdUrl) {
             return;
         }
         if (error) {
             throw error;
+        }
+        if (!data) {
+            return factory.new(subjectIdUrl);
         }
         return factory.parse(subjectIdUrl, data, {
             format: "Turtle",

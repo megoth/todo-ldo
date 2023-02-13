@@ -9,7 +9,7 @@ export async function update(obj: LinkedDataObject<any>, fetch: (input: (Request
     const subjectId = obj["@id"];
     const resourceUrl = subjectId.split("#")[0];
     const body = await obj.$toSparqlUpdate();
-    console.log("SPARQL UPDATE", obj["@id"], body);
+    // console.log("SPARQL UPDATE", obj["@id"], body);
     return fetch(resourceUrl, {
         method: "PATCH",
         body,

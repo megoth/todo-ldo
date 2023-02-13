@@ -11,6 +11,7 @@ import {hasChanges, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {LinkedDataObject} from "ldo";
 import Code from "@/components/code";
+import {NOT_FOUND} from "@/libs/httpStatus";
 
 interface TodoListProps {
     listUrl: string | null;
@@ -18,19 +19,26 @@ interface TodoListProps {
 
 
 export default function TodoList({listUrl}: TodoListProps) {
-    const {data: list, error: listError, isLoading, mutate} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
+    const {data, error: listError, isLoading, mutate} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
+    const [list, setList] = useState<LinkedDataObject<TodoListShape> | undefined>(data);
     const {editMode, setEditMode, setUpdating} = useContext(EditModeContext);
     const {fetch} = useSession();
     const [turtle, setTurtle] = useState<string>();
 
     useEffect(() => {
-        if (!list) {
+        if (!data || !listUrl) {
             return;
         }
         (async () => {
-            setTurtle(await list?.$toTurtle());
+            if (listError?.status === NOT_FOUND) {
+                setList(TodoListShapeFactory.new(listUrl));
+                setTurtle("");
+                return;
+            }
+            setList(data);
+            setTurtle(await data?.$toTurtle());
         })();
-    }, [list])
+    }, [listUrl, data, listError])
 
     useEffect(() => {
         if (!list || (editMode || (!editMode && !hasChanges(list)))) {
@@ -44,7 +52,7 @@ export default function TodoList({listUrl}: TodoListProps) {
         })();
     }, [editMode, list]);
 
-    if (listError) {
+    if (listError && listError.status !== NOT_FOUND) {
         return <ErrorDetails error={listError}/>
     }
 

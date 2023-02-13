@@ -1,9 +1,10 @@
 import {ChangeEvent, useContext, useState} from "react";
 import EditModeContext from "@/contexts/editMode";
 import {TodoListShape} from "@/ldo/todoList.typings";
+import {LinkedDataObject} from "ldo";
 
 interface TodoListTitleProps {
-    list: TodoListShape
+    list: LinkedDataObject<TodoListShape>
 }
 
 export default function TodoListTitle({ list }: TodoListTitleProps) {
