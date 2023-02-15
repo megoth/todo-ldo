@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:ldo": "ldo build --input src\\shapes --output src\\ldo"
+    "build:ldo": "ldo build --input src/shapes --output src/ldo"
   },
   "dependencies": {
     "@inrupt/solid-ui-react": "^2.8.2",

@@ -21,13 +21,12 @@ export const todoTaskSchema: Schema = {
               predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "https://icanhasweb.net/vocab/todo.ttl#TodoTask",
+                datatype: "https://icanhasweb.net/vocab/todo.ttl#Task",
               },
             },
             {
               type: "TripleConstraint",
-              predicate:
-                "https://icanhasweb.net/vocab/todo.ttl#taskDescription",
+              predicate: "https://icanhasweb.net/vocab/todo.ttl#description",
               valueExpr: {
                 type: "NodeConstraint",
                 datatype: "http://www.w3.org/2001/XMLSchema#string",
@@ -35,10 +34,10 @@ export const todoTaskSchema: Schema = {
             },
             {
               type: "TripleConstraint",
-              predicate: "https://icanhasweb.net/vocab/todo.ttl#taskDone",
+              predicate: "https://icanhasweb.net/vocab/todo.ttl#status",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "http://www.w3.org/2001/XMLSchema#boolean",
+                datatype: "https://icanhasweb.net/vocab/todo.ttl#Status",
               },
               min: 0,
               max: 1,

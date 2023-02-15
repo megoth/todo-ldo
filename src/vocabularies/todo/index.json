@@ -1,0 +1,158 @@
+{
+  "@context": {
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "todo": "https://icanhasweb.net/vocab/todo.ttl#",
+    "vann": "http://purl.org/vocab/vann/"
+  },
+  "@graph": [
+    {
+      "@id": "todo:",
+      "@type": "owl:Ontology",
+      "owl:versionInfo": "0.1",
+      "dc:title": {
+        "@id": "Todo vocabulary",
+        "@language": "en-US"
+      },
+      "dc:description": {
+        "@id": "An example Todo vocabulary.",
+        "@language": "en-US"
+      },
+      "dc:creator": {
+        "@id": "https://icanhasweb.net/#me"
+      },
+      "dc:issued": {
+        "@id": "2023-01-19",
+        "@type": "xsd:date"
+      },
+      "dc:license": "http://purl.org/NET/rdflicense/MIT1.0.ttl",
+      "vann:preferredNamespacePrefix": "http://purl.org/NET/rdflicense/MIT1.0.ttl",
+      "vann:preferredNamespaceUri": "https://icanhasweb.net/vocab/todo.ttl#"
+    },
+    {
+      "@id": "todo:List",
+      "@type": "rdfs:Class",
+      "rdfs:isDefinedBy": {
+        "@id": "todo:"
+      },
+      "rdfs:label": {
+        "@id": "The class for a list of todo tasks",
+        "@language": "en-US"
+      }
+    },
+    {
+      "@id": "todo:name",
+      "@type": "rdf:Property",
+      "rdfs:isDefinedBy": {
+        "@id": "todo:"
+      },
+      "rdfs:label": {
+        "@id": "Name for the todo list",
+        "@language": "en-US"
+      },
+      "rdfs:domain": {
+        "@id": "todo:List"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "todo:task",
+      "@type": "rdf:Property",
+      "rdfs:isDefinedBy": {
+        "@id": "todo:"
+      },
+      "rdfs:label": {
+        "@id": "A task in a todo list",
+        "@language": "en-US"
+      },
+      "rdfs:domain": {
+        "@id": "todo:List"
+      },
+      "rdfs:range": {
+        "@id": "todo:Task"
+      }
+    },
+    {
+      "@id": "todo:Task",
+      "@type": "rdfs:Class",
+      "rdfs:isDefinedBy": {
+        "@id": "todo:"
+      },
+      "rdfs:label": {
+        "@id": "The class for a todo task",
+        "@language": "en-US"
+      }
+    },
+    {
+      "@id": "todo:description",
+      "@type": "rdf:Property",
+      "rdfs:isDefinedBy": {
+        "@id": "todo:"
+      },
+      "rdfs:label": {
+        "@id": "A description of a todo task",
+        "@language": "en-US"
+      },
+      "rdfs:domain": {
+        "@id": "todo:List"
+      },
+      "rdfs:range": {
+        "@id": "xsd:string"
+      }
+    },
+    {
+      "@id": "todo:status",
+      "@type": "rdf:Property",
+      "rdfs:isDefinedBy": {
+        "@id": "todo:"
+      },
+      "rdfs:label": {
+        "@id": "Whether a task is done or not",
+        "@language": "en-US"
+      },
+      "rdfs:domain": {
+        "@id": "todo:List"
+      },
+      "rdfs:range": {
+        "@id": "todo:Status"
+      }
+    },
+    {
+      "@id": "todo:Status",
+      "@type": "rdfs:Class",
+      "rdfs:isDefinedBy": {
+        "@id": "todo:"
+      },
+      "rdfs:label": {
+        "@id": "The class of a task status",
+        "@language": "en-US"
+      }
+    },
+    {
+      "@id": "todo:incomplete",
+      "@type": "todo:Status",
+      "rdfs:isDefinedBy": {
+        "@id": "todo:"
+      },
+      "rdfs:label": {
+        "@id": "A task is incomplete",
+        "@language": "en-US"
+      }
+    },
+    {
+      "@id": "todo:complete",
+      "@type": "todo:Status",
+      "rdfs:isDefinedBy": {
+        "@id": "todo:"
+      },
+      "rdfs:label": {
+        "@id": "A task is complete",
+        "@language": "en-US"
+      }
+    }
+  ]
+}

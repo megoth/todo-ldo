@@ -4,13 +4,14 @@ import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
-import {FormEvent, useContext, useEffect, useState} from "react";
+import {FormEvent, MouseEvent, useContext, useEffect, useState} from "react";
 import EditModeContext from "@/contexts/editMode";
 import TodoListTitle from "@/components/todoList/title";
 import {hasChanges, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {LinkedDataObject} from "ldo";
-import Code from "@/components/code";
+import {NOT_FOUND} from "@/libs/httpStatus";
+import {TodoTaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
 
 interface TodoListProps {
     listUrl: string | null;
@@ -18,9 +19,23 @@ interface TodoListProps {
 
 
 export default function TodoList({listUrl}: TodoListProps) {
-    const {data: list, error: listError, isLoading, mutate} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
+    const {data, error: listError, isLoading, mutate} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
+    const [list, setList] = useState<LinkedDataObject<TodoListShape> | undefined>(data);
     const {editMode, setEditMode, setUpdating} = useContext(EditModeContext);
     const {fetch} = useSession();
+
+    useEffect(() => {
+        if (!data || !listUrl) {
+            return;
+        }
+        (async () => {
+            if (listError?.status === NOT_FOUND) {
+                setList(TodoListShapeFactory.new(listUrl));
+                return;
+            }
+            setList(data);
+        })();
+    }, [listUrl, data, listError])
 
     useEffect(() => {
         if (!list || (editMode || (!editMode && !hasChanges(list)))) {
@@ -34,7 +49,7 @@ export default function TodoList({listUrl}: TodoListProps) {
         })();
     }, [editMode, list]);
 
-    if (listError) {
+    if (listError && listError.status !== NOT_FOUND) {
         return <ErrorDetails error={listError}/>
     }
 
@@ -47,17 +62,25 @@ export default function TodoList({listUrl}: TodoListProps) {
         setEditMode(!editMode);
     }
 
+    const addTask = (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        const task = TodoTaskShapeFactory.new();
+        // list.task?.push(task["@id"]!);
+        console.log(task["@id"]);
+    }
+
     return (
         <form onSubmit={toggleEditMode}>
             <TodoListTitle list={list}/>
             <button>{editMode ? "Close edit mode" : "Toggle edit mode"}</button>
             <ul>
-                {list.hasTask?.map((task: LinkedDataObject<any>, index) => (
+                {list.task?.map((task: LinkedDataObject<any>, index) => (
                     <li key={task["@id"]}>
                         <TodoTask taskUrl={task["@id"]}/>
                     </li>
                 ))}
             </ul>
+            <button type={"button"} onClick={addTask}>Add task</button>
         </form>
     )
 }

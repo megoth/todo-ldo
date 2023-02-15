@@ -7,6 +7,7 @@ import {ChangeEvent, useContext, useEffect, useState} from "react";
 import EditModeContext from "@/contexts/editMode";
 import {useSession} from "@inrupt/solid-ui-react";
 import {hasChanges, update} from "@/libs/ldo";
+import {complete, incomplete} from "@/vocabularies/todo";
 
 interface TodoTaskProps {
     taskUrl: string | undefined | null;
@@ -16,13 +17,13 @@ export default function TodoTask({taskUrl}: TodoTaskProps) {
     const {data: task, error: taskError, isLoading, mutate} = useSubject<TodoTaskShape>(taskUrl, TodoTaskShapeFactory);
     const {editMode, updating, setUpdating} = useContext(EditModeContext);
     const {fetch} = useSession();
-    const [description, setDescription] = useState<string>(task?.taskDescription || "");
-    const [done, setDone] = useState<boolean>(task?.taskDone || false)
+    const [description, setDescription] = useState<string>(task?.description || "");
+    const [done, setDone] = useState<boolean>(task?.status === incomplete || false)
 
     useEffect(() => {
-        setDescription(task?.taskDescription || "");
-        setDone(!!task?.taskDone);
-    }, [task, task?.taskDescription, task?.taskDone]);
+        setDescription(task?.description || "");
+        setDone(task?.status === complete);
+    }, [task, task?.description, task?.status]);
 
     useEffect(() => {
         if (!task || !hasChanges(task)) {
@@ -34,7 +35,7 @@ export default function TodoTask({taskUrl}: TodoTaskProps) {
             await mutate(task.$clone());
             setUpdating(false);
         })();
-    }, [editMode, task, task?.taskDone])
+    }, [editMode, task, task?.status])
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>
@@ -47,7 +48,7 @@ export default function TodoTask({taskUrl}: TodoTaskProps) {
     if (editMode) {
         return <input value={description} disabled={updating} onChange={(event: ChangeEvent<HTMLInputElement>) => {
             setDescription(event.target.value);
-            task.taskDescription = event.target.value;
+            task.description = event.target.value;
         }}/>
     }
 
@@ -55,7 +56,7 @@ export default function TodoTask({taskUrl}: TodoTaskProps) {
         <label>
             <input type={"checkbox"} disabled={updating} checked={done} onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 setDone(event.target.checked);
-                task.taskDone = event.target.checked;
+                task.status = event.target.checked ? complete : incomplete;
             }}/>
             <span style={{
                 textDecoration: done ? "line-through" : "none"

@@ -1,15 +1,12 @@
-@prefix todo: <https://icanhasweb.net/vocab/todo.ttl#> .
+@prefix : <#>.
+@prefix todo: <https://icanhasweb.net/vocab/todo.ttl#>.
 
-<#defaultList>
-    a             todo:TodoList ;
-    todo:listName "Todo list A" ;
-    todo:hasTask  <#task-1>, <#task-2> .
+:defaultList
+    a todo:List;
+    todo:task :task-1, :task-2;
+    todo:name "Todo list".
 
-<#task-1>
-    a                    todo:TodoTask ;
-    todo:taskDescription "Foo" .
+:task-1 a todo:Task; todo:description "Foo".
 
-<#task-2>
-    a                    todo:TodoTask ;
-    todo:taskDescription "Bar" ;
-    todo:taskDone        true .
+:task-2 a todo:Task; todo:description "Bar".
+
