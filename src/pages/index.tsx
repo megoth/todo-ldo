@@ -8,7 +8,7 @@ import ErrorDetails from "@/components/errorDetails";
 import TodoList from "@/components/todoList";
 import {EditModeContextProvider} from "@/contexts/editMode";
 import {getName} from "@/libs/profile";
-import {DeveloperModeContextProvider} from "@/contexts/developerMode";
+import {getResourceUrl} from "@/libs/ldo";
 
 export default function Home() {
     const {session, sessionRequestInProgress} = useSession();
@@ -17,11 +17,12 @@ export default function Home() {
         data: profile,
         error: profileError,
         isLoading: profileIsLoading
-    } = useSubject<WebIdProfileShape>(webId, WebIdProfileShapeFactory);
+    } = useSubject<WebIdProfileShape>(webId, getResourceUrl(webId), WebIdProfileShapeFactory);
     // TODO: For now we just choose first storage available (usually just one)
     const storageUrl = profile?.storage?.[0]?.["@id"];
     // TODO: We should follow links to find it, but for now we cheat and just assumes the Subject URL
     const defaultTodoListId = storageUrl ? `${storageUrl}todo.ttl#defaultList` : null;
+    const defaultTodoResourceUrl = getResourceUrl(defaultTodoListId);
 
     if (!isLoggedIn || sessionRequestInProgress) {
         return <Layout/>
@@ -31,7 +32,7 @@ export default function Home() {
         return <ErrorDetails error={profileError}/>
     }
 
-    if (!defaultTodoListId || !profile || profileIsLoading) {
+    if (!defaultTodoListId || !defaultTodoResourceUrl || !profile || profileIsLoading) {
         return <Loading/>
     }
 
@@ -42,7 +43,7 @@ export default function Home() {
                 <a href={profile["@id"]}>{getName(profile)}</a>
             </h1>
             <EditModeContextProvider>
-                <TodoList listUrl={defaultTodoListId}/>
+                <TodoList listUrl={defaultTodoListId} resourceUrl={defaultTodoResourceUrl} />
             </EditModeContextProvider>
         </Layout>
     )

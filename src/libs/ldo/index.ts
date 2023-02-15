@@ -5,11 +5,8 @@ export function hasChanges(obj: LinkedDataObject<any> | null): boolean {
     return !!obj && Object.values(obj.$changes()).length > 0;
 }
 
-export async function update(obj: LinkedDataObject<any>, fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response>): Promise<Response> {
-    const subjectId = obj["@id"];
-    const resourceUrl = subjectId.split("#")[0];
-    const body = await obj.$toSparqlUpdate();
-    // console.log("SPARQL UPDATE", obj["@id"], body);
+export async function update(subject: LinkedDataObject<any>, resourceUrl: string, fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response>): Promise<Response> {
+    const body = await subject.$toSparqlUpdate();
     return fetch(resourceUrl, {
         method: "PATCH",
         body,
@@ -17,6 +14,10 @@ export async function update(obj: LinkedDataObject<any>, fetch: (input: (Request
             "content-type": "application/sparql-update",
         })
     });
+}
+
+export function getResourceUrl(url: string | undefined | null): string | null {
+    return url ? url.split("#")[0] : null;
 }
 
 export function createNamespace(uri: string): (term: string) => string {

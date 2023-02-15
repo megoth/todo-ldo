@@ -10,11 +10,17 @@ import {hasChanges, update} from "@/libs/ldo";
 import {complete, incomplete} from "@/vocabularies/todo";
 
 interface TodoTaskProps {
-    taskUrl: string | undefined | null;
+    taskUrl: string;
+    resourceUrl: string;
 }
 
-export default function TodoTask({taskUrl}: TodoTaskProps) {
-    const {data: task, error: taskError, isLoading, mutate} = useSubject<TodoTaskShape>(taskUrl, TodoTaskShapeFactory);
+export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
+    const {
+        data: task,
+        error: taskError,
+        isLoading,
+        mutate: mutateTask
+    } = useSubject<TodoTaskShape>(taskUrl, resourceUrl, TodoTaskShapeFactory);
     const {editMode, updating, setUpdating} = useContext(EditModeContext);
     const {fetch} = useSession();
     const [description, setDescription] = useState<string>(task?.description || "");
@@ -31,8 +37,8 @@ export default function TodoTask({taskUrl}: TodoTaskProps) {
         }
         (async () => {
             setUpdating(true);
-            await update(task, fetch);
-            await mutate(task.$clone());
+            await update(task, resourceUrl, fetch);
+            await mutateTask(task.$clone());
             setUpdating(false);
         })();
     }, [editMode, task, task?.status])
@@ -54,10 +60,11 @@ export default function TodoTask({taskUrl}: TodoTaskProps) {
 
     return (
         <label>
-            <input type={"checkbox"} disabled={updating} checked={done} onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                setDone(event.target.checked);
-                task.status = event.target.checked ? complete : incomplete;
-            }}/>
+            <input type={"checkbox"} disabled={updating} checked={done}
+                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                       setDone(event.target.checked);
+                       task.status = event.target.checked ? complete : incomplete;
+                   }}/>
             <span style={{
                 textDecoration: done ? "line-through" : "none"
             }}>{description}</span>

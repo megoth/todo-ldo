@@ -10,32 +10,18 @@ import TodoListTitle from "@/components/todoList/title";
 import {hasChanges, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {LinkedDataObject} from "ldo";
-import {NOT_FOUND} from "@/libs/httpStatus";
 import {TodoTaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
 
 interface TodoListProps {
-    listUrl: string | null;
+    listUrl: string;
+    resourceUrl: string;
 }
 
 
-export default function TodoList({listUrl}: TodoListProps) {
-    const {data, error: listError, isLoading, mutate} = useSubject<TodoListShape>(listUrl, TodoListShapeFactory);
-    const [list, setList] = useState<LinkedDataObject<TodoListShape> | undefined>(data);
+export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
+    const {data: list, error: listError, isLoading, mutate: mutateList} = useSubject<TodoListShape>(listUrl, resourceUrl, TodoListShapeFactory);
     const {editMode, setEditMode, setUpdating} = useContext(EditModeContext);
     const {fetch} = useSession();
-
-    useEffect(() => {
-        if (!data || !listUrl) {
-            return;
-        }
-        (async () => {
-            if (listError?.status === NOT_FOUND) {
-                setList(TodoListShapeFactory.new(listUrl));
-                return;
-            }
-            setList(data);
-        })();
-    }, [listUrl, data, listError])
 
     useEffect(() => {
         if (!list || (editMode || (!editMode && !hasChanges(list)))) {
@@ -43,13 +29,13 @@ export default function TodoList({listUrl}: TodoListProps) {
         }
         (async () => {
             setUpdating(true);
-            await update(list, fetch);
-            await mutate(list.$clone());
+            await update(list, resourceUrl, fetch);
+            await mutateList(list.$clone());
             setUpdating(false);
         })();
     }, [editMode, list]);
 
-    if (listError && listError.status !== NOT_FOUND) {
+    if (listError) {
         return <ErrorDetails error={listError}/>
     }
 
@@ -63,6 +49,7 @@ export default function TodoList({listUrl}: TodoListProps) {
     }
 
     const addTask = (event: MouseEvent<HTMLButtonElement>) => {
+        // TODO: WORK IN PROGRESS
         event.preventDefault();
         const task = TodoTaskShapeFactory.new();
         // list.task?.push(task["@id"]!);
@@ -76,7 +63,7 @@ export default function TodoList({listUrl}: TodoListProps) {
             <ul>
                 {list.task?.map((task: LinkedDataObject<any>, index) => (
                     <li key={task["@id"]}>
-                        <TodoTask taskUrl={task["@id"]}/>
+                        <TodoTask taskUrl={task["@id"]} resourceUrl={resourceUrl}/>
                     </li>
                 ))}
             </ul>

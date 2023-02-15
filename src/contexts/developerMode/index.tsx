@@ -1,32 +1,42 @@
 import {createContext, ReactNode, useState} from "react";
 import {LinkedDataObject} from "ldo";
 
+export type SubjectNode = {
+    resourceUrl: string;
+    ldo: LinkedDataObject<any>;
+}
+
 interface DeveloperModeContextProps {
     developerMode: boolean
     setDeveloperMode: (editMode: boolean) => void
-    subjects: Array<LinkedDataObject<any>>
-    addSubject: (subjectUrl: string, resource: LinkedDataObject<any>) => void
+    subjects: Array<SubjectNode>
+    addSubject: (resourceUrl: string, subject: LinkedDataObject<any>) => void
 }
+
 const DeveloperModeContext = createContext<DeveloperModeContextProps>({
     developerMode: false,
-    setDeveloperMode: () => {},
+    setDeveloperMode: () => {
+    },
     subjects: [],
-    addSubject: () => {}
+    addSubject: () => {
+    }
 });
 export default DeveloperModeContext;
 
 interface DeveloperModeContextProviderProps {
     children: ReactNode;
 }
-export function DeveloperModeContextProvider({ children }: DeveloperModeContextProviderProps) {
+
+export function DeveloperModeContextProvider({children}: DeveloperModeContextProviderProps) {
     const [developerMode, setDeveloperMode] = useState<boolean>(true);
-    const [subjects, setSubjects] = useState<Array<LinkedDataObject<any>>>([]);
-    const addSubject = (subjectUrl: string, data: LinkedDataObject<any>) => {
-        const existingIndex = subjects.findIndex((item) => item["@id"] === subjectUrl);
+    const [subjects, setSubjects] = useState<Array<SubjectNode>>([]);
+    const addSubject = (resourceUrl: string, ldo: LinkedDataObject<any>) => {
+        const existingIndex = subjects.findIndex((item) => item.ldo["@id"] === ldo["@id"] && item.resourceUrl === resourceUrl);
+        const node = {ldo, resourceUrl};
         if (existingIndex === -1) {
-            subjects.push(data);
+            subjects.push(node);
         } else {
-            subjects[existingIndex] = data;
+            subjects[existingIndex] = node;
         }
         setSubjects([...subjects]);
     };

@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import DeveloperModeContext from "@/contexts/developerMode";
+import DeveloperModeContext, {SubjectNode} from "@/contexts/developerMode";
 import {useSession} from "@inrupt/solid-ui-react";
 import styles from "./styles.module.css";
 import clsx from "clsx";
@@ -10,7 +10,7 @@ import DeveloperModeButton from "@/components/developerModeButton";
 export default function ToolBox() {
     const {developerMode, subjects} = useContext(DeveloperModeContext);
     const {session} = useSession();
-    const [selectedSubject, setSelectedSubject] = useState<LinkedDataObject<any>>(null);
+    const [selectedSubject, setSelectedSubject] = useState<SubjectNode | null>(null);
     const [turtle, setTurtle] = useState<string>();
 
     useEffect(() => {
@@ -25,7 +25,7 @@ export default function ToolBox() {
             return;
         }
         (async () => {
-            setTurtle(await selectedSubject.$toTurtle())
+            setTurtle(await selectedSubject.ldo.$toTurtle())
         })();
     }, [selectedSubject]);
 
@@ -33,10 +33,10 @@ export default function ToolBox() {
         <div className={styles.toolbar}>
             <ul className={styles.bars}>
                 {developerMode && session.info.isLoggedIn && subjects.map((subject) => (
-                    <li key={subject["@id"]}>
+                    <li key={subject.ldo["@id"]}>
                         <button type={"button"} className={clsx({
                             [styles.selectedBar]: selectedSubject === subject
-                        })} onClick={(_) => setSelectedSubject(subject)}>{getUrlEnd(subject["@id"])}</button>
+                        })} onClick={(_) => setSelectedSubject(subject)}>{getUrlEnd(subject.ldo["@id"])}</button>
                     </li>
                 ))}
                 {session.info.isLoggedIn && (
@@ -48,8 +48,12 @@ export default function ToolBox() {
             {developerMode && session.info.isLoggedIn && selectedSubject && (
                 <>
                     <div>
-                        <span>URL: </span>
-                        <a href={selectedSubject["@id"]}>{selectedSubject["@id"]}</a>
+                        <span>Subject URL: </span>
+                        <a href={selectedSubject.ldo["@id"]}>{selectedSubject.ldo["@id"]}</a>
+                    </div>
+                    <div>
+                        <span>Resource URL: </span>
+                        <a href={selectedSubject.resourceUrl}>{selectedSubject.resourceUrl}</a>
                     </div>
                     <Code>{turtle}</Code>
                 </>

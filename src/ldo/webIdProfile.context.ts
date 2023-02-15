@@ -23,4 +23,16 @@ export const webIdProfileContext: ContextDefinition = {
     "@type": "@id",
     "@container": "@set",
   },
+  preferencesFile: {
+    "@id": "http://www.w3.org/ns/pim/space#preferencesFile",
+    "@type": "@id",
+  },
+  publicTypeIndex: {
+    "@id": "http://www.w3.org/ns/solid/terms#publicTypeIndex",
+    "@type": "@id",
+  },
+  privateTypeIndex: {
+    "@id": "http://www.w3.org/ns/solid/terms#privateTypeIndex",
+    "@type": "@id",
+  },
 };

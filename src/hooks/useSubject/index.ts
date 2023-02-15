@@ -6,26 +6,22 @@ import {useSession} from "@inrupt/solid-ui-react";
 import DeveloperModeContext from "@/contexts/developerMode";
 
 // TODO: Replace any in factory with proper type
-export default function useSubject<T>(subjectIdUrl: string | undefined | null, factory: any): SWRResponse<LinkedDataObject<T>> {
+export default function useSubject<T>(subjectUrl: string | undefined | null, resourceUrl: string | undefined | null, factory: any): SWRResponse<LinkedDataObject<T>> {
     const {addSubject} = useContext(DeveloperModeContext);
-    const subjectResourceUrl = subjectIdUrl ? subjectIdUrl.split("#")[0] : null;
-    const { data, error, mutate } = useResource(subjectResourceUrl);
-    const swrResponse = useSWR([subjectIdUrl, data, error], async () => {
-        if (!subjectResourceUrl || !subjectIdUrl) {
+    const { data, error, mutate } = useResource(resourceUrl);
+    const swrResponse = useSWR([subjectUrl, resourceUrl, data], async () => {
+        if (!subjectUrl || !resourceUrl || !data) {
             return;
         }
         if (error) {
             throw error;
         }
-        if (!data) {
-            return factory.new(subjectIdUrl);
-        }
-        const node = await factory.parse(subjectIdUrl, data, {
+        const subject = await factory.parse(subjectUrl, data, {
             format: "Turtle",
-            baseIRI: subjectResourceUrl
+            baseIRI: resourceUrl
         });
-        addSubject(subjectIdUrl!, node);
-        return node;
+        addSubject(resourceUrl, subject);
+        return subject;
     })
     return {
         ...swrResponse,

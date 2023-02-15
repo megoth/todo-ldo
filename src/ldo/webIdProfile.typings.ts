@@ -20,4 +20,13 @@ export interface WebIdProfileShape {
   storage: {
     "@id": string;
   }[];
+  preferencesFile?: {
+    "@id": string;
+  };
+  publicTypeIndex?: {
+    "@id": string;
+  };
+  privateTypeIndex?: {
+    "@id": string;
+  };
 }

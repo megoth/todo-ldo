@@ -1,6 +1,7 @@
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX solid: <http://www.w3.org/ns/solid/terms#>
 PREFIX space: <http://www.w3.org/ns/pim/space#>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
@@ -10,4 +11,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
   foaf:name xsd:string? ;
   vcard:fn xsd:string? ;
   space:storage IRI+ ;
+  space:preferencesFile IRI? ;
+  solid:publicTypeIndex IRI? ;
+  solid:privateTypeIndex IRI? ;
 }
