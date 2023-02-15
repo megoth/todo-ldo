@@ -1,5 +1,6 @@
 import {createContext, ReactNode, useState} from "react";
 import {LinkedDataObject} from "ldo";
+import useLocalStorage from "use-local-storage";
 
 export type SubjectNode = {
     resourceUrl: string;
@@ -28,7 +29,7 @@ interface DeveloperModeContextProviderProps {
 }
 
 export function DeveloperModeContextProvider({children}: DeveloperModeContextProviderProps) {
-    const [developerMode, setDeveloperMode] = useState<boolean>(true);
+    const [developerMode, setDeveloperMode] = useLocalStorage<boolean>("developer-mode", true);
     const [subjects, setSubjects] = useState<Array<SubjectNode>>([]);
     const addSubject = (resourceUrl: string, ldo: LinkedDataObject<any>) => {
         const existingIndex = subjects.findIndex((item) => item.ldo["@id"] === ldo["@id"] && item.resourceUrl === resourceUrl);
