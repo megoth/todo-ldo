@@ -47,24 +47,6 @@
   --card-border-rgb: 131, 134, 135;
 }
 
-:root {
-  --body: --link-color;
-  --text-default: #1d1d1f;
-  --text-secondary: #86868b;
-}
-@media (prefers-color-scheme: light) {
-  :root {
-    --body: #fafafa;
-    --text-default: #1d1d1f;
-  }
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --body: #161616;
-    --text-default: #f5f5f7;
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #333;
@@ -99,6 +81,25 @@
     --callout-border-rgb: 108, 108, 108;
     --card-rgb: 100, 100, 100;
     --card-border-rgb: 200, 200, 200;
+  }
+}
+
+/* For checkbox button  */
+:root {
+  --body: --link-color;
+  --text-default: #1d1d1f;
+  --text-secondary: #86868b;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --body: #fafafa;
+    --text-default: #1d1d1f;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body: var(--text-color, #ddd);
+    --text-default: var(--background-color, #333);
   }
 }
 

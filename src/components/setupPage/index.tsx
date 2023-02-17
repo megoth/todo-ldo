@@ -21,13 +21,32 @@ export default function SetupPage({profile}: SetupPageProps) {
         <Layout>
             <h1>Setting up your Pod</h1>
             <TextContent>
-                <p>We need to set up a storage for Todo lists on your Pod.</p>
-                <p>We also need to link to this storage in order to let us (and other apps) know of this storage in the
-                    future.</p>
-                {!privateTypeIndex.error && <>
-                    <p>If you prefer, you can make this link private.</p>
-                    <Checkbox>Make this link private</Checkbox>
-                </>}
+                <ol>
+                    <li>
+                        <p>First, We need to set up a storage for Todo lists on your Pod.</p>
+                        <label>
+                            <span>Storage:</span>
+                            <input type={"text"}/>
+                        </label>
+                    </li>
+                    <li>
+                        <p>
+                            We also need to link to this storage in order to let us (and other apps) know of this
+                            storage in the future.
+                        </p>
+                        {!privateTypeIndex.error && <>
+                            <p>If you prefer, you can make this link private.</p>
+                            <Checkbox>Make this link private</Checkbox>
+                        </>}
+                    </li>
+                    <li>
+                        <p>Last, what will you call your first todo list?</p>
+                        <label>
+                            <span>Name:</span>
+                            <input type={"text"}/>
+                        </label>
+                    </li>
+                </ol>
             </TextContent>
         </Layout>
     )

@@ -5,6 +5,7 @@
 
 .headerContent {
     display: flex;
+    align-items: center;
 }
 
 .appName {
