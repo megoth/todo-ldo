@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Code from "@/components/code";
 import {LinkedDataObject} from "ldo";
 import DeveloperModeButton from "@/components/developerModeButton";
+import Button from "@/components/button";
 
 export default function ToolBox() {
     const {developerMode, subjects} = useContext(DeveloperModeContext);
@@ -34,9 +35,9 @@ export default function ToolBox() {
             <ul className={styles.bars}>
                 {developerMode && session.info.isLoggedIn && subjects.map((subject) => (
                     <li key={subject.ldo["@id"]}>
-                        <button type={"button"} className={clsx({
+                        <Button type={"button"} className={clsx({
                             [styles.selectedBar]: selectedSubject === subject
-                        })} onClick={(_) => setSelectedSubject(subject)}>{getUrlEnd(subject.ldo["@id"])}</button>
+                        })} onClick={() => setSelectedSubject(subject)}>{getUrlEnd(subject.ldo["@id"])}</Button>
                     </li>
                 ))}
                 {session.info.isLoggedIn && (

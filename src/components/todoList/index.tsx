@@ -11,6 +11,7 @@ import {hasChanges, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {LinkedDataObject} from "ldo";
 import {TodoTaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
+import Button from "@/components/button";
 
 interface TodoListProps {
     listUrl: string;
@@ -59,7 +60,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
     return (
         <form onSubmit={toggleEditMode}>
             <TodoListTitle list={list}/>
-            <button>{editMode ? "Close edit mode" : "Toggle edit mode"}</button>
+            <Button>{editMode ? "Close edit mode" : "Toggle edit mode"}</Button>
             <ul>
                 {list.task?.map((task: LinkedDataObject<any>, index) => (
                     <li key={task["@id"]}>
@@ -67,7 +68,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
                     </li>
                 ))}
             </ul>
-            <button type={"button"} onClick={addTask}>Add task</button>
+            <Button type={"button"} onClick={(event) => addTask(event as MouseEvent<HTMLButtonElement>)}>Add task</Button>
         </form>
     )
 }

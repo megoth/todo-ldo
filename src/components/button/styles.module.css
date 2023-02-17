@@ -1,0 +1,12 @@
+.button {
+    background-color: var(--text-color, black);
+    border: solid 1px var(--background-color, white);
+    color: var(--background-color, white);
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.button:hover,
+.button:focus {
+    color: var(--grey-color, #cccccc);
+}

@@ -5,14 +5,11 @@ import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
 import {WebIdProfileShapeFactory} from "@/ldo/webIdProfile.ldoFactory";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
-import TodoList from "@/components/todoList";
-import {EditModeContextProvider} from "@/contexts/editMode";
 import {getResourceUrl} from "@/libs/ldo";
 import useTypeIndices from "@/hooks/useTypeIndices";
-import SetupPrompt from "@/components/setupPrompt";
-import WelcomeTitle from "@/components/welcomeTitle";
+import SetupPage from "@/components/setupPage";
 
-export default function Home() {
+export default function Setup() {
     const {session, sessionRequestInProgress} = useSession();
     const {webId, isLoggedIn} = session.info;
     const {
@@ -40,16 +37,6 @@ export default function Home() {
         return <Loading/>
     }
 
-    if (!typeIndices?.length) {
-        return <SetupPrompt profile={profile} />
-    }
+    return <SetupPage profile={profile} />
 
-    return (
-        <Layout>
-            <WelcomeTitle profile={profile} />
-            <EditModeContextProvider>
-                <TodoList listUrl={defaultTodoListId} resourceUrl={defaultTodoResourceUrl} />
-            </EditModeContextProvider>
-        </Layout>
-    )
 }

@@ -1,33 +1,37 @@
-import useSWR, {SWRResponse} from "swr";
+import {SWRResponse} from "swr";
 import {LinkedDataObject} from "ldo";
 import useResource from "@/hooks/useResource";
-import {useContext} from "react";
-import {useSession} from "@inrupt/solid-ui-react";
+import {useContext, useEffect, useState} from "react";
 import DeveloperModeContext from "@/contexts/developerMode";
 
 // TODO: Replace any in factory with proper type
-export default function useSubject<T>(subjectUrl: string | undefined | null, resourceUrl: string | undefined | null, factory: any): SWRResponse<LinkedDataObject<T>> {
+export default function useSubject<T>(subjectUrl: string | undefined | null, resourceUrl: string | undefined | null, factory: any) {
     const {addSubject} = useContext(DeveloperModeContext);
-    const { data, error, mutate } = useResource(resourceUrl);
-    const swrResponse = useSWR([subjectUrl, resourceUrl, data], async () => {
+    const {data, isLoading, isValidating, mutate, error} = useResource(resourceUrl);
+    const [response, setResponse] = useState<SWRResponse<LinkedDataObject<T> | null>>({data: null, isLoading, isValidating, mutate, error});
+
+    useEffect(() => {
         if (!subjectUrl || !resourceUrl || !data) {
             return;
         }
         if (error) {
             throw error;
         }
-        const subject = await factory.parse(subjectUrl, data, {
-            format: "Turtle",
-            baseIRI: resourceUrl
-        });
-        addSubject(resourceUrl, subject);
-        return subject;
-    })
-    return {
-        ...swrResponse,
-        mutate: async (ldoObject: any, ...args: any[]) => {
-            await mutate((ldoObject as LinkedDataObject<T>).$toTurtle());
-            return swrResponse.mutate(ldoObject, ...args);
-        }
-    }
+        (async () => {
+            const subject = await factory.parse(subjectUrl, data, {
+                format: "Turtle",
+                baseIRI: resourceUrl
+            });
+            addSubject(resourceUrl, subject);
+            setResponse({
+                data: subject,
+                isLoading,
+                isValidating,
+                mutate: async (ldoObject: any) => mutate((ldoObject as LinkedDataObject<T>).$toTurtle()),
+                error
+            })
+        })();
+    }, [subjectUrl, resourceUrl, data, isLoading, isValidating, mutate, error]);
+
+    return response;
 };

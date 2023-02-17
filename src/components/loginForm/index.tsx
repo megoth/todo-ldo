@@ -3,6 +3,7 @@ import {getProviders, ProviderModel} from "@/libs/providers";
 import {useSession} from "@inrupt/solid-ui-react";
 import {getRedirectURL} from "@/libs/window";
 import {clientName} from "@/constants";
+import Button from "@/components/button";
 
 export default function LoginForm() {
     const {login} = useSession();
@@ -24,7 +25,7 @@ export default function LoginForm() {
 
     return <div>
         {providers.map((provider) => (
-            <button key={provider.loginIri} onClick={(event) => onIDPClick(event, provider)}>{provider.label}</button>
+            <Button key={provider.loginIri} onClick={(event) => onIDPClick(event as MouseEvent<HTMLButtonElement>, provider)}>{provider.label}</Button>
         ))}
     </div>
 }

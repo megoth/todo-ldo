@@ -1,0 +1,83 @@
+.label {
+    display: flex;
+    height: 2.5rem;
+    position: relative;
+    align-items: center;
+}
+.labelText {
+    margin-left: 6rem;
+}
+.checkbox {
+    -webkit-appearance: none;
+    outline: none;
+    position: absolute;
+    height: 2.5rem;
+    width: 5rem;
+    border: 5px solid var(--body);
+    border-radius: 40/32rem;
+    cursor: pointer;
+    box-shadow: 9px 9px 16px rgba(189,189,189,0.6), -9px -9px 16px rgba(255,255,255,0.5), inset 10px 10px 15px -10px #c3c3c3, inset -10px -10px 15px -10px #fff;
+}
+@media (prefers-color-scheme: light) {
+    .checkbox {
+        box-shadow: 9px 9px 16px rgba(189,189,189,0.6), -9px -9px 16px rgba(255,255,255,0.5), inset 10px 10px 15px -10px #c3c3c3, inset -10px -10px 15px -10px #fff;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .checkbox {
+        box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5), inset -4px -4px 4px 0px rgba(255,255,255,0.05), inset 4px 4px 4px 0px rgba(0,0,0,0.5);
+    }
+}
+.checkbox::before {
+    content: "";
+    height: 1.5625rem;
+    width: 1.5625rem;
+    background-color: var(--body);
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0.46875rem;
+    bottom: 0;
+    border-radius: 50%;
+    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
+    transition: 0.15s;
+}
+@media (prefers-color-scheme: light) {
+    .checkbox::before {
+        box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .checkbox::before {
+        box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5);
+    }
+}
+.checkbox::after {
+    content: "Off";
+    position: absolute;
+    font-size: 0.8125rem;
+    top: 0.625rem;
+    right: 0.78125rem;
+    color: var(--text-secondary);
+    font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.004em;
+}
+.checkbox:checked {
+    background: #0071e3;
+}
+@media (prefers-color-scheme: light) {
+    .checkbox:checked {
+        box-shadow: 9px 9px 16px rgba(189,189,189,0.6), -9px -9px 16px rgba(255,255,255,0.5), inset 10px 10px 15px -10px #0047b9, inset -10px -10px 15px -10px #0047b9;
+    }
+}
+.checkbox:checked::before {
+    left: 2.65625rem;
+    box-shadow: none;
+}
+.checkbox:checked::after {
+    content: "On";
+    left: 0.78125rem;
+    color: #f5f5f7;
+}
+ 
