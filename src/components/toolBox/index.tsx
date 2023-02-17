@@ -4,9 +4,9 @@ import {useSession} from "@inrupt/solid-ui-react";
 import styles from "./styles.module.css";
 import clsx from "clsx";
 import Code from "@/components/code";
-import {LinkedDataObject} from "ldo";
 import DeveloperModeButton from "@/components/developerModeButton";
 import Button from "@/components/button";
+import DarkModeSelector from "@/components/darkModeSelector";
 
 export default function ToolBox() {
     const {developerMode, subjects} = useContext(DeveloperModeContext);
@@ -40,6 +40,10 @@ export default function ToolBox() {
                         })} onClick={() => setSelectedSubject(subject)}>{getUrlEnd(subject.ldo["@id"])}</Button>
                     </li>
                 ))}
+                <li className={styles.developerModeSplit}/>
+                <li className={styles.developerModeToggleBar}>
+                    <DarkModeSelector/>
+                </li>
                 {session.info.isLoggedIn && (
                     <li className={styles.developerModeToggleBar}>
                         <DeveloperModeButton/>

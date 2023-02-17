@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {solid} from "@/vocabularies";
 import useTypeIndexResources from "@/hooks/useTypeIndexResources";
 
-export default function useTypeIndices(profile: LinkedDataObject<WebIdProfileShape> | undefined) {
+export default function useTypeIndices(profile: LinkedDataObject<WebIdProfileShape> | null | undefined) {
     const [indices, setIndices] = useState<string[] | null>(null);
 
     const {

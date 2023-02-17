@@ -3,6 +3,7 @@
     border: solid 1px var(--background-color, white);
     color: var(--background-color, white);
     display: inline-block;
+    min-height: 2.5rem;
     padding: 0.5rem;
     cursor: pointer;
 }

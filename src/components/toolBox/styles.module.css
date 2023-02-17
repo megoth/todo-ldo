@@ -8,7 +8,7 @@
 
 .bars {
     display: flex;
-    gap: 1em;
+    gap: 0.5em;
     list-style: none;
     margin-bottom: 0.5em;
 }
@@ -17,7 +17,10 @@
     font-weight: bold;
 }
 
-.developerModeToggleBar {
+.developerModeSplit {
     flex-grow: 1;
+}
+
+.developerModeToggleBar {
     text-align: end;
 }
