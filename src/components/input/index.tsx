@@ -14,7 +14,7 @@ type InputProps = {
 const Input = forwardRef<HTMLInputElement, InputProps>(({children, ...props}, ref) => {
     return (
         <label className={styles.label}>
-            <span className={styles.labelText}>{children}:</span>
+            <span className={styles.labelText}>{children}</span>
             <input ref={ref} type="text" {...props} className={clsx(styles.input, props.className)}/>
         </label>
     )

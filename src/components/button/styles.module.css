@@ -14,17 +14,6 @@
     min-height: 2.5rem;
     padding: 0.5rem;
     cursor: pointer;
-    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
-}
-@media (prefers-color-scheme: light) {
-    .button {
-        box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    .button {
-        box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5);
-    }
 }
 .button:hover,
 .button:focus {
@@ -48,20 +37,37 @@
     min-height: 2.5rem;
     padding: 0.5rem;
     cursor: pointer;
-    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
-}
-@media (prefers-color-scheme: light) {
-    .primaryButton {
-        box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
-    }
-}
-@media (prefers-color-scheme: dark) {
-    .primaryButton {
-        box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5);
-    }
 }
 .primaryButton:hover,
 .primaryButton:focus {
     background-color: var(--link-variant-color);
     border-color: var(--link-variant-color);
+}
+
+.halfShadow {
+    box-shadow: 3px 3px 7px #c3c3c3, 4px 4px 8px rgba(189,189,189,0.6);
+}
+@media (prefers-color-scheme: light) {
+    .halfShadow {
+        box-shadow: 3px 3px 7px #c3c3c3, 4px 4px 8px rgba(189,189,189,0.6);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .halfShadow {
+        box-shadow: -4px -2px 4px 0px rgba(255,255,255,0.05), 4px 2px 6px 0px rgba(0,0,0,0.5);
+    }
+}
+
+.fullShadow {
+    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
+}
+@media (prefers-color-scheme: light) {
+    .fullShadow {
+        box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .fullShadow {
+        box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5);
+    }
 }

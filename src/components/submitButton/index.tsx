@@ -1,6 +1,6 @@
 import {AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps, ReactNode} from "react";
 import Button from "@/components/button";
-import styles from "./styles.module.css";
+import Center from "@/components/center";
 
 type SubmitButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
     & DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>
@@ -10,8 +10,8 @@ type SubmitButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElemen
 
 export default function SubmitButton({children, ...props}: SubmitButtonProps) {
     return (
-        <div className={styles.container}>
-            <Button variant="primary" type="submit" {...props}>{children}</Button>
-        </div>
+        <Center>
+            <Button variant="primary" shadow="full" type="submit" {...props}>{children}</Button>
+        </Center>
     )
 }

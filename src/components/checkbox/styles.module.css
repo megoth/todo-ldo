@@ -3,6 +3,7 @@
     height: 2.5rem;
     position: relative;
     align-items: center;
+    margin: 0.5em 0;
 }
 .labelText {
     margin-left: 6rem;

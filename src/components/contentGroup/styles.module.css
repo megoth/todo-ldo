@@ -1,26 +1,23 @@
-.header {
-    background-color: var(--text-color, black);
-    color: var(--background-color, white);
+.group {
+    border-radius: var(--border-radius);
+    margin: 1em 0;
+    padding: 0.25rem 0.5rem;
 }
-.header {
+@media (min-width: 600px) {
+    .group {
+        padding: 0.5rem 1rem;
+    }
+}
+.group {
     box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
 }
 @media (prefers-color-scheme: light) {
-    .header {
+    .group {
         box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
     }
 }
 @media (prefers-color-scheme: dark) {
-    .header {
+    .group {
         box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5);
     }
-}
-
-.headerContent {
-    display: flex;
-    align-items: center;
-}
-
-.appName {
-    flex-grow: 1;
 }

@@ -1,8 +1,8 @@
 .content ol,
 .content ul {
-    margin: 1em 0;
+    margin: 1em 0 1em 1.7em;
 }
 
 .content p {
-    margin: 1em 0;
+    margin: 0.75em 0 0.5em;
 }
