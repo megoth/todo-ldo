@@ -2,18 +2,16 @@ import { ContextDefinition } from "jsonld";
 
 /**
  * =============================================================================
- * Typescript Typings for typeRegistration
+ * Typescript Typings for todoDocument
  * =============================================================================
  */
 
 /**
- * TypeRegistration Type
+ * TodoDocumentShape Type
  */
-export interface TypeRegistration {
+export interface TodoDocumentShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: string;
-  forClass: {
-    "@id": string;
-  };
+  list?: string[];
 }

@@ -17,6 +17,18 @@ todo:
     vann:preferredNamespacePrefix "todo" ;
     vann:preferredNamespaceUri    "https://icanhasweb.net/vocab/todo.ttl#" .
 
+todo:Document
+    a                rdfs:Class ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "The class for a document that contains todo lists"@en-US .
+
+todo:list
+    a                rdf:Property ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "A list contained within the list document"@en-US ;
+    rdfs:domain      todo:Document ;
+    rdfs:range       todo:List .
+
 todo:List
     a                rdfs:Class ;
     rdfs:isDefinedBy todo: ;

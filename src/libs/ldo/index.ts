@@ -16,6 +16,17 @@ export async function update(subject: LinkedDataObject<any>, resourceUrl: string
     });
 }
 
+export async function create(subject: LinkedDataObject<any>, resourceUrl: string, fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response>): Promise<Response> {
+    const body = await subject.$toTurtle();
+    return fetch(resourceUrl, {
+        method: "PUT",
+        body,
+        headers: new Headers({
+            "content-type": "text/turtle",
+        })
+    });
+}
+
 export function getResourceUrl(url: string | undefined | null): string | null {
     return url ? url.split("#")[0] : null;
 }

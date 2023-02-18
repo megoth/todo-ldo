@@ -10,12 +10,21 @@ import {useForm} from "react-hook-form";
 import FormError from "@/components/formError";
 import SubmitButton from "@/components/submitButton";
 import ContentGroup from "@/components/contentGroup";
+import {TypeRegistrationFactory} from "@/ldo/typeRegistration.ldoFactory";
+import {TypeRegistration} from "@/ldo/typeRegistration.typings";
+import {v4 as uuidv4} from 'uuid';
+import {TodoDocumentShape} from "@/ldo/todoDocument.typings";
+import {TodoDocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
+import {solid, todo} from "@/vocabularies";
+import {create, update} from "@/libs/ldo";
+import {useSession} from "@inrupt/solid-ui-react";
 
 interface SetupPageProps {
     profile: LinkedDataObject<WebIdProfileShape>
 }
 
 export default function SetupPage({profile}: SetupPageProps) {
+    const {fetch} = useSession();
     const {control, register, handleSubmit, formState: {errors}} = useForm();
     const {publicTypeIndex, privateTypeIndex} = useTypeIndexResources(profile);
     const suggestedStoragePath = `${profile?.storage?.[0]?.["@id"]}todo.ttl`;
@@ -26,8 +35,24 @@ export default function SetupPage({profile}: SetupPageProps) {
         return <Loading/>;
     }
 
-    const onSubmit = (data: any) => {
-        console.log("SUBMIT", data);
+    const onSubmit = async (data: any) => {
+        // Adding resource to Pod
+        const listDocument: LinkedDataObject<TodoDocumentShape> = TodoDocumentShapeFactory.new(data.storagePath);
+        // @ts-ignore
+        listDocument.type = {"@id": todo.TodoDocument.value};
+        const response1 = await update(listDocument, data.storagePath, fetch);
+
+        const publicTypeIndexUrl = publicTypeIndex.data?.["@id"]!;
+        const typeRegistry: LinkedDataObject<TypeRegistration> = TypeRegistrationFactory.new(`#${uuidv4()}`);
+        // @ts-ignore
+        typeRegistry.type = {"@id": solid.TypeRegistration.value};
+        typeRegistry.forClass = {"@id": todo.TodoList.value};
+        // @ts-ignore
+        typeRegistry.instance = data.storagePath;
+        const response2 = await update(typeRegistry, publicTypeIndexUrl, fetch);
+
+        console.log("RESULTS 1", response1)
+        console.log("RESULTS 2", response2)
     }
 
     return (
@@ -43,8 +68,7 @@ export default function SetupPage({profile}: SetupPageProps) {
                             {...register("storagePath", {
                                 required: true,
                                 pattern: /[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?/g
-                            })}
-                            autoFocus>
+                            })}>
                             Storage
                         </Input>
                         {errors.storagePath?.type === "pattern" &&
@@ -58,22 +82,19 @@ export default function SetupPage({profile}: SetupPageProps) {
                             this storage in the future.
                         </p>
                         {privateTypeIndex.error && <>
-                            <p>We don&#39;t have access to a private index for this, so we&#39;ll add this link publicly.</p>
+                            <p>We don&#39;t have access to a private index for this, so we&#39;ll add this link
+                                publicly.</p>
                         </>}
                         {!privateTypeIndex.error && <>
                             <p>If you prefer, you can make this link private.</p>
                             <Checkbox control={control} name="private">Make this link private</Checkbox>
                         </>}
                     </ContentGroup>
-                    <ContentGroup>
-                        <p>Finally, what will you call your first todo list?</p>
-                        <Input
-                            defaultValue={"My Todo List"} {...register("listName", {required: true})}>Name</Input>
-                        {errors.listName && <FormError>You must give it a name</FormError>}
-                    </ContentGroup>
                     <SubmitButton>Set up my Pod for me</SubmitButton>
                     {Object.keys(errors).length > 0 && (
-                        <FormError>Some fields are invalid, please check for errors.</FormError>
+                        <ContentGroup>
+                            <FormError>Some fields are invalid, please check for errors.</FormError>
+                        </ContentGroup>
                     )}
                 </form>
             </TextContent>

@@ -21,7 +21,7 @@ export const typeRegistrationSchema: Schema = {
               predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
                 type: "NodeConstraint",
-                values: ["http://www.w3.org/ns/solid/terms#TypeRegistration"],
+                datatype: "http://www.w3.org/ns/solid/terms#TypeRegistration",
               },
             },
             {

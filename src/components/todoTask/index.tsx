@@ -7,7 +7,7 @@ import {ChangeEvent, useContext, useEffect, useState} from "react";
 import EditModeContext from "@/contexts/editMode";
 import {useSession} from "@inrupt/solid-ui-react";
 import {hasChanges, update} from "@/libs/ldo";
-import {complete, incomplete} from "@/vocabularies/todo";
+import {todoTaskContext} from "@/ldo/todoTask.context";
 
 interface TodoTaskProps {
     taskUrl: string;
@@ -15,6 +15,7 @@ interface TodoTaskProps {
 }
 
 export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
+    const {complete, incomplete } = todoTaskContext;
     const {
         data: task,
         error: taskError,
@@ -63,7 +64,8 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
             <input type={"checkbox"} disabled={updating} checked={done}
                    onChange={(event: ChangeEvent<HTMLInputElement>) => {
                        setDone(event.target.checked);
-                       task.status = event.target.checked ? complete : incomplete;
+                       // TODO: FIX STATUS
+                       // task.status = event.target.checked ? complete : incomplete;
                    }}/>
             <span style={{
                 textDecoration: done ? "line-through" : "none"

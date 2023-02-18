@@ -4,11 +4,11 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX typeIndex: <#>
 
 typeIndex:TypeRegistration EXTRA rdf:type {
-    rdf:type [solid:TypeRegistration] ;
+    rdf:type solid:TypeRegistration ;
     solid:forClass IRI ;
     (
         solid:instanceContainer { rdf:type [ldp:Container] }
-    |
+    | (
         solid:instance IRI
-    ) ;
+    ) ) ;
 }
