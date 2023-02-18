@@ -14,7 +14,6 @@
     height: 2.5rem;
     width: 5rem;
     border: 5px solid var(--body);
-    border-radius: 40/32rem;
     cursor: pointer;
     box-shadow: 9px 9px 16px rgba(189,189,189,0.6), -9px -9px 16px rgba(255,255,255,0.5), inset 10px 10px 15px -10px #c3c3c3, inset -10px -10px 15px -10px #fff;
 }
@@ -64,7 +63,7 @@
     letter-spacing: 0.004em;
 }
 .checkbox:checked {
-    background: #0071e3;
+    background: var(--link-color);
 }
 @media (prefers-color-scheme: light) {
     .checkbox:checked {

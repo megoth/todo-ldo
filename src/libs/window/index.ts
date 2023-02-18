@@ -56,3 +56,7 @@ export function prefersDarkModeScheme(): boolean {
   }
   return false;
 }
+
+export function validateElement(input: HTMLInputElement): boolean {
+  return Object.values(input.validity).reduce((memo, invalid) => memo && !invalid, true);
+}

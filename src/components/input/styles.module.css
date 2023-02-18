@@ -1,0 +1,28 @@
+.label {
+    display: flex;
+    align-items: center;
+}
+
+.labelText {
+    width: 6rem;
+}
+
+.input {
+    background-color: var(--body);
+    border: 2px solid var(--text-default);
+    border-radius: 40/32rem;
+    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
+    color: var(--text-default);
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+}
+@media (prefers-color-scheme: light) {
+    .input {
+        box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .input {
+        box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5);
+    }
+}

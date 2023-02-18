@@ -5,6 +5,8 @@
     --text-color: black;
     --grey-color: #ccc;
     --link-color: #3a7ca5;
+    --link-variant-color: #16425b;
+    --alert-color: red;
 
     --max-width: 1100px;
     --border-radius: 12px;

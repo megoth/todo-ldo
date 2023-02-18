@@ -1,0 +1,4 @@
+.error,
+.error button {
+    color: var(--alert-color);
+}
