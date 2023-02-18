@@ -10,7 +10,6 @@
 .input {
     background-color: var(--body);
     border: 2px solid var(--text-default);
-    border-radius: 40/32rem;
     box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
     color: var(--text-default);
     padding: 0.25rem 0.5rem;

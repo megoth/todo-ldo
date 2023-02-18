@@ -22,7 +22,6 @@ export default function useSubject<T>(subjectUrl: string | undefined | null, res
                 format: "Turtle",
                 baseIRI: resourceUrl
             });
-            addSubject(resourceUrl, subject);
             setResponse({
                 data: subject,
                 isLoading,
@@ -31,7 +30,14 @@ export default function useSubject<T>(subjectUrl: string | undefined | null, res
                 error
             })
         })();
-    }, [subjectUrl, resourceUrl, data, isLoading, isValidating, mutate, error]);
+    }, [subjectUrl, resourceUrl, data, isLoading, isValidating, mutate, error, factory]);
+
+    useEffect(() => {
+        if (!resourceUrl || !response.data) {
+            return;
+        }
+        addSubject(resourceUrl, response.data);
+    }, [resourceUrl, response.data])
 
     return response;
 };

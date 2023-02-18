@@ -14,10 +14,10 @@ export default function SetupPrompt({ profile }: SetupPromptProps) {
         <Layout>
             <WelcomeTitle profile={profile} />
             <TextContent>
-                <p>We're unable to find data on existing Todo lists.</p>
+                <p>We&#39;re unable to find data on existing Todo lists.</p>
                 <p>Should we setup your Pod to store Todo lists?</p>
                 <p>
-                    <Button href="/setup" variant="primary">Let's get started!</Button>
+                    <Button href="/setup" variant="primary">Let&#39;s get started!</Button>
                 </p>
             </TextContent>
         </Layout>

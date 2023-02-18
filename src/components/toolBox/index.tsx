@@ -19,7 +19,7 @@ export default function ToolBox() {
             return;
         }
         setSelectedSubject(subjects[0]);
-    }, [subjects])
+    }, [subjects, selectedSubject])
 
     useEffect(() => {
         if (!selectedSubject) {

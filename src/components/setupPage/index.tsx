@@ -8,7 +8,6 @@ import Loading from "@/components/loading";
 import Input from "@/components/input";
 import {useForm} from "react-hook-form";
 import FormError from "@/components/formError";
-import Button from "@/components/button";
 import SubmitButton from "@/components/submitButton";
 
 interface SetupPageProps {
@@ -38,7 +37,7 @@ export default function SetupPage({profile}: SetupPageProps) {
                     <ol>
                         <li>
                             <p>First, We need to set up a storage for Todo lists on your Pod.</p>
-                            <p>We've suggested a path for you, but you can change this if you want.</p>
+                            <p>We&#39;ve suggested a path for you, but you can change this if you want.</p>
                             <Input
                                 defaultValue={suggestedStoragePath}
                                 {...register("storagePath", {

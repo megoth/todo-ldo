@@ -34,7 +34,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
             await mutateList(list.$clone());
             setUpdating(false);
         })();
-    }, [editMode, list]);
+    }, [editMode, list, resourceUrl, fetch, mutateList, setUpdating]);
 
     if (listError) {
         return <ErrorDetails error={listError}/>

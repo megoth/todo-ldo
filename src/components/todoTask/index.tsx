@@ -41,7 +41,7 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
             await mutateTask(task.$clone());
             setUpdating(false);
         })();
-    }, [editMode, task, task?.status])
+    }, [editMode, task, task?.status, setUpdating, mutateTask, resourceUrl, fetch])
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>
