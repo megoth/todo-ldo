@@ -58,7 +58,7 @@ export default function SetupPage({profile}: SetupPageProps) {
                             this storage in the future.
                         </p>
                         {privateTypeIndex.error && <>
-                            <p>We don't have access to a private index for this, so we'll add this link publicly.</p>
+                            <p>We don&#39;t have access to a private index for this, so we&#39;ll add this link publicly.</p>
                         </>}
                         {!privateTypeIndex.error && <>
                             <p>If you prefer, you can make this link private.</p>
