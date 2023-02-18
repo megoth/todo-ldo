@@ -12,7 +12,7 @@ type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HT
     & ButtonOptions;
 
 export default function Button({variant, ...props}: ButtonProps) {
-    const className = clsx({
+    const className = clsx(styles.base, {
         [styles.button]: !variant,
         [styles.link]: variant === "link",
         [styles.primaryButton]: variant === "primary",

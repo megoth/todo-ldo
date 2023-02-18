@@ -1,3 +1,11 @@
+.base {
+    font-size: 0.8333rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 1.5;
+}
+
 .button {
     background-color: var(--text-color, black);
     border: solid 1px var(--background-color, white);
@@ -28,7 +36,6 @@
     border: 0;
     cursor: pointer;
     color: var(--link-color, #3a7ca5);
-    font-size: 1rem;
     text-decoration: none;
     display: inline;
 }

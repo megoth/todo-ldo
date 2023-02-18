@@ -34,10 +34,10 @@ export default function ToolBox() {
         <div className={styles.toolbar}>
             <ul className={styles.bars}>
                 {developerMode && session.info.isLoggedIn && subjects.map((subject) => (
-                    <li key={subject.ldo["@id"]}>
+                    <li key={subject.resourceUrl}>
                         <Button type={"button"} className={clsx({
                             [styles.selectedBar]: selectedSubject === subject
-                        })} onClick={() => setSelectedSubject(subject)}>{getUrlEnd(subject.ldo["@id"])}</Button>
+                        })} onClick={() => setSelectedSubject(subject)}>{getUrlEnd(subject.resourceUrl)}</Button>
                     </li>
                 ))}
                 <li className={styles.developerModeSplit}/>
@@ -53,12 +53,12 @@ export default function ToolBox() {
             {developerMode && session.info.isLoggedIn && selectedSubject && (
                 <>
                     <div>
-                        <span>Subject URL: </span>
-                        <a href={selectedSubject.ldo["@id"]}>{selectedSubject.ldo["@id"]}</a>
-                    </div>
-                    <div>
                         <span>Resource URL: </span>
                         <a href={selectedSubject.resourceUrl}>{selectedSubject.resourceUrl}</a>
+                    </div>
+                    <div>
+                        <span>Subject URL: </span>
+                        <a href={selectedSubject.ldo["@id"]}>{selectedSubject.ldo["@id"]}</a>
                     </div>
                     <Code>{turtle}</Code>
                 </>

@@ -17,7 +17,7 @@ export default function SetupPrompt({ profile }: SetupPromptProps) {
                 <p>We're unable to find data on existing Todo lists.</p>
                 <p>Should we setup your Pod to store Todo lists?</p>
                 <p>
-                    <Button href={"/setup"}>Let's get started!</Button>
+                    <Button href="/setup" variant="primary">Let's get started!</Button>
                 </p>
             </TextContent>
         </Layout>
