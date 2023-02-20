@@ -2,6 +2,7 @@ import {ChangeEvent, useContext, useState} from "react";
 import EditModeContext from "@/contexts/editMode";
 import {TodoListShape} from "@/ldo/todoList.typings";
 import {LinkedDataObject} from "ldo";
+import Input from "@/components/input";
 
 interface TodoListTitleProps {
     list: LinkedDataObject<TodoListShape>
@@ -17,5 +18,5 @@ export default function TodoListTitle({ list }: TodoListTitleProps) {
         setValue(event.target.value);
         list.name = event.target.value;
     }
-    return <input name={"todoListTitle"} disabled={updating} onChange={onChange} value={value} />
+    return <Input name={"todoListTitle"} disabled={updating} onChange={onChange} value={value}>Name</Input>
 }

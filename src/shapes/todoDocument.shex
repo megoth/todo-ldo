@@ -3,5 +3,5 @@ PREFIX todo: <https://icanhasweb.net/vocab/todo.ttl#>
 
 <TodoDocumentShape> {
   rdf:type todo:Document ;
-  todo:list todo:List* ;
+  todo:list IRI* ;
 }

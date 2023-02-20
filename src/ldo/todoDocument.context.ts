@@ -12,7 +12,7 @@ export const todoDocumentContext: ContextDefinition = {
   },
   list: {
     "@id": "https://icanhasweb.net/vocab/todo.ttl#list",
-    "@type": "https://icanhasweb.net/vocab/todo.ttl#List",
+    "@type": "@id",
     "@container": "@set",
   },
 };

@@ -26,6 +26,7 @@ export default function Button({variant, shadow, ...props}: ButtonProps) {
             className={className}
             onClick={props.onClick as MouseEventHandler<HTMLAnchorElement>}/>
         : <button
+            type={"button"}
             {...props}
             className={className}
             onClick={props.onClick as MouseEventHandler<HTMLButtonElement>}/>

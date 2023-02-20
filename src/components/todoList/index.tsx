@@ -68,7 +68,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
                     </li>
                 ))}
             </ul>
-            <Button type={"button"} onClick={(event) => addTask(event as MouseEvent<HTMLButtonElement>)}>Add task</Button>
+            <Button onClick={(event) => addTask(event as MouseEvent<HTMLButtonElement>)}>Add task</Button>
         </form>
     )
 }

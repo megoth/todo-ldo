@@ -13,5 +13,7 @@ export interface TodoDocumentShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: string;
-  list?: string[];
+  list?: {
+    "@id": string;
+  }[];
 }

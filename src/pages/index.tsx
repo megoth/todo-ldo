@@ -8,9 +8,12 @@ import ErrorDetails from "@/components/errorDetails";
 import TodoList from "@/components/todoList";
 import {EditModeContextProvider} from "@/contexts/editMode";
 import {getResourceUrl} from "@/libs/ldo";
-import useTypeIndices from "@/hooks/useTypeIndices";
+import useTypeStorage from "@/hooks/useTypeStorage";
 import SetupPrompt from "@/components/setupPrompt";
 import WelcomeTitle from "@/components/welcomeTitle";
+import {todo} from "@/vocabularies";
+import {TodoDocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
+import {TodoDocumentShape} from "@/ldo/todoDocument.typings";
 
 export default function Home() {
     const {session, sessionRequestInProgress} = useSession();
@@ -20,35 +23,54 @@ export default function Home() {
         error: profileError,
         isLoading: profileIsLoading
     } = useSubject<WebIdProfileShape>(webId, getResourceUrl(webId), WebIdProfileShapeFactory);
-    const typeIndices = useTypeIndices(profile);
+    const storages = useTypeStorage(profile, todo.TodoList);
+    const {
+        data: storage,
+        error: storageError,
+        isLoading: storageIsLoading,
+    } = useSubject<TodoDocumentShape>(storages?.[0], getResourceUrl(storages?.[0]), TodoDocumentShapeFactory);
 
-    // TODO: For now we just choose first storage available (usually just one)
-    const storageUrl = profile?.storage?.[0]?.["@id"];
-    // TODO: We should follow links to find it, but for now we cheat and just assumes the Subject URL
-    const defaultTodoListId = storageUrl ? `${storageUrl}todo.ttl#defaultList` : null;
-    const defaultTodoResourceUrl = getResourceUrl(defaultTodoListId);
-
-    if (!isLoggedIn || sessionRequestInProgress) {
-        return <Layout/>
-    }
-
-    if (profileError) {
-        return <ErrorDetails error={profileError}/>
-    }
-
-    if (!defaultTodoListId || !defaultTodoResourceUrl || !profile || profileIsLoading) {
+    if (sessionRequestInProgress) {
         return <Loading/>
     }
 
-    if (!typeIndices?.length) {
-        return <SetupPrompt profile={profile} />
+    if (!isLoggedIn) {
+        return <Layout/>
+    }
+
+    if (profileError || storageError) {
+        return <ErrorDetails error={profileError || storageError}/>
+    }
+
+    if (!profile || profileIsLoading || sessionRequestInProgress) {
+        return <Loading/>
+    }
+
+    if (!storages?.length) {
+        return <SetupPrompt profile={profile}/>
+    }
+
+    if (storages.length > 1) {
+        return <div>TODO: MULTIPLE STORAGES, PLEASE CHOOSE ONE!</div>
+    }
+
+    if (!storage || storageIsLoading) {
+        return <Loading/>
+    }
+
+    if (storage?.list && storage?.list?.length > 1) {
+        return <div>TODO: MULTIPLE LISTS, PLEASE CHOOSE ONE!</div>
+    }
+
+    if (storage?.list && storage?.list?.length === 0 || !storage?.list?.[0]) {
+        return <div>TODO: NO LIST YET</div>
     }
 
     return (
         <Layout>
-            <WelcomeTitle profile={profile} />
+            <WelcomeTitle profile={profile}/>
             <EditModeContextProvider>
-                <TodoList listUrl={defaultTodoListId} resourceUrl={defaultTodoResourceUrl} />
+                <TodoList listUrl={storage?.list?.[0]?.["@id"]} resourceUrl={getResourceUrl(storage?.list?.[0]?.["@id"])!}/>
             </EditModeContextProvider>
         </Layout>
     )

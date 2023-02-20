@@ -1,11 +1,12 @@
 import {LinkedDataObject} from "ldo";
 import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
 import {useEffect, useState} from "react";
-import {solid} from "@/vocabularies";
+import {solid, todo} from "@/vocabularies";
 import useTypeIndexResources from "@/hooks/useTypeIndexResources";
+import {NamedNode} from "@rdfjs/types";
 
-export default function useTypeIndices(profile: LinkedDataObject<WebIdProfileShape> | null | undefined) {
-    const [indices, setIndices] = useState<string[] | null>(null);
+export default function useTypeStorage(profile: LinkedDataObject<WebIdProfileShape> | null | undefined, type: NamedNode) {
+    const [storages, setStorages] = useState<string[] | null>(null);
 
     const {
         publicTypeIndex: {
@@ -26,18 +27,19 @@ export default function useTypeIndices(profile: LinkedDataObject<WebIdProfileSha
     } = useTypeIndexResources(profile);
 
     useEffect(() => {
-        const publicTypes = publicTypeIndex?.$dataset().filter((quad) => quad.object.equals(solid.TypeRegistration)).toArray().map((quad) => quad.subject.value) || [];
-        const privateTypes = privateTypeIndex?.$dataset().filter((quad) => quad.object.equals(solid.TypeRegistration)).toArray().map((quad) => quad.subject.value) || [];
+        const quads = [...(publicTypeIndex?.$dataset().toArray() || []), ...(privateTypeIndex?.$dataset().toArray() || [])];
+        const typeRegistrations = quads.filter((q) => q.predicate.equals(solid.forClass) && q.object.equals(todo.TodoList)).map(({ subject }) => subject.value);
+        const storages = quads.filter((q) => typeRegistrations.indexOf(q.subject.value) >= 0 && q.predicate.equals(solid.instance)).map(({ object }) => object.value);
         const resourcesAreLoading = publicTypeIsLoading || preferencesIsLoading || privateTypeIsLoading;
         const errorsOccurred = publicTypeIndexError || preferencesError || privateTypeIndexError;
         if (resourcesAreLoading) {
             return;
         }
-        if (!errorsOccurred && publicTypes && privateTypes) {
-            setIndices([...publicTypes, ...privateTypes]);
+        if (!errorsOccurred && storages) {
+            setStorages(storages);
         }
         if (errorsOccurred && (privateTypeIndexError && !publicTypeIndexError || publicTypeIndexError && !privateTypeIndexError)) {
-            setIndices([...publicTypes, ...privateTypes]);
+            setStorages(storages);
         }
     }, [
         publicTypeIndex,
@@ -51,5 +53,5 @@ export default function useTypeIndices(profile: LinkedDataObject<WebIdProfileSha
         privateTypeIsLoading
     ]);
 
-    return indices;
+    return storages;
 }

@@ -29,7 +29,7 @@ export const todoDocumentSchema: Schema = {
               predicate: "https://icanhasweb.net/vocab/todo.ttl#list",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "https://icanhasweb.net/vocab/todo.ttl#List",
+                nodeKind: "iri",
               },
               min: 0,
               max: -1,
