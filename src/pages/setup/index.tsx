@@ -1,12 +1,12 @@
 import Layout from "@/components/layout";
 import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
-import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
-import {WebIdProfileShapeFactory} from "@/ldo/webIdProfile.ldoFactory";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import {getResourceUrl} from "@/libs/ldo";
 import SetupPage from "@/components/setupPage";
+import {WebIdProfileShape} from "@/ldo/solid.typings";
+import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
 
 export default function Setup() {
     const {session, sessionRequestInProgress} = useSession();

@@ -1,20 +1,20 @@
 import Layout from "@/components/layout";
 import {LinkedDataObject} from "ldo";
-import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
 import WelcomeTitle from "@/components/welcomeTitle";
 import TextContent from "@/components/textContent";
 import Button from "@/components/button";
 import ContentGroup from "@/components/contentGroup";
 import Center from "@/components/center";
+import {WebIdProfileShape} from "@/ldo/solid.typings";
 
 interface SetupPromptProps {
     profile: LinkedDataObject<WebIdProfileShape>
 }
 
-export default function SetupPrompt({ profile }: SetupPromptProps) {
+export default function SetupPrompt({profile}: SetupPromptProps) {
     return (
         <Layout>
-            <WelcomeTitle profile={profile} />
+            <WelcomeTitle profile={profile}/>
             <TextContent>
                 <ContentGroup>
                     <p>We&#39;re unable to find data on existing Todo lists.</p>

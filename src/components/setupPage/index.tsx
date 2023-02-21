@@ -1,6 +1,5 @@
 import Layout from "@/components/layout";
 import {LinkedDataObject} from "ldo";
-import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
 import TextContent from "@/components/textContent";
 import CheckboxToggle from "@/components/checkboxToggle";
 import useTypeIndexResources from "@/hooks/useTypeIndexResources";
@@ -15,12 +14,10 @@ import {solid, todo} from "@/vocabularies";
 import {getValue, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useState} from "react";
-import {DocumentShape} from "@/ldo/todoDocument.typings";
-import {DocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
-import {TypeRegistrationShape} from "@/ldo/typeRegistration.typings";
-import {TypeRegistrationShapeFactory} from "@/ldo/typeRegistration.ldoFactory";
-import {ListShape} from "@/ldo/todoList.typings";
-import {ListShapeFactory} from "@/ldo/todoList.ldoFactory";
+import {DocumentShapeFactory, ListShapeFactory} from "@/ldo/todo.ldoFactory";
+import {DocumentShape, ListShape} from "@/ldo/todo.typings";
+import {TypeRegistrationShape, WebIdProfileShape} from "@/ldo/solid.typings";
+import {TypeRegistrationShapeFactory} from "@/ldo/solid.ldoFactory";
 
 interface SetupPageProps {
     profile: LinkedDataObject<WebIdProfileShape>
@@ -64,9 +61,10 @@ export default function SetupPage({profile}: SetupPageProps) {
 
         // Creating the first todo list and updating todo index
         const list: LinkedDataObject<ListShape> = ListShapeFactory.new(`#${uuidv4()}`);
+        list.type = getValue(todo.List.value);
         list.name = data.listName;
         await update(list, data.storagePath, fetch);
-        todoDocument.list?.push(getValue(list["@id"]!));
+        todoDocument.list?.push(list);
         await update(todoDocument, data.storagePath, fetch);
         setCreatedList(true);
     }

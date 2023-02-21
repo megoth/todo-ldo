@@ -6,8 +6,8 @@ import Loading from "@/components/loading";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useState} from "react";
 import Button from "@/components/button";
-import {ListShape} from "@/ldo/todoList.typings";
-import {ListShapeFactory} from "@/ldo/todoList.ldoFactory";
+import {ListShape} from "@/ldo/todo.typings";
+import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
 
 interface TodoListTitleProps {
     listUrl: string;

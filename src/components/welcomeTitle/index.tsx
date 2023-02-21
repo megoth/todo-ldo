@@ -1,6 +1,6 @@
 import {getName} from "@/libs/profile";
 import {LinkedDataObject} from "ldo";
-import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
+import {WebIdProfileShape} from "@/ldo/solid.typings";
 
 interface WelcomeTitleProps {
     profile: LinkedDataObject<WebIdProfileShape>

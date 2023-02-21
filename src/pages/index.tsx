@@ -1,8 +1,6 @@
 import Layout from "@/components/layout";
 import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
-import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
-import {WebIdProfileShapeFactory} from "@/ldo/webIdProfile.ldoFactory";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoList from "@/components/todoList";
@@ -10,8 +8,10 @@ import {getResourceUrl} from "@/libs/ldo";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import SetupPrompt from "@/components/setupPrompt";
 import {todo} from "@/vocabularies";
-import {DocumentShape} from "@/ldo/todoDocument.typings";
-import {DocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
+import {DocumentShape} from "@/ldo/todo.typings";
+import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
+import {WebIdProfileShape} from "@/ldo/solid.typings";
+import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
 
 export default function Home() {
     const {session, sessionRequestInProgress} = useSession();
@@ -66,7 +66,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <TodoList listUrl={storage?.list?.[0]?.["@id"]} resourceUrl={getResourceUrl(storage?.list?.[0]?.["@id"])!}/>
+            <TodoList listUrl={storage?.list?.[0]?.["@id"]!} resourceUrl={getResourceUrl(storage?.list?.[0]?.["@id"])!}/>
         </Layout>
     )
 }

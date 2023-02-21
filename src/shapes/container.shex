@@ -1,8 +1,0 @@
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX ldp: <http://www.w3.org/ns/ldp#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-
-ldp:ContainerShape EXTRA rdf:type {
-  rdf:type [ ldp:BasicContainer ldp:Container ] ;
-  ldp:contains IRI* ;
-}

@@ -11,9 +11,9 @@ import Button from "@/components/button";
 import {v4 as uuidv4} from 'uuid';
 import ContentGroup from "@/components/contentGroup";
 import ButtonBar from "@/components/buttonBar";
-import {ListShape} from "@/ldo/todoList.typings";
-import {ListShapeFactory} from "@/ldo/todoList.ldoFactory";
-import {TaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
+import {ListShape, TaskShape} from "@/ldo/todo.typings";
+import {ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
+import {todo} from "@/vocabularies";
 
 interface TodoListProps {
     listUrl: string;
@@ -40,10 +40,11 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
 
     const addTask = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const task = TaskShapeFactory.new(`#${uuidv4()}`);
+        const task = TaskShapeFactory.new(`#${uuidv4()}`) as LinkedDataObject<TaskShape>;
+        task.type = getValue(todo.Task.value)
         task.description = "A new task";
         await update(task, resourceUrl, fetch);
-        list.task?.push(getValue(task["@id"]!));
+        list.task?.push(task);
         await update(list, resourceUrl, fetch);
         await mutateList(list.$clone());
     }

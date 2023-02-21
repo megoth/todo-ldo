@@ -1,9 +1,7 @@
 import useSubject from "@/hooks/useSubject";
-import {TaskShape} from "@/ldo/todoTask.typings";
-import {TaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
 import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
-import {MouseEvent, useState} from "react";
+import {MouseEvent, useEffect, useState} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
 import {getValue, update} from "@/libs/ldo";
 import {useForm} from "react-hook-form";
@@ -12,6 +10,8 @@ import CheckboxMark from "@/components/checkboxMark";
 import styles from "./styles.module.css"
 import Button from "@/components/button";
 import Input from "@/components/input";
+import {TaskShape} from "@/ldo/todo.typings";
+import {TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 
 interface TodoTaskProps {
     taskUrl: string;

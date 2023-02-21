@@ -1,0 +1,44 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ldp: <http://www.w3.org/ns/ldp#>
+PREFIX solid: <http://www.w3.org/ns/solid/terms#>
+PREFIX space: <http://www.w3.org/ns/pim/space#>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+solid:ContainerShape EXTRA rdf:type {
+  rdf:type [ ldp:BasicContainer ldp:Container ] ;
+  ldp:contains IRI* ;
+}
+
+solid:ResourceShape EXTRA rdf:type {
+  rdf:type [ldp:Resource] ;
+}
+
+solid:TypeIndexShape EXTRA rdf:type {
+    rdf:type [solid:TypeIndex] ;
+    ( rdf:type [solid:ListedDocument] | rdf:type [solid:UnlistedDocument] )
+}
+
+solid:TypeRegistrationShape EXTRA rdf:type {
+    rdf:type [solid:TypeRegistration] ;
+    solid:forClass IRI ;
+    (
+        solid:instanceContainer { rdf:type [ldp:Container] }
+    | (
+        solid:instance IRI
+    ) ) ;
+}
+
+solid:WebIdProfileShape EXTRA rdf:type {
+  rdf:type [ foaf:Person ] ;
+  foaf:name xsd:string? ;
+  vcard:fn xsd:string? ;
+  space:storage IRI+ ;
+  space:preferencesFile IRI? ;
+  solid:publicTypeIndex IRI? ;
+  solid:privateTypeIndex IRI? ;
+}
+
+

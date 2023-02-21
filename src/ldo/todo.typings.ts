@@ -2,9 +2,34 @@ import { ContextDefinition } from "jsonld";
 
 /**
  * =============================================================================
- * Typescript Typings for todoTask
+ * Typescript Typings for todo
  * =============================================================================
  */
+
+/**
+ * DocumentShape Type
+ */
+export interface DocumentShape {
+  "@id"?: string;
+  "@context"?: ContextDefinition;
+  type: {
+    "@id": "Document";
+  };
+  list?: ListShape[];
+}
+
+/**
+ * ListShape Type
+ */
+export interface ListShape {
+  "@id"?: string;
+  "@context"?: ContextDefinition;
+  type: {
+    "@id": "List";
+  };
+  name?: string;
+  task?: TaskShape[];
+}
 
 /**
  * TaskShape Type

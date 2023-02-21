@@ -1,10 +1,8 @@
 import {LinkedDataObject} from "ldo";
-import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
 import useSubject from "@/hooks/useSubject";
 import {getResourceUrl} from "@/libs/ldo";
-import {WebIdProfileShapeFactory} from "@/ldo/webIdProfile.ldoFactory";
-import {TypeIndexShape} from "@/ldo/typeIndex.typings";
-import {TypeIndexShapeFactory} from "@/ldo/typeIndex.ldoFactory";
+import {TypeIndexShape, WebIdProfileShape} from "@/ldo/solid.typings";
+import {TypeIndexShapeFactory, WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
 
 export default function useTypeIndexResources(profile: LinkedDataObject<WebIdProfileShape> | null | undefined) {
     const publicTypeIndex = useSubject<TypeIndexShape>(profile?.publicTypeIndex?.["@id"], getResourceUrl(profile?.publicTypeIndex?.["@id"]), TypeIndexShapeFactory);
