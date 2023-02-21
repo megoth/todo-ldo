@@ -10,8 +10,8 @@ import {getResourceUrl} from "@/libs/ldo";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import SetupPrompt from "@/components/setupPrompt";
 import {todo} from "@/vocabularies";
-import {TodoDocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
-import {TodoDocumentShape} from "@/ldo/todoDocument.typings";
+import {DocumentShape} from "@/ldo/todoDocument.typings";
+import {DocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
 
 export default function Home() {
     const {session, sessionRequestInProgress} = useSession();
@@ -26,7 +26,7 @@ export default function Home() {
         data: storage,
         error: storageError,
         isLoading: storageIsLoading,
-    } = useSubject<TodoDocumentShape>(storages?.[0], getResourceUrl(storages?.[0]), TodoDocumentShapeFactory);
+    } = useSubject<DocumentShape>(storages?.[0], getResourceUrl(storages?.[0]), DocumentShapeFactory);
 
     if (sessionRequestInProgress) {
         return <Loading/>

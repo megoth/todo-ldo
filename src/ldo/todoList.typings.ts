@@ -7,12 +7,16 @@ import { ContextDefinition } from "jsonld";
  */
 
 /**
- * TodoListShape Type
+ * ListShape Type
  */
-export interface TodoListShape {
+export interface ListShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
-  type: string;
+  type: {
+    "@id": "List";
+  };
   name?: string;
-  task?: string[];
+  task?: {
+    "@id": "Task";
+  }[];
 }

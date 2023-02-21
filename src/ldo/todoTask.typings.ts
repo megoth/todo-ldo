@@ -7,12 +7,20 @@ import { ContextDefinition } from "jsonld";
  */
 
 /**
- * TodoTaskShape Type
+ * TaskShape Type
  */
-export interface TodoTaskShape {
+export interface TaskShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
-  type: string;
+  type: {
+    "@id": "Task";
+  };
   description: string;
-  status?: string;
+  status?:
+    | {
+        "@id": "complete";
+      }
+    | {
+        "@id": "incomplete";
+      };
 }

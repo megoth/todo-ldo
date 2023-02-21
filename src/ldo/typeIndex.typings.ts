@@ -7,9 +7,9 @@ import { ContextDefinition } from "jsonld";
  */
 
 /**
- * TypeIndex Type
+ * TypeIndexShape Type
  */
-export interface TypeIndex {
+export interface TypeIndexShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: {

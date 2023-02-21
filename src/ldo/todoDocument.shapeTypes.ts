@@ -1,7 +1,7 @@
 import { ShapeType } from "ldo";
 import { todoDocumentSchema } from "./todoDocument.schema";
 import { todoDocumentContext } from "./todoDocument.context";
-import { TodoDocumentShape } from "./todoDocument.typings";
+import { DocumentShape } from "./todoDocument.typings";
 
 /**
  * =============================================================================
@@ -10,10 +10,10 @@ import { TodoDocumentShape } from "./todoDocument.typings";
  */
 
 /**
- * TodoDocumentShape ShapeType
+ * DocumentShape ShapeType
  */
-export const TodoDocumentShapeShapeType: ShapeType<TodoDocumentShape> = {
+export const DocumentShapeShapeType: ShapeType<DocumentShape> = {
   schema: todoDocumentSchema,
-  shape: "https://ldo.js.org/TodoDocumentShape",
+  shape: "https://icanhasweb.net/vocab/todo.ttl#DocumentShape",
   context: todoDocumentContext,
 };

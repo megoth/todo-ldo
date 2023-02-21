@@ -14,6 +14,6 @@ import { WebIdProfileShape } from "./webIdProfile.typings";
  */
 export const WebIdProfileShapeShapeType: ShapeType<WebIdProfileShape> = {
   schema: webIdProfileSchema,
-  shape: "https://ldo.js.org/WebIdProfileShape",
+  shape: "http://www.w3.org/ns/solid/terms#WebIdProfileShape",
   context: webIdProfileContext,
 };

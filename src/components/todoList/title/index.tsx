@@ -1,13 +1,13 @@
-import {TodoListShape} from "@/ldo/todoList.typings";
 import Input from "@/components/input";
 import {useForm} from "react-hook-form";
 import {update} from "@/libs/ldo";
 import useSubject from "@/hooks/useSubject";
-import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
 import Loading from "@/components/loading";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useState} from "react";
 import Button from "@/components/button";
+import {ListShape} from "@/ldo/todoList.typings";
+import {ListShapeFactory} from "@/ldo/todoList.ldoFactory";
 
 interface TodoListTitleProps {
     listUrl: string;
@@ -25,7 +25,7 @@ export default function TodoListTitle({listUrl, resourceUrl}: TodoListTitleProps
     const {
         data: list,
         mutate: mutateList
-    } = useSubject<TodoListShape>(listUrl, resourceUrl, TodoListShapeFactory);
+    } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
 
     if (!list) {
         return <Loading/>

@@ -14,6 +14,6 @@ import { ContainerShape } from "./container.typings";
  */
 export const ContainerShapeShapeType: ShapeType<ContainerShape> = {
   schema: containerSchema,
-  shape: "https://ldo.js.org/ContainerShape",
+  shape: "http://www.w3.org/ns/ldp#ContainerShape",
   context: containerContext,
 };

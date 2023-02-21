@@ -12,5 +12,7 @@ import { ContextDefinition } from "jsonld";
 export interface ResourceShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
-  type: string;
+  type: {
+    "@id": "Resource";
+  };
 }

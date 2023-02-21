@@ -9,7 +9,7 @@ export const typeRegistrationSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/#TypeRegistration",
+      id: "http://www.w3.org/ns/solid/terms#TypeRegistrationShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -21,7 +21,7 @@ export const typeRegistrationSchema: Schema = {
               predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "http://www.w3.org/ns/solid/terms#TypeRegistration",
+                values: ["http://www.w3.org/ns/solid/terms#TypeRegistration"],
               },
             },
             {

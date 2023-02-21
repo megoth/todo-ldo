@@ -7,13 +7,15 @@ import { ContextDefinition } from "jsonld";
  */
 
 /**
- * TodoDocumentShape Type
+ * DocumentShape Type
  */
-export interface TodoDocumentShape {
+export interface DocumentShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
-  type: string;
+  type: {
+    "@id": "Document";
+  };
   list?: {
-    "@id": string;
+    "@id": "List";
   }[];
 }

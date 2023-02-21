@@ -1,5 +1,5 @@
 import { LdoFactory } from "ldo";
-import { TodoListShapeShapeType } from "./todoList.shapeTypes";
+import { ListShapeShapeType } from "./todoList.shapeTypes";
 
 /**
  * =============================================================================
@@ -8,6 +8,6 @@ import { TodoListShapeShapeType } from "./todoList.shapeTypes";
  */
 
 /**
- * TodoListShape LdoFactory
+ * ListShape LdoFactory
  */
-export const TodoListShapeFactory = new LdoFactory(TodoListShapeShapeType);
+export const ListShapeFactory = new LdoFactory(ListShapeShapeType);

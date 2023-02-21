@@ -9,7 +9,7 @@ export const todoTaskSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/TodoTaskShape",
+      id: "https://icanhasweb.net/vocab/todo.ttl#TaskShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -21,7 +21,7 @@ export const todoTaskSchema: Schema = {
               predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "https://icanhasweb.net/vocab/todo.ttl#Task",
+                values: ["https://icanhasweb.net/vocab/todo.ttl#Task"],
               },
             },
             {
@@ -37,7 +37,10 @@ export const todoTaskSchema: Schema = {
               predicate: "https://icanhasweb.net/vocab/todo.ttl#status",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "https://icanhasweb.net/vocab/todo.ttl#Status",
+                values: [
+                  "https://icanhasweb.net/vocab/todo.ttl#complete",
+                  "https://icanhasweb.net/vocab/todo.ttl#incomplete",
+                ],
               },
               min: 0,
               max: 1,

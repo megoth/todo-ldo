@@ -1,5 +1,5 @@
 import { LdoFactory } from "ldo";
-import { TypeIndexShapeType } from "./typeIndex.shapeTypes";
+import { TypeIndexShapeShapeType } from "./typeIndex.shapeTypes";
 
 /**
  * =============================================================================
@@ -8,6 +8,6 @@ import { TypeIndexShapeType } from "./typeIndex.shapeTypes";
  */
 
 /**
- * TypeIndex LdoFactory
+ * TypeIndexShape LdoFactory
  */
-export const TypeIndexFactory = new LdoFactory(TypeIndexShapeType);
+export const TypeIndexShapeFactory = new LdoFactory(TypeIndexShapeShapeType);

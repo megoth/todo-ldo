@@ -1,7 +1,7 @@
 import { ShapeType } from "ldo";
 import { typeIndexSchema } from "./typeIndex.schema";
 import { typeIndexContext } from "./typeIndex.context";
-import { TypeIndex } from "./typeIndex.typings";
+import { TypeIndexShape } from "./typeIndex.typings";
 
 /**
  * =============================================================================
@@ -10,10 +10,10 @@ import { TypeIndex } from "./typeIndex.typings";
  */
 
 /**
- * TypeIndex ShapeType
+ * TypeIndexShape ShapeType
  */
-export const TypeIndexShapeType: ShapeType<TypeIndex> = {
+export const TypeIndexShapeShapeType: ShapeType<TypeIndexShape> = {
   schema: typeIndexSchema,
-  shape: "https://ldo.js.org/#TypeIndex",
+  shape: "http://www.w3.org/ns/solid/terms#TypeIndexShape",
   context: typeIndexContext,
 };

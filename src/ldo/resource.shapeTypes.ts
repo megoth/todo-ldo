@@ -14,6 +14,6 @@ import { ResourceShape } from "./resource.typings";
  */
 export const ResourceShapeShapeType: ShapeType<ResourceShape> = {
   schema: resourceSchema,
-  shape: "https://ldo.js.org/ResourceShape",
+  shape: "http://www.w3.org/ns/ldp#ResourceShape",
   context: resourceContext,
 };

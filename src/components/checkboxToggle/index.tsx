@@ -13,4 +13,5 @@ const CheckboxToggle = forwardRef<HTMLInputElement, CheckboxProps>(({children, .
         </label>
     )
 });
+CheckboxToggle.displayName = "CheckboxToggle";
 export default CheckboxToggle;

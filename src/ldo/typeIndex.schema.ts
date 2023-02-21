@@ -9,7 +9,7 @@ export const typeIndexSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/#TypeIndex",
+      id: "http://www.w3.org/ns/solid/terms#TypeIndexShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",

@@ -1,7 +1,7 @@
 import { ShapeType } from "ldo";
 import { todoListSchema } from "./todoList.schema";
 import { todoListContext } from "./todoList.context";
-import { TodoListShape } from "./todoList.typings";
+import { ListShape } from "./todoList.typings";
 
 /**
  * =============================================================================
@@ -10,10 +10,10 @@ import { TodoListShape } from "./todoList.typings";
  */
 
 /**
- * TodoListShape ShapeType
+ * ListShape ShapeType
  */
-export const TodoListShapeShapeType: ShapeType<TodoListShape> = {
+export const ListShapeShapeType: ShapeType<ListShape> = {
   schema: todoListSchema,
-  shape: "https://ldo.js.org/TodoListShape",
+  shape: "https://icanhasweb.net/vocab/todo.ttl#ListShape",
   context: todoListContext,
 };

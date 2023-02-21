@@ -8,9 +8,9 @@ import { ContextDefinition } from "jsonld";
 export const typeRegistrationContext: ContextDefinition = {
   type: {
     "@id": "@type",
-    "@type": "http://www.w3.org/ns/solid/terms#TypeRegistration",
     "@container": "@set",
   },
+  TypeRegistration: "http://www.w3.org/ns/solid/terms#TypeRegistration",
   forClass: {
     "@id": "http://www.w3.org/ns/solid/terms#forClass",
     "@type": "@id",

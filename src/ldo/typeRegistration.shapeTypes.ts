@@ -1,7 +1,7 @@
 import { ShapeType } from "ldo";
 import { typeRegistrationSchema } from "./typeRegistration.schema";
 import { typeRegistrationContext } from "./typeRegistration.context";
-import { TypeRegistration } from "./typeRegistration.typings";
+import { TypeRegistrationShape } from "./typeRegistration.typings";
 
 /**
  * =============================================================================
@@ -10,10 +10,11 @@ import { TypeRegistration } from "./typeRegistration.typings";
  */
 
 /**
- * TypeRegistration ShapeType
+ * TypeRegistrationShape ShapeType
  */
-export const TypeRegistrationShapeType: ShapeType<TypeRegistration> = {
-  schema: typeRegistrationSchema,
-  shape: "https://ldo.js.org/#TypeRegistration",
-  context: typeRegistrationContext,
-};
+export const TypeRegistrationShapeShapeType: ShapeType<TypeRegistrationShape> =
+  {
+    schema: typeRegistrationSchema,
+    shape: "http://www.w3.org/ns/solid/terms#TypeRegistrationShape",
+    context: typeRegistrationContext,
+  };

@@ -8,11 +8,11 @@ import { ContextDefinition } from "jsonld";
 export const todoDocumentContext: ContextDefinition = {
   type: {
     "@id": "@type",
-    "@type": "https://icanhasweb.net/vocab/todo.ttl#Document",
   },
+  Document: "https://icanhasweb.net/vocab/todo.ttl#Document",
   list: {
     "@id": "https://icanhasweb.net/vocab/todo.ttl#list",
-    "@type": "@id",
     "@container": "@set",
   },
+  List: "https://icanhasweb.net/vocab/todo.ttl#List",
 };

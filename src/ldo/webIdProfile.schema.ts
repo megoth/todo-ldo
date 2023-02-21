@@ -9,7 +9,7 @@ export const webIdProfileSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/WebIdProfileShape",
+      id: "http://www.w3.org/ns/solid/terms#WebIdProfileShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",

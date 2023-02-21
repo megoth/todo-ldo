@@ -3,8 +3,8 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX todo: <https://icanhasweb.net/vocab/todo.ttl#>
 
-<TodoListShape> {
-  rdf:type todo:List ;
+todo:ListShape EXTRA rdf:type {
+  rdf:type [todo:List] ;
   todo:name xsd:string? ;
-  todo:task todo:Task* ;
+  todo:task [todo:Task]* ;
 }

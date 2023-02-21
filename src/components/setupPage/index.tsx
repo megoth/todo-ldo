@@ -10,17 +10,17 @@ import {useForm} from "react-hook-form";
 import FormError from "@/components/formError";
 import SubmitButton from "@/components/submitButton";
 import ContentGroup from "@/components/contentGroup";
-import {TypeRegistrationFactory} from "@/ldo/typeRegistration.ldoFactory";
-import {TypeRegistration} from "@/ldo/typeRegistration.typings";
 import {v4 as uuidv4} from 'uuid';
-import {TodoDocumentShape} from "@/ldo/todoDocument.typings";
-import {TodoDocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
 import {solid, todo} from "@/vocabularies";
-import {getValue, getValueAsString, update} from "@/libs/ldo";
+import {getValue, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useState} from "react";
-import {TodoListShape} from "@/ldo/todoList.typings";
-import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
+import {DocumentShape} from "@/ldo/todoDocument.typings";
+import {DocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
+import {TypeRegistrationShape} from "@/ldo/typeRegistration.typings";
+import {TypeRegistrationShapeFactory} from "@/ldo/typeRegistration.ldoFactory";
+import {ListShape} from "@/ldo/todoList.typings";
+import {ListShapeFactory} from "@/ldo/todoList.ldoFactory";
 
 interface SetupPageProps {
     profile: LinkedDataObject<WebIdProfileShape>
@@ -47,27 +47,27 @@ export default function SetupPage({profile}: SetupPageProps) {
 
     const onSubmit = async (data: any) => {
         // Adding resource to Pod
-        const listDocument: LinkedDataObject<TodoDocumentShape> = TodoDocumentShapeFactory.new(data.storagePath);
-        listDocument.type = getValueAsString(todo.TodoDocument.value);
-        await update(listDocument, data.storagePath, fetch);
+        const todoDocument: LinkedDataObject<DocumentShape> = DocumentShapeFactory.new(data.storagePath);
+        todoDocument.type = getValue(todo.TodoDocument.value);
+        await update(todoDocument, data.storagePath, fetch);
         setCreatedStorage(true);
 
         // Adding resource to TypeIndex
         const typeIndexUrl = data.private ? privateTypeIndex.data?.["@id"]! : publicTypeIndex.data?.["@id"]!;
-        const typeRegistry: LinkedDataObject<TypeRegistration> = TypeRegistrationFactory.new(`#${uuidv4()}`);
-        typeRegistry.type = getValueAsString(solid.TypeRegistration.value);
-        typeRegistry.forClass = {"@id": todo.TodoList.value};
+        const typeRegistry: LinkedDataObject<TypeRegistrationShape> = TypeRegistrationShapeFactory.new(`#${uuidv4()}`);
+        typeRegistry.type = getValue(solid.TypeRegistration.value);
+        typeRegistry.forClass = getValue(todo.TodoList.value);
         // @ts-ignore
         typeRegistry.instance = data.storagePath;
         await update(typeRegistry, typeIndexUrl, fetch);
         setUpdatedIndex(true);
 
         // Creating the first todo list and updating todo index
-        const list: LinkedDataObject<TodoListShape> = TodoListShapeFactory.new(`#${uuidv4()}`);
+        const list: LinkedDataObject<ListShape> = ListShapeFactory.new(`#${uuidv4()}`);
         list.name = data.listName;
         await update(list, data.storagePath, fetch);
-        listDocument.list?.push(getValue(list["@id"]!));
-        await update(listDocument, data.storagePath, fetch);
+        todoDocument.list?.push(getValue(list["@id"]!));
+        await update(todoDocument, data.storagePath, fetch);
         setCreatedList(true);
     }
 
@@ -84,7 +84,7 @@ export default function SetupPage({profile}: SetupPageProps) {
                                 <li>Created list: {createdList ? "Success!" : "In progress!"}</li>
                             </ul>
                         </ContentGroup>
-                        <SubmitButton href={"/"}>Let's get to your first todo list!</SubmitButton>
+                        <SubmitButton href={"/"}>Let&#39;s get to your first todo list!</SubmitButton>
                     </>
                 ) : (
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,7 +119,7 @@ export default function SetupPage({profile}: SetupPageProps) {
                             </>}
                         </ContentGroup>
                         <ContentGroup>
-                            <p>Lastly, let's create your first todo list, to get you started.</p>
+                            <p>Finally, let&#39;s create your first todo list, to get you started.</p>
                             <p>You can name the list if you want</p>
                             <Input defaultValue={"My Todo List"} {...register("listName")}>
                                 Storage

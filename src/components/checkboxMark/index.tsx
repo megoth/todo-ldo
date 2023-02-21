@@ -13,4 +13,5 @@ const CheckboxMark = forwardRef<HTMLInputElement, CheckboxMarkProps>(({children,
         </label>
     )
 });
+CheckboxMark.displayName = "CheckboxMark";
 export default CheckboxMark;

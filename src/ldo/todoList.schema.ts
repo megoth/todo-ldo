@@ -9,7 +9,7 @@ export const todoListSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/TodoListShape",
+      id: "https://icanhasweb.net/vocab/todo.ttl#ListShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -21,7 +21,7 @@ export const todoListSchema: Schema = {
               predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "https://icanhasweb.net/vocab/todo.ttl#List",
+                values: ["https://icanhasweb.net/vocab/todo.ttl#List"],
               },
             },
             {
@@ -39,13 +39,14 @@ export const todoListSchema: Schema = {
               predicate: "https://icanhasweb.net/vocab/todo.ttl#task",
               valueExpr: {
                 type: "NodeConstraint",
-                datatype: "https://icanhasweb.net/vocab/todo.ttl#Task",
+                values: ["https://icanhasweb.net/vocab/todo.ttl#Task"],
               },
               min: 0,
               max: -1,
             },
           ],
         },
+        extra: ["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"],
       },
     },
   ],

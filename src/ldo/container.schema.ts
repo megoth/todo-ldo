@@ -9,7 +9,7 @@ export const containerSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/ContainerShape",
+      id: "http://www.w3.org/ns/ldp#ContainerShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",

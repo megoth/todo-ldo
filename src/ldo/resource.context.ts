@@ -8,6 +8,6 @@ import { ContextDefinition } from "jsonld";
 export const resourceContext: ContextDefinition = {
   type: {
     "@id": "@type",
-    "@type": "http://www.w3.org/ns/ldp#Resource",
   },
+  Resource: "http://www.w3.org/ns/ldp#Resource",
 };

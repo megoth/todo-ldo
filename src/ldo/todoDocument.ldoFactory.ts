@@ -1,5 +1,5 @@
 import { LdoFactory } from "ldo";
-import { TodoDocumentShapeShapeType } from "./todoDocument.shapeTypes";
+import { DocumentShapeShapeType } from "./todoDocument.shapeTypes";
 
 /**
  * =============================================================================
@@ -8,8 +8,6 @@ import { TodoDocumentShapeShapeType } from "./todoDocument.shapeTypes";
  */
 
 /**
- * TodoDocumentShape LdoFactory
+ * DocumentShape LdoFactory
  */
-export const TodoDocumentShapeFactory = new LdoFactory(
-  TodoDocumentShapeShapeType
-);
+export const DocumentShapeFactory = new LdoFactory(DocumentShapeShapeType);

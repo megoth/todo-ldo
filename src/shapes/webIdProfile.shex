@@ -6,7 +6,7 @@ PREFIX space: <http://www.w3.org/ns/pim/space#>
 PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
-<WebIdProfileShape> EXTRA rdf:type {
+solid:WebIdProfileShape EXTRA rdf:type {
   rdf:type [ foaf:Person ] ;
   foaf:name xsd:string? ;
   vcard:fn xsd:string? ;

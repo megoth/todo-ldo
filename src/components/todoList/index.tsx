@@ -1,19 +1,19 @@
-import {TodoListShape} from "@/ldo/todoList.typings";
 import useSubject from "@/hooks/useSubject";
-import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
-import {MouseEvent, useState} from "react";
+import {MouseEvent} from "react";
 import TodoListTitle from "@/components/todoList/title";
-import {getValueAsString, update} from "@/libs/ldo";
+import {getValue, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {LinkedDataObject} from "ldo";
-import {TodoTaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
 import Button from "@/components/button";
 import {v4 as uuidv4} from 'uuid';
 import ContentGroup from "@/components/contentGroup";
 import ButtonBar from "@/components/buttonBar";
+import {ListShape} from "@/ldo/todoList.typings";
+import {ListShapeFactory} from "@/ldo/todoList.ldoFactory";
+import {TaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
 
 interface TodoListProps {
     listUrl: string;
@@ -28,7 +28,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
         error: listError,
         isLoading,
         mutate: mutateList
-    } = useSubject<TodoListShape>(listUrl, resourceUrl, TodoListShapeFactory);
+    } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
 
     if (listError) {
         return <ErrorDetails error={listError}/>
@@ -40,10 +40,10 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
 
     const addTask = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const task = TodoTaskShapeFactory.new(`#${uuidv4()}`);
+        const task = TaskShapeFactory.new(`#${uuidv4()}`);
         task.description = "A new task";
         await update(task, resourceUrl, fetch);
-        list.task?.push(getValueAsString(task["@id"]!));
+        list.task?.push(getValue(task["@id"]!));
         await update(list, resourceUrl, fetch);
         await mutateList(list.$clone());
     }

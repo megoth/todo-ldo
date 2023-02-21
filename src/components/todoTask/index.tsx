@@ -1,11 +1,11 @@
 import useSubject from "@/hooks/useSubject";
-import {TodoTaskShape} from "@/ldo/todoTask.typings";
-import {TodoTaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
+import {TaskShape} from "@/ldo/todoTask.typings";
+import {TaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
 import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
 import {MouseEvent, useState} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
-import {getValueAsString, update} from "@/libs/ldo";
+import {getValue, update} from "@/libs/ldo";
 import {useForm} from "react-hook-form";
 import {todo} from "@/vocabularies";
 import CheckboxMark from "@/components/checkboxMark";
@@ -29,12 +29,12 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
         error: taskError,
         isLoading,
         mutate: mutateTask
-    } = useSubject<TodoTaskShape>(taskUrl, resourceUrl, TodoTaskShapeFactory);
+    } = useSubject<TaskShape>(taskUrl, resourceUrl, TaskShapeFactory);
     const {fetch} = useSession();
     const {register, handleSubmit} = useForm<FormData>();
     const [editMode, setEditMode] = useState<boolean>(false);
     const description = task?.description || "";
-    const [done, setDone] = useState<boolean>(((task?.status) as any)?.["@id"] === todo.complete.value);
+    const [done, setDone] = useState<boolean>(task?.status?.["@id"] === todo.complete.value);
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>
@@ -66,7 +66,7 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
     const onChange = async (event: MouseEvent<HTMLInputElement>) => {
         const checked = (event.target as HTMLInputElement).checked;
         setDone(checked);
-        task.status = getValueAsString((checked ? todo.complete : todo.incomplete).value);
+        task.status = getValue((checked ? todo.complete : todo.incomplete).value);
         await update(task, resourceUrl, fetch);
         await mutateTask(task.$clone());
     }

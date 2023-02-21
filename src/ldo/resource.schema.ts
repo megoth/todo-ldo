@@ -9,7 +9,7 @@ export const resourceSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://ldo.js.org/ResourceShape",
+      id: "http://www.w3.org/ns/ldp#ResourceShape",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -18,7 +18,7 @@ export const resourceSchema: Schema = {
           predicate: "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
           valueExpr: {
             type: "NodeConstraint",
-            datatype: "http://www.w3.org/ns/ldp#Resource",
+            values: ["http://www.w3.org/ns/ldp#Resource"],
           },
         },
         extra: ["http://www.w3.org/1999/02/22-rdf-syntax-ns#type"],

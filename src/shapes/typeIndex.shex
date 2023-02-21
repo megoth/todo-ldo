@@ -1,9 +1,8 @@
 PREFIX solid: <http://www.w3.org/ns/solid/terms#>
 PREFIX ldp: <http://www.w3.org/ns/ldp#>
-PREFIX typeIndex: <#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-typeIndex:TypeIndex EXTRA rdf:type {
+solid:TypeIndexShape EXTRA rdf:type {
     rdf:type [solid:TypeIndex] ;
     ( rdf:type [solid:ListedDocument] | rdf:type [solid:UnlistedDocument] )
 }

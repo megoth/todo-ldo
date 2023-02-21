@@ -1,5 +1,5 @@
 import { LdoFactory } from "ldo";
-import { TypeRegistrationShapeType } from "./typeRegistration.shapeTypes";
+import { TypeRegistrationShapeShapeType } from "./typeRegistration.shapeTypes";
 
 /**
  * =============================================================================
@@ -8,8 +8,8 @@ import { TypeRegistrationShapeType } from "./typeRegistration.shapeTypes";
  */
 
 /**
- * TypeRegistration LdoFactory
+ * TypeRegistrationShape LdoFactory
  */
-export const TypeRegistrationFactory = new LdoFactory(
-  TypeRegistrationShapeType
+export const TypeRegistrationShapeFactory = new LdoFactory(
+  TypeRegistrationShapeShapeType
 );

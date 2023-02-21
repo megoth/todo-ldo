@@ -7,12 +7,14 @@ import { ContextDefinition } from "jsonld";
  */
 
 /**
- * TypeRegistration Type
+ * TypeRegistrationShape Type
  */
-export interface TypeRegistration {
+export interface TypeRegistrationShape {
   "@id"?: string;
   "@context"?: ContextDefinition;
-  type: string;
+  type: {
+    "@id": "TypeRegistration";
+  };
   forClass: {
     "@id": string;
   };
