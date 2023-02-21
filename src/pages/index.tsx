@@ -6,11 +6,9 @@ import {WebIdProfileShapeFactory} from "@/ldo/webIdProfile.ldoFactory";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoList from "@/components/todoList";
-import {EditModeContextProvider} from "@/contexts/editMode";
 import {getResourceUrl} from "@/libs/ldo";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import SetupPrompt from "@/components/setupPrompt";
-import WelcomeTitle from "@/components/welcomeTitle";
 import {todo} from "@/vocabularies";
 import {TodoDocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
 import {TodoDocumentShape} from "@/ldo/todoDocument.typings";
@@ -68,10 +66,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <WelcomeTitle profile={profile}/>
-            <EditModeContextProvider>
-                <TodoList listUrl={storage?.list?.[0]?.["@id"]} resourceUrl={getResourceUrl(storage?.list?.[0]?.["@id"])!}/>
-            </EditModeContextProvider>
+            <TodoList listUrl={storage?.list?.[0]?.["@id"]} resourceUrl={getResourceUrl(storage?.list?.[0]?.["@id"])!}/>
         </Layout>
     )
 }

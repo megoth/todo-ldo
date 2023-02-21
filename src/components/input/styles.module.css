@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    margin: 0.5em 0;
+    margin: 0.5rem 0;
 }
 
 @media (min-width: 600px) {
@@ -12,12 +12,13 @@
 }
 
 .labelText {
+    font-size: 0.8rem;
     width: 100%;
 }
 
 @media (min-width: 600px) {
     .labelText {
-        width: 6em;
+        width: 6rem;
     }
 }
 

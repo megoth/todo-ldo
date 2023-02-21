@@ -6,10 +6,11 @@ import useSubject from "@/hooks/useSubject";
 import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
 import Loading from "@/components/loading";
 import {useSession} from "@inrupt/solid-ui-react";
+import {useState} from "react";
+import Button from "@/components/button";
 
 interface TodoListTitleProps {
     listUrl: string;
-    edit: boolean;
     resourceUrl: string;
 }
 
@@ -17,9 +18,10 @@ interface FormData {
     listName: string;
 }
 
-export default function TodoListTitle({listUrl, edit, resourceUrl}: TodoListTitleProps) {
+export default function TodoListTitle({listUrl, resourceUrl}: TodoListTitleProps) {
     const {fetch} = useSession();
     const {register, handleSubmit} = useForm<FormData>();
+    const [editMode, setEditMode] = useState<boolean>(false);
     const {
         data: list,
         mutate: mutateList
@@ -34,10 +36,17 @@ export default function TodoListTitle({listUrl, edit, resourceUrl}: TodoListTitl
         list.name = data.listName;
         await update(list, resourceUrl, fetch);
         await mutateList(list.$clone());
+        setEditMode(false);
     });
 
-    if (!edit) {
-        return <h2>{list.name}</h2>
+    if (!editMode) {
+        return (
+            <div>
+                <h1>{list.name}</h1>
+                <Button onClick={() => setEditMode(true)}>Change</Button>
+            </div>
+        );
+
     }
 
     return (

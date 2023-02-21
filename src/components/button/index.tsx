@@ -5,7 +5,7 @@ import Link from "next/link";
 
 type ButtonOptions = {
     shadow?: "half" | "full"
-    variant?: "link" | "primary"
+    variant?: "link" | "primary" | "field"
 }
 
 type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
@@ -16,6 +16,7 @@ export default function Button({variant, shadow, ...props}: ButtonProps) {
     const className = clsx(styles.base, {
         [styles.button]: !variant,
         [styles.link]: variant === "link",
+        [styles.fieldButton]: variant === "field",
         [styles.primaryButton]: variant === "primary",
         [styles.halfShadow]: shadow === "half",
         [styles.fullShadow]: shadow === "full",

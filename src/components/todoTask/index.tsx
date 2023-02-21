@@ -3,12 +3,15 @@ import {TodoTaskShape} from "@/ldo/todoTask.typings";
 import {TodoTaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
 import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
-import {useState} from "react";
+import {MouseEvent, useState} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
 import {getValueAsString, update} from "@/libs/ldo";
 import {useForm} from "react-hook-form";
 import {todo} from "@/vocabularies";
 import CheckboxMark from "@/components/checkboxMark";
+import styles from "./styles.module.css"
+import Button from "@/components/button";
+import Input from "@/components/input";
 
 interface TodoTaskProps {
     taskUrl: string;
@@ -30,9 +33,8 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
     const {fetch} = useSession();
     const {register, handleSubmit} = useForm<FormData>();
     const [editMode, setEditMode] = useState<boolean>(false);
-    const [updating, setUpdating] = useState<boolean>(false);
     const description = task?.description || "";
-    const done = task?.status === todo.complete.value || false;
+    const [done, setDone] = useState<boolean>(((task?.status) as any)?.["@id"] === todo.complete.value);
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>
@@ -44,30 +46,40 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
 
     const onSubmit = handleSubmit(async (data, event) => {
         event?.preventDefault();
-        setUpdating(true);
         task.description = data.description;
-        task.status = getValueAsString((data.done ? todo.complete : todo.incomplete).value);
         await update(task, resourceUrl, fetch);
         await mutateTask(task.$clone());
-        setUpdating(false);
         setEditMode(false);
     });
 
     if (editMode) {
         return (
-            <form onSubmit={onSubmit}>
-                <input defaultValue={description} disabled={updating} {...register("description")}/>
+            <form className={styles.container} onSubmit={onSubmit}>
+                <div className={styles.field}>
+                    <Input defaultValue={description} {...register("description")}>Description</Input>
+                </div>
+                <Button variant={"field"} onClick={() => setEditMode(!editMode)}>Save</Button>
             </form>
         )
     }
 
+    const onChange = async (event: MouseEvent<HTMLInputElement>) => {
+        const checked = (event.target as HTMLInputElement).checked;
+        setDone(checked);
+        task.status = getValueAsString((checked ? todo.complete : todo.incomplete).value);
+        await update(task, resourceUrl, fetch);
+        await mutateTask(task.$clone());
+    }
+
     return (
-        <form onSubmit={onSubmit}>
-            <CheckboxMark {...register("done")}>
-                <span style={{textDecoration: done ? "line-through" : "none"}}>
-                    {description}
-                </span>
-            </CheckboxMark>
-        </form>
+        <div className={styles.container}>
+            <div className={styles.field}>
+                <CheckboxMark defaultChecked={done} {...register("done")} onChange={onChange}>
+                    <span style={{textDecoration: done ? "line-through" : "none"}}>{description}</span>
+                </CheckboxMark>
+            </div>
+            {done && <Button variant={"field"}>Remove</Button>}
+            {!done && <Button variant={"field"} onClick={() => setEditMode(!editMode)}>Change</Button>}
+        </div>
     )
 }
