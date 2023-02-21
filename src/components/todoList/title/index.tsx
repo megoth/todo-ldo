@@ -1,22 +1,48 @@
-import {ChangeEvent, useContext, useState} from "react";
-import EditModeContext from "@/contexts/editMode";
 import {TodoListShape} from "@/ldo/todoList.typings";
-import {LinkedDataObject} from "ldo";
 import Input from "@/components/input";
+import {useForm} from "react-hook-form";
+import {update} from "@/libs/ldo";
+import useSubject from "@/hooks/useSubject";
+import {TodoListShapeFactory} from "@/ldo/todoList.ldoFactory";
+import Loading from "@/components/loading";
+import {useSession} from "@inrupt/solid-ui-react";
 
 interface TodoListTitleProps {
-    list: LinkedDataObject<TodoListShape>
+    listUrl: string;
+    edit: boolean;
+    resourceUrl: string;
 }
 
-export default function TodoListTitle({ list }: TodoListTitleProps) {
-    const {editMode, updating} = useContext(EditModeContext);
-    const [value, setValue] = useState<string>(list.name || "");
-    if (!editMode) {
+interface FormData {
+    listName: string;
+}
+
+export default function TodoListTitle({listUrl, edit, resourceUrl}: TodoListTitleProps) {
+    const {fetch} = useSession();
+    const {register, handleSubmit} = useForm<FormData>();
+    const {
+        data: list,
+        mutate: mutateList
+    } = useSubject<TodoListShape>(listUrl, resourceUrl, TodoListShapeFactory);
+
+    if (!list) {
+        return <Loading/>
+    }
+
+    const onSubmit = handleSubmit(async (data, event) => {
+        event?.preventDefault();
+        list.name = data.listName;
+        await update(list, resourceUrl, fetch);
+        await mutateList(list.$clone());
+    });
+
+    if (!edit) {
         return <h2>{list.name}</h2>
     }
-    const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
-        list.name = event.target.value;
-    }
-    return <Input name={"todoListTitle"} disabled={updating} onChange={onChange} value={value}>Name</Input>
+
+    return (
+        <form onSubmit={onSubmit}>
+            <Input defaultValue={list.name || ""} {...register("listName")}>Name</Input>
+        </form>
+    )
 }

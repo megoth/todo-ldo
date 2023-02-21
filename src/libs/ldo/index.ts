@@ -21,6 +21,10 @@ export function getResourceUrl(url: string | undefined | null): string | null {
     return url ? url.split("#")[0] : null;
 }
 
-export function getValue(term: string): string {
+export function getValue(term: string) {
+    return {"@id": term};
+}
+
+export function getValueAsString(term: string): string {
     return {"@id": term} as unknown as string;
 }

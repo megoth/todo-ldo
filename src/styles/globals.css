@@ -21,7 +21,7 @@ html.dark {
     --grey-color: var(--link-color, #3a7ca5);
 }
 
-/* For checkbox button  */
+/* For checkboxToggle button  */
 :root {
     --body: --link-color;
     --text-default: #1d1d1f;

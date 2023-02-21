@@ -2,7 +2,7 @@ import Layout from "@/components/layout";
 import {LinkedDataObject} from "ldo";
 import {WebIdProfileShape} from "@/ldo/webIdProfile.typings";
 import TextContent from "@/components/textContent";
-import Checkbox from "@/components/checkbox";
+import CheckboxToggle from "@/components/checkboxToggle";
 import useTypeIndexResources from "@/hooks/useTypeIndexResources";
 import Loading from "@/components/loading";
 import Input from "@/components/input";
@@ -16,7 +16,7 @@ import {v4 as uuidv4} from 'uuid';
 import {TodoDocumentShape} from "@/ldo/todoDocument.typings";
 import {TodoDocumentShapeFactory} from "@/ldo/todoDocument.ldoFactory";
 import {solid, todo} from "@/vocabularies";
-import {getValue, update} from "@/libs/ldo";
+import {getValue, getValueAsString, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useState} from "react";
 import {TodoListShape} from "@/ldo/todoList.typings";
@@ -26,9 +26,15 @@ interface SetupPageProps {
     profile: LinkedDataObject<WebIdProfileShape>
 }
 
+interface FormData {
+    listName: string;
+    private: boolean;
+    storagePath: string;
+}
+
 export default function SetupPage({profile}: SetupPageProps) {
     const {fetch} = useSession();
-    const {control, register, handleSubmit, formState: {errors}} = useForm();
+    const {control, register, handleSubmit, formState: {errors}} = useForm<FormData>();
     const {publicTypeIndex, privateTypeIndex} = useTypeIndexResources(profile);
     const suggestedStoragePath = `${profile?.storage?.[0]?.["@id"]}todo.ttl`;
     const [createdStorage, setCreatedStorage] = useState<boolean>(false);
@@ -42,14 +48,14 @@ export default function SetupPage({profile}: SetupPageProps) {
     const onSubmit = async (data: any) => {
         // Adding resource to Pod
         const listDocument: LinkedDataObject<TodoDocumentShape> = TodoDocumentShapeFactory.new(data.storagePath);
-        listDocument.type = getValue(todo.TodoDocument.value);
+        listDocument.type = getValueAsString(todo.TodoDocument.value);
         await update(listDocument, data.storagePath, fetch);
         setCreatedStorage(true);
 
         // Adding resource to TypeIndex
         const typeIndexUrl = data.private ? privateTypeIndex.data?.["@id"]! : publicTypeIndex.data?.["@id"]!;
         const typeRegistry: LinkedDataObject<TypeRegistration> = TypeRegistrationFactory.new(`#${uuidv4()}`);
-        typeRegistry.type = getValue(solid.TypeRegistration.value);
+        typeRegistry.type = getValueAsString(solid.TypeRegistration.value);
         typeRegistry.forClass = {"@id": todo.TodoList.value};
         // @ts-ignore
         typeRegistry.instance = data.storagePath;
@@ -109,7 +115,7 @@ export default function SetupPage({profile}: SetupPageProps) {
                             </>}
                             {!privateTypeIndex.error && <>
                                 <p>If you prefer, you can make this link private.</p>
-                                <Checkbox control={control} name="private">Make this link private</Checkbox>
+                                <CheckboxToggle {...register("private")}>Make this link private</CheckboxToggle>
                             </>}
                         </ContentGroup>
                         <ContentGroup>

@@ -34,7 +34,7 @@ export default function ToolBox() {
         <div className={styles.toolbar}>
             <ul className={styles.bars}>
                 {developerMode && session.info.isLoggedIn && subjects.map((subject) => (
-                    <li key={subject.resourceUrl}>
+                    <li key={`${subject.resourceUrl}-${subject.ldo["@id"]}`}>
                         <Button type={"button"} className={clsx({
                             [styles.selectedBar]: selectedSubject === subject
                         })} onClick={() => setSelectedSubject(subject)}>{getUrlEnd(subject.resourceUrl)}</Button>

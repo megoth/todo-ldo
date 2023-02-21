@@ -3,46 +3,36 @@ import {TodoTaskShape} from "@/ldo/todoTask.typings";
 import {TodoTaskShapeFactory} from "@/ldo/todoTask.ldoFactory";
 import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
-import {ChangeEvent, useContext, useEffect, useState} from "react";
-import EditModeContext from "@/contexts/editMode";
+import {useState} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
-import {hasChanges, update} from "@/libs/ldo";
-import {todoTaskContext} from "@/ldo/todoTask.context";
+import {getValueAsString, update} from "@/libs/ldo";
+import {useForm} from "react-hook-form";
+import {todo} from "@/vocabularies";
+import CheckboxMark from "@/components/checkboxMark";
 
 interface TodoTaskProps {
     taskUrl: string;
     resourceUrl: string;
 }
 
+interface FormData {
+    done: boolean;
+    description: string;
+}
+
 export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
-    const {complete, incomplete } = todoTaskContext;
     const {
         data: task,
         error: taskError,
         isLoading,
         mutate: mutateTask
     } = useSubject<TodoTaskShape>(taskUrl, resourceUrl, TodoTaskShapeFactory);
-    const {editMode, updating, setUpdating} = useContext(EditModeContext);
     const {fetch} = useSession();
-    const [description, setDescription] = useState<string>(task?.description || "");
-    const [done, setDone] = useState<boolean>(task?.status === incomplete || false)
-
-    useEffect(() => {
-        setDescription(task?.description || "");
-        setDone(task?.status === complete);
-    }, [task, task?.description, task?.status]);
-
-    useEffect(() => {
-        if (!task || !hasChanges(task)) {
-            return;
-        }
-        (async () => {
-            setUpdating(true);
-            await update(task, resourceUrl, fetch);
-            await mutateTask(task.$clone());
-            setUpdating(false);
-        })();
-    }, [editMode, task, task?.status, setUpdating, mutateTask, resourceUrl, fetch])
+    const {register, handleSubmit} = useForm<FormData>();
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const [updating, setUpdating] = useState<boolean>(false);
+    const description = task?.description || "";
+    const done = task?.status === todo.complete.value || false;
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>
@@ -52,24 +42,32 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
         return <Loading/>
     }
 
+    const onSubmit = handleSubmit(async (data, event) => {
+        event?.preventDefault();
+        setUpdating(true);
+        task.description = data.description;
+        task.status = getValueAsString((data.done ? todo.complete : todo.incomplete).value);
+        await update(task, resourceUrl, fetch);
+        await mutateTask(task.$clone());
+        setUpdating(false);
+        setEditMode(false);
+    });
+
     if (editMode) {
-        return <input value={description} disabled={updating} onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            setDescription(event.target.value);
-            task.description = event.target.value;
-        }}/>
+        return (
+            <form onSubmit={onSubmit}>
+                <input defaultValue={description} disabled={updating} {...register("description")}/>
+            </form>
+        )
     }
 
     return (
-        <label>
-            <input type={"checkbox"} disabled={updating} checked={done}
-                   onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                       setDone(event.target.checked);
-                       // TODO: FIX STATUS
-                       // task.status = event.target.checked ? complete : incomplete;
-                   }}/>
-            <span style={{
-                textDecoration: done ? "line-through" : "none"
-            }}>{description}</span>
-        </label>
+        <form onSubmit={onSubmit}>
+            <CheckboxMark {...register("done")}>
+                <span style={{textDecoration: done ? "line-through" : "none"}}>
+                    {description}
+                </span>
+            </CheckboxMark>
+        </form>
     )
 }
