@@ -19,9 +19,6 @@ export interface ContainerShape {
     | {
         "@id": "Container";
       };
-  contains?: {
-    "@id": string;
-  }[];
 }
 
 /**

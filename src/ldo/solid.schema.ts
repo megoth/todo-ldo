@@ -28,12 +28,19 @@ export const solidSchema: Schema = {
               },
             },
             {
-              type: "TripleConstraint",
-              predicate: "http://www.w3.org/ns/ldp#contains",
-              valueExpr: {
-                type: "NodeConstraint",
-                nodeKind: "iri",
-              },
+              type: "OneOf",
+              expressions: [
+                {
+                  type: "TripleConstraint",
+                  predicate: "http://www.w3.org/ns/ldp#contains",
+                  valueExpr: "http://www.w3.org/ns/solid/terms#ContainerShape",
+                },
+                {
+                  type: "TripleConstraint",
+                  predicate: "http://www.w3.org/ns/ldp#contains",
+                  valueExpr: "http://www.w3.org/ns/solid/terms#ResourceShape",
+                },
+              ],
               min: 0,
               max: -1,
             },

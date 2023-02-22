@@ -9,7 +9,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 solid:ContainerShape EXTRA rdf:type {
   rdf:type [ ldp:BasicContainer ldp:Container ] ;
-  ldp:contains IRI* ;
+  ( ldp:contains @solid:ContainerShape | ldp:contains @solid:ResourceShape )* ;
 }
 
 solid:ResourceShape EXTRA rdf:type {
