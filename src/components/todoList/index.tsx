@@ -10,6 +10,7 @@ import ButtonBar from "@/components/buttonBar";
 import {ListShape} from "@/ldo/todo.typings";
 import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import TodoListCreateTask from "@/components/todoList/createTask";
+import {FiEdit2, FiPlusSquare} from "react-icons/fi";
 
 interface TodoListProps {
     listUrl: string | undefined;
@@ -40,8 +41,18 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
         <>
             <TodoListTitle editModeState={editTitleState} listUrl={listUrl} resourceUrl={resourceUrl}/>
             <ButtonBar>
-                {!editTitle && <Button shadow={"full"} onClick={() => setEditTitle(true)}>Change name</Button>}
-                {!createTask && <Button shadow={"full"} onClick={() => setCreateTask(true)}>Add task</Button>}
+                {!editTitle && (
+                    <Button shadow={"full"} onClick={() => setEditTitle(true)}>
+                        <span>Change name</span>
+                        <FiEdit2/>
+                    </Button>
+                )}
+                {!createTask && (
+                    <Button shadow={"full"} onClick={() => setCreateTask(true)}>
+                        <span>Add task</span>
+                        <FiPlusSquare/>
+                    </Button>
+                )}
             </ButtonBar>
             <TodoListCreateTask listUrl={listUrl} resourceUrl={resourceUrl} createTaskState={createTaskState}/>
             <div>

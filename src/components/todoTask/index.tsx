@@ -13,6 +13,7 @@ import {ListShape, TaskShape} from "@/ldo/todo.typings";
 import {ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import CheckboxMark from "@/components/checkboxMark";
 import {namedNode} from "@rdfjs/data-model";
+import {FiDelete, FiEdit2} from "react-icons/fi";
 
 interface TodoTaskProps {
     listUrl: string | undefined;
@@ -121,8 +122,18 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
                     <span style={{textDecoration: done ? "line-through" : "none"}}>{description}</span>
                 </CheckboxMark>
             </div>
-            {done && <Button type={"button"} variant={"link"} onClick={onRemove}>Remove</Button>}
-            {!done && <Button variant={"link"} onClick={() => setEditMode(!editMode)}>Change</Button>}
+            {done && (
+                <Button type={"button"} variant={"link"} onClick={onRemove}>
+                    <span>Remove</span>
+                    <FiDelete />
+                </Button>
+            )}
+            {!done && (
+                <Button variant={"link"} onClick={() => setEditMode(!editMode)}>
+                    <span>Change</span>
+                    <FiEdit2 />
+                </Button>
+            )}
         </div>
     )
 }

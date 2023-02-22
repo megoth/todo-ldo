@@ -1,5 +1,5 @@
 import Head from "next/head";
-import {ReactNode} from "react";
+import {ReactNode, useContext} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
 import Loading from "@/components/loading";
 import LoginForm from "@/components/loginForm";
@@ -8,13 +8,17 @@ import Container from "@/components/container";
 import ToolBox from "@/components/toolBox";
 import styles from "./styles.module.css";
 import Navigation from "@/components/navigation";
+import FooterNavigation from "@/components/footerNavigation";
+import Footer from "@/components/footer";
+import DeveloperModeContext from "@/contexts/developerMode";
 
 interface LayoutProps {
     children?: ReactNode
 }
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({children}: LayoutProps) {
     const {sessionRequestInProgress, session: {info: {isLoggedIn}}} = useSession();
+    const {developerMode} = useContext(DeveloperModeContext);
 
     if (sessionRequestInProgress) {
         return <Loading/>
@@ -29,7 +33,7 @@ export default function Layout({ children }: LayoutProps) {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
             <div className={styles.layoutContainer}>
-                <LayoutHeader />
+                <LayoutHeader/>
                 <main className={styles.layoutMain}>
                     <Container>
                         {isLoggedIn ? children : <LoginForm/>}
@@ -37,10 +41,22 @@ export default function Layout({ children }: LayoutProps) {
                 </main>
                 {isLoggedIn && (
                     <Container>
-                        <Navigation />
+                        <Navigation/>
                     </Container>
                 )}
-                <ToolBox />
+                <Footer>
+                    {developerMode && (
+                        <>
+                            <ToolBox/>
+                            <FooterNavigation/>
+                        </>
+                    )}
+                    {!developerMode && (
+                        <Container>
+                            <FooterNavigation/>
+                        </Container>
+                    )}
+                </Footer>
             </div>
         </>
     )

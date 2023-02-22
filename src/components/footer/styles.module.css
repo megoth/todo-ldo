@@ -1,0 +1,4 @@
+.footer {
+    background-color: var(--text-color, black);
+    color: var(--background-color, white);
+}

@@ -2,7 +2,9 @@
     font-size: 0.8333rem;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
     line-height: 1.5;
     cursor: pointer;
 }
@@ -15,9 +17,6 @@
     background-color: var(--text-color, black);
     border: solid 1px var(--background-color, white);
     color: var(--background-color, white);
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
     min-height: 2.5rem;
     padding: 0.25rem 0.5rem;
 }
@@ -38,7 +37,6 @@
     cursor: pointer;
     color: var(--link-color, #3a7ca5);
     text-decoration: none;
-    display: inline;
 }
 
 .primaryButton {

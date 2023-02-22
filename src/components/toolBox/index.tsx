@@ -7,6 +7,7 @@ import Code from "@/components/code";
 import DeveloperModeButton from "@/components/developerModeButton";
 import Button from "@/components/button";
 import DarkModeSelector from "@/components/darkModeSelector";
+import Link from "next/link";
 
 export default function ToolBox() {
     const {developerMode, subjects} = useContext(DeveloperModeContext);
@@ -40,15 +41,6 @@ export default function ToolBox() {
                         })} onClick={() => setSelectedSubject(subject)}>{getUrlEnd(subject.resourceUrl)}</Button>
                     </li>
                 ))}
-                <li className={styles.developerModeSplit}/>
-                <li className={styles.developerModeToggleBar}>
-                    <DarkModeSelector/>
-                </li>
-                {session.info.isLoggedIn && (
-                    <li className={styles.developerModeToggleBar}>
-                        <DeveloperModeButton/>
-                    </li>
-                )}
             </ul>
             {developerMode && session.info.isLoggedIn && selectedSubject && (
                 <>

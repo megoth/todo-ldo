@@ -1,0 +1,12 @@
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    list-style: none;
+    align-items: center;
+    margin-bottom: 0.5em;
+}
+
+.split {
+    flex-grow: 1;
+}
