@@ -10,8 +10,8 @@ import {ListShape} from "@/ldo/todo.typings";
 import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
 
 interface TodoListTitleProps {
-    listUrl: string;
-    resourceUrl: string;
+    listUrl: string | undefined;
+    resourceUrl: string | undefined;
 }
 
 interface FormData {

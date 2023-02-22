@@ -14,8 +14,8 @@ import {TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import CheckboxMark from "@/components/checkboxMark";
 
 interface TodoTaskProps {
-    taskUrl: string;
-    resourceUrl: string;
+    taskUrl: string | undefined;
+    resourceUrl: string | undefined;
 }
 
 interface FormData {

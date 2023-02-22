@@ -16,8 +16,8 @@ import {ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import {todo} from "@/vocabularies";
 
 interface TodoListProps {
-    listUrl: string;
-    resourceUrl: string;
+    listUrl: string | undefined;
+    resourceUrl: string | undefined;
 }
 
 
@@ -56,7 +56,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
                 <Button onClick={(event) => addTask(event as MouseEvent<HTMLButtonElement>)}>Add task</Button>
             </ButtonBar>
             <div>
-                {list.task?.map((task: LinkedDataObject<any>) => (
+                {list.task?.map((task) => (
                     <ContentGroup key={task["@id"]}>
                         <TodoTask taskUrl={task["@id"]} resourceUrl={resourceUrl}/>
                     </ContentGroup>

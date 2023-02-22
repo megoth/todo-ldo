@@ -1,7 +1,10 @@
 import {LinkedDataObject} from "ldo";
 import {Headers} from "cross-fetch";
 
-export async function update(subject: LinkedDataObject<any>, resourceUrl: string, fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response>): Promise<Response> {
+export async function update(subject: LinkedDataObject<any>, resourceUrl: string | undefined, fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response>): Promise<Response> {
+    if (!resourceUrl) {
+        throw new Error("No resource URL given");
+    }
     const body = await subject.$toSparqlUpdate();
     return fetch(resourceUrl, {
         method: "PATCH",
