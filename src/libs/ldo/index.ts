@@ -1,5 +1,18 @@
 import {LinkedDataObject} from "ldo";
 import {Headers} from "cross-fetch";
+import {v4 as uuidv4} from 'uuid';
+
+export function createSubjectUrl(resourceUrl: string | undefined, id?: string): string {
+    return `${resourceUrl}#${id || uuidv4()}`;
+}
+
+export function getResourceUrl(url: string | undefined | null): string | null {
+    return url ? url.split("#")[0] : null;
+}
+
+export function getValue<T>(term: string): {"@id": T} {
+    return {"@id": term} as {"@id": T};
+}
 
 export async function update(subject: LinkedDataObject<any>, resourceUrl: string | undefined, fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response>): Promise<Response> {
     if (!resourceUrl) {
@@ -13,12 +26,4 @@ export async function update(subject: LinkedDataObject<any>, resourceUrl: string
             "content-type": "application/sparql-update",
         })
     });
-}
-
-export function getResourceUrl(url: string | undefined | null): string | null {
-    return url ? url.split("#")[0] : null;
-}
-
-export function getValue<T>(term: string): {"@id": T} {
-    return {"@id": term} as {"@id": T};
 }

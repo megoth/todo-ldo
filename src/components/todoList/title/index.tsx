@@ -43,19 +43,18 @@ export default function TodoListTitle({listUrl, resourceUrl}: TodoListTitleProps
         setEditMode(false);
     });
 
-    if (!editMode) {
+    if (editMode && !isSubmitting) {
         return (
-            <div>
-                <h1>{list.name}</h1>
-                <Button onClick={() => setEditMode(true)}>Change</Button>
-            </div>
-        );
-
+            <form onSubmit={onSubmit}>
+                <Input defaultValue={list.name || ""} {...register("listName")}>Name</Input>
+            </form>
+        )
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            <Input disabled={isSubmitting} defaultValue={list.name || ""} {...register("listName")}>Name</Input>
-        </form>
-    )
+        <div>
+            <h1>{list.name}</h1>
+            <Button shadow={"full"} disabled={isSubmitting} onClick={() => setEditMode(true)}>Change</Button>
+        </div>
+    );
 }

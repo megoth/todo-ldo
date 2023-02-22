@@ -64,11 +64,11 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
         setEditMode(false);
     });
 
-    if (editMode) {
+    if (editMode && !isSubmitting) {
         return (
             <form className={styles.container} onSubmit={onSubmit}>
                 <div className={styles.field}>
-                    <Input disabled={isSubmitting} defaultValue={description} {...register("description")}>Description</Input>
+                    <Input defaultValue={description} {...register("description")}>Description</Input>
                 </div>
                 <div>
                     <Button variant={"field"}>Save</Button>

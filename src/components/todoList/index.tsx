@@ -4,11 +4,10 @@ import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
 import {MouseEvent} from "react";
 import TodoListTitle from "@/components/todoList/title";
-import {getValue, update} from "@/libs/ldo";
+import {createSubjectUrl, getValue, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {LinkedDataObject} from "ldo";
 import Button from "@/components/button";
-import {v4 as uuidv4} from 'uuid';
 import ContentGroup from "@/components/contentGroup";
 import ButtonBar from "@/components/buttonBar";
 import {ListShape, TaskShape} from "@/ldo/todo.typings";
@@ -40,7 +39,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
 
     const addTask = async (event: MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
-        const task = TaskShapeFactory.new(`#${uuidv4()}`) as LinkedDataObject<TaskShape>;
+        const task = TaskShapeFactory.new(createSubjectUrl(resourceUrl)) as LinkedDataObject<TaskShape>;
         task.type = getValue(todo.Task.value)
         task.description = "A new task";
         await update(task, resourceUrl, fetch);
@@ -53,7 +52,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
         <>
             <TodoListTitle listUrl={listUrl} resourceUrl={resourceUrl}/>
             <ButtonBar>
-                <Button onClick={(event) => addTask(event as MouseEvent<HTMLButtonElement>)}>Add task</Button>
+                <Button shadow={"full"} onClick={(event) => addTask(event as MouseEvent<HTMLButtonElement>)}>Add task</Button>
             </ButtonBar>
             <div>
                 {list.task?.map((task) => (
