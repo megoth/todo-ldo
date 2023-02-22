@@ -3,7 +3,7 @@ import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
 import {useEffect, useState} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
-import {update} from "@/libs/ldo";
+import {remove, update} from "@/libs/ldo";
 import {useForm} from "react-hook-form";
 import {todo} from "@/vocabularies";
 import styles from "./styles.module.css"
@@ -103,13 +103,14 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
     });
 
     const onRemove = async () => {
-        const taskList = list.task!;
-        const taskIndex = taskList.findIndex((t) => t["@id"] === task["@id"])
-        task.$dataset().deleteMatches(namedNode(task["@id"]!));
-        await update(task, resourceUrl, fetch);
+        const tasks = list.task!;
+        const taskIndex = tasks.findIndex((t) => t["@id"] === task["@id"])
+        // First removing task itself
+        await remove(task, resourceUrl, fetch);
+        // Then removing task from list
         list.task = [
-            ...taskList.slice(0, taskIndex),
-            ...taskList.slice(taskIndex + 1)
+            ...tasks.slice(0, taskIndex),
+            ...tasks.slice(taskIndex + 1)
         ];
         await update(list, resourceUrl, fetch);
         await mutateList(list.$clone());

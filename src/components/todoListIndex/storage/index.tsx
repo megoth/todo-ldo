@@ -5,7 +5,7 @@ import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
 import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
 import Button from "@/components/button";
-import ContentGroup from "@/components/contentGroup";
+import TodoListIndexList from "@/components/todoListIndex/list";
 
 interface TodoListIndexStorageProps {
     storageUrl?: string;
@@ -35,11 +35,7 @@ export default function TodoListIndexStorage({showStorage, storageUrl}: TodoList
                 </h2>
             )}
             {storage.list?.map((list) => (
-                <ContentGroup key={list["@id"]}>
-                    <Button variant="link" href={`/list/${encodeURIComponent(list["@id"]!)}`}>
-                        {list.name || "[Unnamed list]"} ({list.task?.length} tasks)
-                    </Button>
-                </ContentGroup>
+                <TodoListIndexList key={list["@id"]} listUrl={list["@id"]} resourceUrl={storageUrl} />
             ))}
         </>
     )

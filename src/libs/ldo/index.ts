@@ -1,6 +1,7 @@
 import {LinkedDataObject} from "ldo";
 import {Headers} from "cross-fetch";
 import {v4 as uuidv4} from 'uuid';
+import {namedNode} from "@rdfjs/data-model";
 
 export function createSubjectUrl(resourceUrl: string | null | undefined, id?: string): string {
     return `${resourceUrl}#${id || uuidv4()}`;
@@ -26,4 +27,9 @@ export async function update(subject: LinkedDataObject<any>, resourceUrl: string
             "content-type": "application/sparql-update",
         })
     });
+}
+
+export async function remove(subject: LinkedDataObject<any>, resourceUrl: string | null | undefined, fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response>): Promise<Response> {
+    subject.$dataset().deleteMatches(namedNode(subject["@id"]!));
+    return update(subject, resourceUrl, fetch);
 }

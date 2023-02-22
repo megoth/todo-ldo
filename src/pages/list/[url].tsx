@@ -10,7 +10,7 @@ export default function ListPage() {
     const resourceUrl = ensureSingleQueryParam(router.query.resourceUrl) || getResourceUrl(listUrl);
     return (
         <Layout>
-            <TodoList listUrl={listUrl} resourceUrl={resourceUrl} />
+            <TodoList listUrl={listUrl} resourceUrl={resourceUrl}/>
         </Layout>
     )
 }
