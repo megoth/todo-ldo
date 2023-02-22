@@ -1,5 +1,6 @@
 .label {
     display: flex;
+    flex-grow: 1;
     align-items: center;
     flex-wrap: wrap;
     margin: 0.5rem 0;

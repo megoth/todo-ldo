@@ -30,11 +30,13 @@ html.dark {
 
 html.light {
     --body: #fafafa;
+    --body-off-color: #ccc;
     --text-default: #1d1d1f;
 }
 
 html.dark {
     --body: var(--text-color, #ddd);
+    --body-off-color: #aaa;
     --text-default: var(--background-color, #333);
 }
 

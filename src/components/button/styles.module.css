@@ -4,6 +4,10 @@
     text-decoration: none;
     display: inline-block;
     line-height: 1.5;
+    cursor: pointer;
+}
+.base:disabled {
+    cursor: not-allowed;
 }
 
 .button {
@@ -13,11 +17,14 @@
     display: inline-block;
     min-height: 2.5rem;
     padding: 0.25rem 0.5rem;
-    cursor: pointer;
 }
 .button:hover,
 .button:focus {
     color: var(--grey-color, #cccccc);
+}
+.button:disabled {
+    background-color: var(--body-off-color);
+    color: var(--background-color);
 }
 
 .link {
@@ -36,7 +43,6 @@
     display: inline-block;
     min-height: 2.5rem;
     padding: 0.5rem;
-    cursor: pointer;
 }
 .primaryButton:hover,
 .primaryButton:focus {
@@ -51,7 +57,6 @@
     display: inline-block;
     min-height: 1.5rem;
     padding: 0.25rem;
-    cursor: pointer;
 }
 
 .halfShadow {

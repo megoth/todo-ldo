@@ -2,7 +2,7 @@ import useSubject from "@/hooks/useSubject";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
-import {MouseEvent} from "react";
+import {MouseEvent, useState} from "react";
 import TodoListTitle from "@/components/todoList/title";
 import {createSubjectUrl, getValue, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
@@ -28,6 +28,8 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
         isLoading,
         mutate: mutateList
     } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
+    const editTitleState = useState<boolean>(false)
+    const [editTitle, setEditTitle] = editTitleState;
 
     if (listError) {
         return <ErrorDetails error={listError}/>
@@ -43,15 +45,16 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
         task.type = getValue(todo.Task.value)
         task.description = "A new task";
         await update(task, resourceUrl, fetch);
-        list.task?.push(task);
+        list.task?.unshift(task);
         await update(list, resourceUrl, fetch);
         await mutateList(list.$clone());
     }
 
     return (
         <>
-            <TodoListTitle listUrl={listUrl} resourceUrl={resourceUrl}/>
+            <TodoListTitle editModeState={editTitleState} listUrl={listUrl} resourceUrl={resourceUrl}/>
             <ButtonBar>
+                {!editTitle && <Button shadow={"full"} onClick={() => setEditTitle(true)}>Change name</Button>}
                 <Button shadow={"full"} onClick={(event) => addTask(event as MouseEvent<HTMLButtonElement>)}>Add task</Button>
             </ButtonBar>
             <div>
