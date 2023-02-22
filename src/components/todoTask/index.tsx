@@ -1,17 +1,17 @@
 import useSubject from "@/hooks/useSubject";
 import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
-import {MouseEvent, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
 import {getValue, update} from "@/libs/ldo";
 import {useForm} from "react-hook-form";
 import {todo} from "@/vocabularies";
-import CheckboxMark from "@/components/checkboxMark";
 import styles from "./styles.module.css"
 import Button from "@/components/button";
 import Input from "@/components/input";
 import {TaskShape} from "@/ldo/todo.typings";
 import {TaskShapeFactory} from "@/ldo/todo.ldoFactory";
+import CheckboxMark from "@/components/checkboxMark";
 
 interface TodoTaskProps {
     taskUrl: string;
@@ -31,10 +31,22 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
         mutate: mutateTask
     } = useSubject<TaskShape>(taskUrl, resourceUrl, TaskShapeFactory);
     const {fetch} = useSession();
-    const {register, handleSubmit} = useForm<FormData>();
+    const {setValue, register, handleSubmit, control: {
+        _formState: {
+            isSubmitting
+        },
+        _formValues: {
+            done
+        }
+    }} = useForm<FormData>({
+        defaultValues: {
+            description: task?.description,
+            done: false,
+        }
+    });
     const [editMode, setEditMode] = useState<boolean>(false);
     const description = task?.description || "";
-    const [done, setDone] = useState<boolean>(task?.status?.["@id"] === todo.complete.value);
+    useEffect(() => setValue("done", task?.status?.["@id"] === todo.complete), [task?.status])
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>
@@ -56,30 +68,30 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
         return (
             <form className={styles.container} onSubmit={onSubmit}>
                 <div className={styles.field}>
-                    <Input defaultValue={description} {...register("description")}>Description</Input>
+                    <Input disabled={isSubmitting} defaultValue={description} {...register("description")}>Description</Input>
                 </div>
-                <Button variant={"field"} onClick={() => setEditMode(!editMode)}>Save</Button>
+                <div>
+                    <Button variant={"field"}>Save</Button>
+                </div>
             </form>
         )
     }
 
-    const onChange = async (event: MouseEvent<HTMLInputElement>) => {
-        const checked = (event.target as HTMLInputElement).checked;
-        setDone(checked);
-        task.status = getValue((checked ? todo.complete : todo.incomplete).value);
+    const onChange = handleSubmit(async (data, event) => {
+        task.status = getValue(event?.target.checked ? todo.complete : todo.incomplete);
         await update(task, resourceUrl, fetch);
         await mutateTask(task.$clone());
-    }
+    });
 
     return (
         <div className={styles.container}>
             <div className={styles.field}>
-                <CheckboxMark defaultChecked={done} {...register("done")} onChange={onChange}>
+                <CheckboxMark disabled={isSubmitting} {...register("done")} onChange={onChange}>
                     <span style={{textDecoration: done ? "line-through" : "none"}}>{description}</span>
                 </CheckboxMark>
             </div>
-            {done && <Button variant={"field"}>Remove</Button>}
-            {!done && <Button variant={"field"} onClick={() => setEditMode(!editMode)}>Change</Button>}
+            {done && <Button variant={"link"}>Remove</Button>}
+            {!done && <Button variant={"link"} onClick={() => setEditMode(!editMode)}>Change</Button>}
         </div>
     )
 }

@@ -20,7 +20,11 @@ interface FormData {
 
 export default function TodoListTitle({listUrl, resourceUrl}: TodoListTitleProps) {
     const {fetch} = useSession();
-    const {register, handleSubmit} = useForm<FormData>();
+    const {register, handleSubmit, control: {
+        _formState: {
+            isSubmitting
+        }
+    }} = useForm<FormData>();
     const [editMode, setEditMode] = useState<boolean>(false);
     const {
         data: list,
@@ -51,7 +55,7 @@ export default function TodoListTitle({listUrl, resourceUrl}: TodoListTitleProps
 
     return (
         <form onSubmit={onSubmit}>
-            <Input defaultValue={list.name || ""} {...register("listName")}>Name</Input>
+            <Input disabled={isSubmitting} defaultValue={list.name || ""} {...register("listName")}>Name</Input>
         </form>
     )
 }
