@@ -48,13 +48,13 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
             <TodoListTitle listUrl={listUrl} resourceUrl={resourceUrl} editMode={editTitle} onSubmitted={() => setEditTitle(false)}/>
             <FlexBar>
                 {!editTitle && (
-                    <Button shadow={"full"} onClick={() => setEditTitle(true)}>
+                    <Button shadow={"half"} onClick={() => setEditTitle(true)}>
                         <span>Change name</span>
                         <FiEdit2/>
                     </Button>
                 )}
                 {!createTask && (
-                    <Button shadow={"full"} onClick={() => setCreateTask(true)}>
+                    <Button shadow={"half"} onClick={() => setCreateTask(true)}>
                         <span>Add task</span>
                         <FiPlusSquare/>
                     </Button>

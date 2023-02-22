@@ -50,7 +50,7 @@ export default function TodoListIndexCreateList({resourceUrl, editMode, onSubmit
         list.type = todo.List;
         list.name = data.listName;
         await update(list, resourceUrl, fetch);
-        storage?.list?.push(list);
+        storage?.list?.unshift(list);
         await update(storage, resourceUrl, fetch);
         await mutateStorage(storage.$clone());
         reset();

@@ -10,14 +10,14 @@ interface TodoListIndexPageProps {
 }
 
 export default function TodoListIndex({storages}: TodoListIndexPageProps) {
-    const [createList, setCreateList] = useState<boolean>(false);
+    const [createList, setCreateList] = useState<string | null>();
     const showStorage = !!storages && storages.length > 1;
     return (
         <>
             <h1>Todo Lists</h1>
             {!showStorage && (
                 <FlexBar>
-                    <Button onClick={() => setCreateList(true)}>
+                    <Button shadow={"half"} onClick={() => setCreateList(storages?.[0])}>
                         <span>Create new list</span>
                         <FiPlusSquare/>
                     </Button>
@@ -25,9 +25,13 @@ export default function TodoListIndex({storages}: TodoListIndexPageProps) {
             )}
             {storages?.map((storageUrl) => (
                 <Fragment key={storageUrl}>
-                    <TodoListIndexStorage key={storageUrl} storageUrl={storageUrl} showStorage={showStorage}/>
-                    <TodoListIndexCreateList resourceUrl={storageUrl} editMode={createList}
-                                             onSubmitted={() => setCreateList(false)}/>
+                    <TodoListIndexCreateList
+                        resourceUrl={storageUrl}
+                        editMode={createList === storageUrl}
+                        onSubmitted={() => setCreateList(null)}/>
+                    <TodoListIndexStorage
+                        storageUrl={storageUrl}
+                        showStorage={showStorage}/>
                 </Fragment>
             ))}
         </>
