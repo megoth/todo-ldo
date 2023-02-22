@@ -4,7 +4,8 @@ import {FaCaretRight} from "react-icons/fa";
 
 const items = [
     {href: "/list", text: "All lists"},
-    {href: "/settings", text: "Settings"}
+    {href: "/settings", text: "Settings"},
+    {href: "/about", text: "About app"},
 ]
 
 export default function Navigation() {

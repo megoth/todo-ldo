@@ -1,15 +1,16 @@
-import {useContext, useEffect, useState} from "react";
+import {ReactNode, useContext, useEffect, useState} from "react";
 import DeveloperModeContext, {SubjectNode} from "@/contexts/developerMode";
 import {useSession} from "@inrupt/solid-ui-react";
 import styles from "./styles.module.css";
 import clsx from "clsx";
 import Code from "@/components/code";
-import DeveloperModeButton from "@/components/developerModeButton";
 import Button from "@/components/button";
-import DarkModeSelector from "@/components/darkModeSelector";
-import Link from "next/link";
 
-export default function ToolBox() {
+interface ToolBoxProps {
+    children?: ReactNode;
+}
+
+export default function ToolBox({children}: ToolBoxProps) {
     const {developerMode, subjects} = useContext(DeveloperModeContext);
     const {session} = useSession();
     const [selectedSubject, setSelectedSubject] = useState<SubjectNode | null>(null);
@@ -55,6 +56,7 @@ export default function ToolBox() {
                     <Code>{turtle}</Code>
                 </>
             )}
+            {children}
         </div>
     )
 

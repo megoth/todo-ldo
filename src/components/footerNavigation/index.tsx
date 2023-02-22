@@ -9,9 +9,6 @@ export default function FooterNavigation() {
     return (
         <nav>
             <ul className={styles.nav}>
-                <li>
-                    <Link href={"/about"}>About this app</Link>
-                </li>
                 <li className={styles.split}/>
                 <li>
                     <DarkModeSelector/>

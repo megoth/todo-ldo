@@ -55,8 +55,9 @@ export default function Layout({children, loading, error}: LayoutProps) {
                 <Footer>
                     {developerMode && (
                         <>
-                            <ToolBox/>
-                            <FooterNavigation/>
+                            <ToolBox>
+                                <FooterNavigation/>
+                            </ToolBox>
                         </>
                     )}
                     {!developerMode && (
