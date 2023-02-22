@@ -1,0 +1,14 @@
+.nav {
+}
+
+.list {
+    display: flex;
+    gap: 0.5em;
+    list-style: none;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    line-height: 1.5;
+}

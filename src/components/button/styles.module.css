@@ -6,6 +6,7 @@
     line-height: 1.5;
     cursor: pointer;
 }
+
 .base:disabled {
     cursor: not-allowed;
 }
@@ -14,14 +15,18 @@
     background-color: var(--text-color, black);
     border: solid 1px var(--background-color, white);
     color: var(--background-color, white);
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
     min-height: 2.5rem;
     padding: 0.25rem 0.5rem;
 }
+
 .button:hover,
 .button:focus {
     color: var(--grey-color, #cccccc);
 }
+
 .button:disabled {
     background-color: var(--body-off-color);
     color: var(--background-color);
@@ -44,6 +49,7 @@
     min-height: 2.5rem;
     padding: 0.5rem;
 }
+
 .primaryButton:hover,
 .primaryButton:focus {
     background-color: var(--link-variant-color);
@@ -60,29 +66,25 @@
 }
 
 .halfShadow {
-    box-shadow: 3px 3px 7px #c3c3c3, 4px 4px 8px rgba(189,189,189,0.6);
+    box-shadow: 3px 3px 7px #c3c3c3, 4px 4px 8px rgba(189, 189, 189, 0.6);
 }
-@media (prefers-color-scheme: light) {
-    .halfShadow {
-        box-shadow: 3px 3px 7px #c3c3c3, 4px 4px 8px rgba(189,189,189,0.6);
-    }
+
+html.light .halfShadow {
+    box-shadow: 3px 3px 7px #c3c3c3, 4px 4px 8px rgba(189, 189, 189, 0.6);
 }
-@media (prefers-color-scheme: dark) {
-    .halfShadow {
-        box-shadow: -4px -2px 4px 0px rgba(255,255,255,0.05), 4px 2px 6px 0px rgba(0,0,0,0.5);
-    }
+
+html.dark .halfShadow {
+    box-shadow: -4px -2px 4px 0px rgba(255, 255, 255, 0.05), 4px 2px 6px 0px rgba(0, 0, 0, 0.5);
 }
 
 .fullShadow {
-    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
+    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189, 189, 189, 0.6);
 }
-@media (prefers-color-scheme: light) {
-    .fullShadow {
-        box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
-    }
+
+html.light .fullShadow {
+    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189, 189, 189, 0.6);
 }
-@media (prefers-color-scheme: dark) {
-    .fullShadow {
-        box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5);
-    }
+
+html.dark .fullShadow {
+    box-shadow: -8px -4px 8px 0px rgba(255, 255, 255, 0.05), 8px 4px 12px 0px rgba(0, 0, 0, 0.5);
 }

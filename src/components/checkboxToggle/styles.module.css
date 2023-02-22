@@ -5,9 +5,11 @@
     align-items: center;
     margin: 0.5em 0;
 }
+
 .labelText {
     margin-left: 6rem;
 }
+
 .checkbox {
     -webkit-appearance: none;
     outline: none;
@@ -16,18 +18,17 @@
     width: 5rem;
     border: 5px solid var(--body);
     cursor: pointer;
-    box-shadow: 9px 9px 16px rgba(189,189,189,0.6), -9px -9px 16px rgba(255,255,255,0.5), inset 10px 10px 15px -10px #c3c3c3, inset -10px -10px 15px -10px #fff;
+    box-shadow: 9px 9px 16px rgba(189, 189, 189, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5), inset 10px 10px 15px -10px #c3c3c3, inset -10px -10px 15px -10px #fff;
 }
-@media (prefers-color-scheme: light) {
-    .checkbox {
-        box-shadow: 9px 9px 16px rgba(189,189,189,0.6), -9px -9px 16px rgba(255,255,255,0.5), inset 10px 10px 15px -10px #c3c3c3, inset -10px -10px 15px -10px #fff;
-    }
+
+html.light .checkbox {
+    box-shadow: 9px 9px 16px rgba(189, 189, 189, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5), inset 10px 10px 15px -10px #c3c3c3, inset -10px -10px 15px -10px #fff;
 }
-@media (prefers-color-scheme: dark) {
-    .checkbox {
-        box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5), inset -4px -4px 4px 0px rgba(255,255,255,0.05), inset 4px 4px 4px 0px rgba(0,0,0,0.5);
-    }
+
+html.dark .checkbox {
+    box-shadow: -8px -4px 8px 0px rgba(255, 255, 255, 0.05), 8px 4px 12px 0px rgba(0, 0, 0, 0.5), inset -4px -4px 4px 0px rgba(255, 255, 255, 0.05), inset 4px 4px 4px 0px rgba(0, 0, 0, 0.5);
 }
+
 .checkbox::before {
     content: "";
     height: 1.5625rem;
@@ -39,19 +40,18 @@
     left: 0.46875rem;
     bottom: 0;
     border-radius: 50%;
-    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
+    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189, 189, 189, 0.6);
     transition: 0.15s;
 }
-@media (prefers-color-scheme: light) {
-    .checkbox::before {
-        box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189,189,189,0.6);
-    }
+
+html.light .checkbox::before {
+    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189, 189, 189, 0.6);
 }
-@media (prefers-color-scheme: dark) {
-    .checkbox::before {
-        box-shadow: -8px -4px 8px 0px rgba(255,255,255,0.05), 8px 4px 12px 0px rgba(0,0,0,0.5);
-    }
+
+html.dark .checkbox::before {
+    box-shadow: -8px -4px 8px 0px rgba(255, 255, 255, 0.05), 8px 4px 12px 0px rgba(0, 0, 0, 0.5);
 }
+
 .checkbox::after {
     content: "Off";
     position: absolute;
@@ -63,18 +63,20 @@
     font-weight: 400;
     letter-spacing: 0.004em;
 }
+
 .checkbox:checked {
     background: var(--link-color);
 }
-@media (prefers-color-scheme: light) {
-    .checkbox:checked {
-        box-shadow: 9px 9px 16px rgba(189,189,189,0.6), -9px -9px 16px rgba(255,255,255,0.5), inset 10px 10px 15px -10px #0047b9, inset -10px -10px 15px -10px #0047b9;
-    }
+
+html.light .checkbox:checked {
+    box-shadow: 9px 9px 16px rgba(189, 189, 189, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5), inset 10px 10px 15px -10px #0047b9, inset -10px -10px 15px -10px #0047b9;
 }
+
 .checkbox:checked::before {
     left: 2.65625rem;
     box-shadow: none;
 }
+
 .checkbox:checked::after {
     content: "On";
     left: 0.78125rem;

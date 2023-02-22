@@ -1,7 +1,8 @@
-import React, {HTMLAttributes, useEffect, useState} from "react";
+import React, {HTMLAttributes, useEffect} from "react";
 import {prefersDarkModeScheme} from "@/libs/window";
 import Button from "@/components/button";
 import useLocalStorage from "use-local-storage";
+import {BsSun, BsSunglasses} from "react-icons/bs";
 
 interface Props extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
     className?: string;
@@ -24,7 +25,17 @@ export default function DarkModeSelector({className, ...props}: Props) {
             onClick={() => toggleDarkMode(!darkMode)}
             {...props}
         >
-            {darkMode ? <span>🌙 Dark mode</span> : <span>💡 Light mode</span>}
+            {darkMode ? (
+                <>
+                    <BsSunglasses/>
+                    <span>Dark mode</span>
+                </>
+            ) : (
+                <>
+                    <BsSun/>
+                    <span>Light mode</span>
+                </>
+            )}
         </Button>
     );
 }

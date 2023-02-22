@@ -7,14 +7,14 @@ import LayoutHeader from "@/components/layout/header";
 import Container from "@/components/container";
 import ToolBox from "@/components/toolBox";
 import styles from "./styles.module.css";
+import Navigation from "@/components/navigation";
 
 interface LayoutProps {
     children?: ReactNode
 }
 
 export default function Layout({ children }: LayoutProps) {
-    const {sessionRequestInProgress, session} = useSession();
-    const {info} = session;
+    const {sessionRequestInProgress, session: {info: {isLoggedIn}}} = useSession();
 
     if (sessionRequestInProgress) {
         return <Loading/>
@@ -32,9 +32,14 @@ export default function Layout({ children }: LayoutProps) {
                 <LayoutHeader />
                 <main className={styles.layoutMain}>
                     <Container>
-                        {info.isLoggedIn ? children : <LoginForm/>}
+                        {isLoggedIn ? children : <LoginForm/>}
                     </Container>
                 </main>
+                {isLoggedIn && (
+                    <Container>
+                        <Navigation />
+                    </Container>
+                )}
                 <ToolBox />
             </div>
         </>

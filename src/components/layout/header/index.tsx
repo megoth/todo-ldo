@@ -3,16 +3,16 @@ import Container from "@/components/container";
 import {useSession} from "@inrupt/solid-ui-react";
 import LogoutButton from "@/components/logoutButton";
 import Link from "next/link";
+import Navigation from "@/components/navigation";
 
 export default function LayoutHeader() {
-    const {session} = useSession();
-    const {info} = session;
+    const {session: {info: {isLoggedIn}}} = useSession();
     return (
         <div className={styles.header}>
             <Container>
                 <div className={styles.headerContent}>
                     <Link className={styles.appName} href={"/"}>Solid Todo App</Link>
-                    {info.isLoggedIn && <LogoutButton />}
+                    {isLoggedIn && <LogoutButton />}
                 </div>
             </Container>
         </div>
