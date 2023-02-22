@@ -3,7 +3,6 @@ import Container from "@/components/container";
 import {useSession} from "@inrupt/solid-ui-react";
 import LogoutButton from "@/components/logoutButton";
 import Link from "next/link";
-import Navigation from "@/components/navigation";
 
 export default function LayoutHeader() {
     const {session: {info: {isLoggedIn}}} = useSession();

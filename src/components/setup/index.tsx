@@ -45,11 +45,7 @@ export default function SetupPage({profile}: SetupPageProps) {
         }, register, handleSubmit, formState: {errors}, setValue
     } = useForm<FormData>();
     const {publicTypeIndex, privateTypeIndex} = useTypeIndexResources(profile);
-    const suggestedStoragePath = `${profile?.storage?.[0]?.["@id"]}todo.ttl`;
-
-    if (publicTypeIndex.isLoading && privateTypeIndex.isLoading) {
-        return <Loading/>;
-    }
+    const suggestedStoragePath = `${profile.storage?.[0]?.["@id"]}todo.ttl`;
 
     const onSubmit = handleSubmit(async (data) => {
         // Adding resource to Pod
@@ -78,8 +74,12 @@ export default function SetupPage({profile}: SetupPageProps) {
         setValue("listIsCreated", true);
     });
 
+    if (publicTypeIndex.isLoading || privateTypeIndex.isLoading) {
+        return <Loading />
+    }
+
     return (
-        <Layout>
+        <>
             <h1>Setting up your Pod</h1>
             <TextContent>
                 {isSubmitted ? (
@@ -141,6 +141,6 @@ export default function SetupPage({profile}: SetupPageProps) {
                     </form>
                 )}
             </TextContent>
-        </Layout>
+        </>
     )
 }

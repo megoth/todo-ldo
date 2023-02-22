@@ -4,17 +4,19 @@ import {useSession} from "@inrupt/solid-ui-react";
 import {getRedirectURL} from "@/libs/window";
 import {clientName} from "@/constants";
 import Button from "@/components/button";
+import {useRouter} from "next/router";
 
 export default function LoginForm() {
     const {login} = useSession();
     const providers = getProviders();
+    const router = useRouter();
 
     const onIDPClick = async (event: MouseEvent<HTMLButtonElement>, provider: ProviderModel) => {
         event.preventDefault();
         try {
             await login({
                 oidcIssuer: provider.loginIri,
-                redirectUrl: getRedirectURL(),
+                redirectUrl: getRedirectURL(router.asPath),
                 clientName
             })
         } catch (error) {

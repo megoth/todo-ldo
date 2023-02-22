@@ -11,17 +11,24 @@ import Navigation from "@/components/navigation";
 import FooterNavigation from "@/components/footerNavigation";
 import Footer from "@/components/footer";
 import DeveloperModeContext from "@/contexts/developerMode";
+import ErrorDetails from "@/components/errorDetails";
 
 interface LayoutProps {
-    children?: ReactNode
+    children?: ReactNode;
+    loading?: boolean;
+    error?: Error;
 }
 
-export default function Layout({children}: LayoutProps) {
+export default function Layout({children, loading, error}: LayoutProps) {
     const {sessionRequestInProgress, session: {info: {isLoggedIn}}} = useSession();
     const {developerMode} = useContext(DeveloperModeContext);
 
-    if (sessionRequestInProgress) {
+    if (sessionRequestInProgress || loading) {
         return <Loading/>
+    }
+
+    if (error) {
+        return <ErrorDetails error={error}/>
     }
 
     return (
@@ -36,7 +43,8 @@ export default function Layout({children}: LayoutProps) {
                 <LayoutHeader/>
                 <main className={styles.layoutMain}>
                     <Container>
-                        {isLoggedIn ? children : <LoginForm/>}
+                        {isLoggedIn && children}
+                        {!isLoggedIn && !sessionRequestInProgress && <LoginForm/>}
                     </Container>
                 </main>
                 {isLoggedIn && (

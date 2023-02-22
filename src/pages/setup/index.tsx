@@ -1,23 +1,22 @@
 import Layout from "@/components/layout";
 import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
-import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import {getResourceUrl} from "@/libs/ldo";
-import SetupPage from "@/components/setupPage";
+import Setup from "@/components/setup";
 import {WebIdProfileShape} from "@/ldo/solid.typings";
 import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
+import Loading from "@/components/loading";
 
-export default function Setup() {
-    const {session, sessionRequestInProgress} = useSession();
-    const {webId, isLoggedIn} = session.info;
+export default function SetupPage() {
+    const {session: {info: {webId, isLoggedIn}}} = useSession();
     const {
         data: profile,
         error: profileError,
         isLoading: profileIsLoading
     } = useSubject<WebIdProfileShape>(webId, getResourceUrl(webId), WebIdProfileShapeFactory);
 
-    if (!isLoggedIn || sessionRequestInProgress) {
+    if (!isLoggedIn) {
         return <Layout/>
     }
 
@@ -25,10 +24,14 @@ export default function Setup() {
         return <ErrorDetails error={profileError}/>
     }
 
-    if (!profile || profileIsLoading) {
-        return <Loading/>
+    if (!profile) {
+        return <Loading />
     }
 
-    return <SetupPage profile={profile} />
+    return (
+        <Layout loading={profileIsLoading}>
+            <Setup profile={profile}/>
+        </Layout>
+    )
 
 }

@@ -1,6 +1,6 @@
 import {AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps, ReactNode} from "react";
 import Button from "@/components/button";
-import Center from "@/components/center";
+import FlexBar from "@/components/flexBar";
 
 type SubmitButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
     & DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>
@@ -10,8 +10,8 @@ type SubmitButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElemen
 
 export default function SubmitButton({children, ...props}: SubmitButtonProps) {
     return (
-        <Center>
+        <FlexBar align="center">
             <Button variant="primary" shadow="full" type="submit" {...props}>{children}</Button>
-        </Center>
+        </FlexBar>
     )
 }

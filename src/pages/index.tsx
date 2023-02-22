@@ -11,12 +11,10 @@ import {DocumentShape} from "@/ldo/todo.typings";
 import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
 import {WebIdProfileShape} from "@/ldo/solid.typings";
 import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
-import {useRouter} from "next/router";
+import Redirect from "@/components/redirect";
 
-export default function Home() {
-    const {session, sessionRequestInProgress} = useSession();
-    const {webId, isLoggedIn} = session.info;
-    const router = useRouter();
+export default function HomePage() {
+    const {session: {info: {webId, isLoggedIn}}} = useSession();
     const {
         data: profile,
         error: profileError,
@@ -29,39 +27,27 @@ export default function Home() {
         isLoading: storageIsLoading,
     } = useSubject<DocumentShape>(storages?.[0], getResourceUrl(storages?.[0]), DocumentShapeFactory);
 
-    if (sessionRequestInProgress) {
-        return <Loading/>
-    }
-
-    if (!isLoggedIn) {
-        return <Layout/>
-    }
-
     if (profileError || storageError) {
         return <ErrorDetails error={profileError || storageError}/>
     }
 
-    if (!profile || profileIsLoading || sessionRequestInProgress || !storage || storageIsLoading) {
+    if (!isLoggedIn) {
+        return <Layout />
+    }
+
+    if (!profile) {
         return <Loading/>
     }
 
-    if (!storages?.length) {
-        return <SetupPrompt profile={profile}/>
-    }
-
-    if (storages.length > 1) {
-        return <div>TODO: MULTIPLE STORAGES, PLEASE CHOOSE ONE!</div>
-    }
-
-    if (storage?.list && storage?.list?.length > 1) {
-        return <div>TODO: MULTIPLE LISTS, PLEASE CHOOSE ONE!</div>
-    }
-
-    if (storage?.list && storage?.list?.length === 0 || !storage?.list?.[0]) {
-        return <div>TODO: NO LIST YET</div>
-    }
-
-    router.push(`/list/${encodeURIComponent(storage?.list?.[0]?.["@id"]!)}`);
-
-    return <Loading />
+    return (
+        <Layout loading={profileIsLoading || storageIsLoading}>
+            {!storages?.length && <SetupPrompt profile={profile}/>}
+            {storages && storages.length > 1 && <div>TODO: MULTIPLE STORAGES, PLEASE CHOOSE ONE!</div>}
+            {storages && storage?.list && storage?.list?.length > 1 &&
+                <div>TODO: MULTIPLE LISTS, PLEASE CHOOSE ONE!</div>}
+            {storage?.list && storage?.list?.length === 0 && <div>TODO: NO LIST YET</div>}
+            {storage?.list && storage?.list?.length === 1 &&
+                <Redirect url={`/list/${encodeURIComponent(storage?.list?.[0]?.["@id"]!)}`}/>}
+        </Layout>
+    );
 }
