@@ -1,5 +1,5 @@
 import {Dispatch, SetStateAction} from "react";
-import {createSubjectUrl, getValue, update} from "@/libs/ldo";
+import {createSubjectUrl, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useForm} from "react-hook-form";
 import useSubject from "@/hooks/useSubject";

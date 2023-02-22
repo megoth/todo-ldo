@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
 import {update} from "@/libs/ldo";
 import {useForm} from "react-hook-form";
-import {todo, todoNamespace} from "@/vocabularies";
+import {todo} from "@/vocabularies";
 import styles from "./styles.module.css"
 import Button from "@/components/button";
 import Input from "@/components/input";
@@ -91,7 +91,7 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
         await mutateTask(task.$clone());
     });
 
-    const onRemove = () => {
+    const onRemove = async () => {
         console.log("TODO REMOVE");
     }
 

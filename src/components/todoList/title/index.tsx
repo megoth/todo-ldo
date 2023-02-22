@@ -9,7 +9,6 @@ import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import Button from "@/components/button";
 import styles from "./styles.module.css";
 import {Dispatch, SetStateAction, useEffect} from "react";
-import {todo} from "@/vocabularies";
 
 interface TodoListTitleProps {
     listUrl: string | undefined;
