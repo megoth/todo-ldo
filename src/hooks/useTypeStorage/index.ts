@@ -51,7 +51,6 @@ export default function useTypeStorage(profile: LinkedDataObject<WebIdProfileSha
         privateTypeIndex,
         privateTypeIndexError,
         privateTypeIsLoading,
-        type
     ]);
 
     return storages;

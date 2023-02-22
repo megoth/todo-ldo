@@ -39,7 +39,7 @@ export default function TodoListTitle({listUrl, resourceUrl, editModeState}: Tod
         }
     });
     const [editMode, setEditMode] = editModeState;
-    useEffect(() => setValue("listName", list?.name || ""), [list?.name, setValue]);
+    useEffect(() => setValue("listName", list?.name || ""), [list?.name]);
 
     if (!list) {
         return <Loading/>
@@ -55,7 +55,9 @@ export default function TodoListTitle({listUrl, resourceUrl, editModeState}: Tod
     });
 
     const onReset = () => {
-        reset();
+        reset({
+            listName: list?.name || ""
+        });
         setEditMode(false);
     };
 

@@ -31,7 +31,7 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
         mutate: mutateTask
     } = useSubject<TaskShape>(taskUrl, resourceUrl, TaskShapeFactory);
     const {fetch} = useSession();
-    const {setValue, register, handleSubmit, control: {
+    const {reset, setValue, register, handleSubmit, control: {
         _formState: {
             isSubmitting
         },
@@ -46,7 +46,7 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
     });
     const [editMode, setEditMode] = useState<boolean>(false);
     const description = task?.description || "";
-    useEffect(() => setValue("done", task?.status?.["@id"] === todo.completeValue), [task?.status, setValue])
+    useEffect(() => setValue("done", task?.status?.["@id"] === todo.completeValue), [task?.status])
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>
@@ -64,14 +64,22 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
         setEditMode(false);
     });
 
+    const onReset = () => {
+        reset({
+            done: task?.status?.["@id"] === todo.completeValue,
+        });
+        setEditMode(false);
+    };
+
     if (editMode && !isSubmitting) {
         return (
-            <form className={styles.container} onSubmit={onSubmit}>
+            <form className={styles.container} onSubmit={onSubmit} onReset={onReset}>
                 <div className={styles.field}>
                     <Input defaultValue={description} {...register("description")}>Description</Input>
                 </div>
                 <div>
-                    <Button variant={"field"}>Save</Button>
+                    <Button variant="field">Save</Button>
+                    <Button variant="field" type="reset">Cancel</Button>
                 </div>
             </form>
         )
@@ -83,6 +91,10 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
         await mutateTask(task.$clone());
     });
 
+    const onRemove = () => {
+        console.log("TODO REMOVE");
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.field}>
@@ -90,7 +102,7 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
                     <span style={{textDecoration: done ? "line-through" : "none"}}>{description}</span>
                 </CheckboxMark>
             </div>
-            {done && <Button variant={"link"}>Remove</Button>}
+            {done && <Button type={"button"} variant={"link"} onClick={onRemove}>Remove</Button>}
             {!done && <Button variant={"link"} onClick={() => setEditMode(!editMode)}>Change</Button>}
         </div>
     )
