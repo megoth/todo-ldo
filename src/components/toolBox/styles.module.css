@@ -2,12 +2,11 @@
     background-color: var(--text-color, black);
     color: var(--background-color, white);
     padding: 1em;
-    overflow: auto;
-    resize: vertical;
 }
 
 .bars {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em;
     list-style: none;
     margin-bottom: 0.5em;
