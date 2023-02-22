@@ -46,7 +46,7 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
     });
     const [editMode, setEditMode] = useState<boolean>(false);
     const description = task?.description || "";
-    useEffect(() => setValue("done", task?.status?.["@id"] === todo.completeValue), [task?.status])
+    useEffect(() => setValue("done", task?.status?.["@id"] === todo.completeValue), [task?.status, setValue])
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>

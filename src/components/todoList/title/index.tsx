@@ -39,7 +39,7 @@ export default function TodoListTitle({listUrl, resourceUrl, editModeState}: Tod
         }
     });
     const [editMode, setEditMode] = editModeState;
-    useEffect(() => setValue("listName", list?.name || ""), [list?.name]);
+    useEffect(() => setValue("listName", list?.name || ""), [list?.name, setValue]);
 
     if (!list) {
         return <Loading/>
