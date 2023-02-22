@@ -8,11 +8,12 @@ import {ListShape} from "@/ldo/todo.typings";
 import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import Button from "@/components/button";
 import styles from "./styles.module.css";
+import {Dispatch, SetStateAction} from "react";
 
 interface TodoListTitleProps {
     listUrl: string | undefined;
     resourceUrl: string | undefined;
-    editModeState: any;
+    editModeState: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 
 interface FormData {
@@ -51,6 +52,7 @@ export default function TodoListTitle({listUrl, resourceUrl, editModeState}: Tod
             <form className={styles.container} onSubmit={onSubmit}>
                 <Input className={styles.field} defaultValue={list.name || ""} {...register("listName")} autoFocus>Name</Input>
                 <Button variant={"field"}>Save</Button>
+                <Button variant={"field"} onClick={() => setEditMode(false)}>Cancel</Button>
             </form>
         )
     }
