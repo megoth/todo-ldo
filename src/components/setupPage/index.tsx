@@ -10,7 +10,7 @@ import FormError from "@/components/formError";
 import SubmitButton from "@/components/submitButton";
 import ContentGroup from "@/components/contentGroup";
 import {solid, todo} from "@/vocabularies";
-import {createSubjectUrl, getValue, update} from "@/libs/ldo";
+import {createSubjectUrl, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {DocumentShapeFactory, ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import {DocumentShape, ListShape} from "@/ldo/todo.typings";
@@ -54,15 +54,15 @@ export default function SetupPage({profile}: SetupPageProps) {
     const onSubmit = handleSubmit(async (data) => {
         // Adding resource to Pod
         const todoDocument: LinkedDataObject<DocumentShape> = DocumentShapeFactory.new(data.storagePath);
-        todoDocument.type = getValue(todo.TodoDocument.value);
+        todoDocument.type = todo.TodoDocument;
         await update(todoDocument, data.storagePath, fetch);
         setValue("storageIsCreated", true);
 
         // Adding resource to TypeIndex
         const typeIndexUrl = data.private ? privateTypeIndex.data?.["@id"]! : publicTypeIndex.data?.["@id"]!;
         const typeRegistry: LinkedDataObject<TypeRegistrationShape> = TypeRegistrationShapeFactory.new(createSubjectUrl(typeIndexUrl));
-        typeRegistry.type = getValue(solid.TypeRegistration.value);
-        typeRegistry.forClass = getValue(todo.TodoList.value);
+        typeRegistry.type = solid.TypeRegistration;
+        typeRegistry.forClass = todo.TodoList;
         // @ts-ignore
         typeRegistry.instance = data.storagePath;
         await update(typeRegistry, typeIndexUrl, fetch);
@@ -70,7 +70,7 @@ export default function SetupPage({profile}: SetupPageProps) {
 
         // Creating the first todo list and updating todo index
         const list: LinkedDataObject<ListShape> = ListShapeFactory.new(createSubjectUrl(data.storagePath));
-        list.type = getValue(todo.List.value);
+        list.type = todo.List;
         list.name = data.listName;
         await update(list, data.storagePath, fetch);
         todoDocument.list?.push(list);

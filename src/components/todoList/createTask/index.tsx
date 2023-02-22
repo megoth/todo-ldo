@@ -25,7 +25,11 @@ interface FormData {
 
 export default function TodoListCreateTask({listUrl, resourceUrl, createTaskState}: TodoListCreateTaskProps) {
     const {fetch} = useSession();
-    const {register, handleSubmit} = useForm<FormData>();
+    const {register, handleSubmit, reset} = useForm<FormData>({
+        defaultValues: {
+            taskName: "A new task"
+        }
+    });
     const [createTask, setCreateTask] = createTaskState;
     const {
         data: list,
@@ -43,20 +47,26 @@ export default function TodoListCreateTask({listUrl, resourceUrl, createTaskStat
     const onSubmit = handleSubmit(async (data, event) => {
         setCreateTask(false);
         const task = TaskShapeFactory.new(createSubjectUrl(resourceUrl)) as LinkedDataObject<TaskShape>;
-        task.type = getValue(todo.Task.value)
+        task.type = todo.Task;
         task.description = data.taskName;
         await update(task, resourceUrl, fetch);
         list.task?.unshift(task);
         await update(list, resourceUrl, fetch);
         await mutateList(list.$clone());
+        reset();
     });
+
+    const onReset = () => {
+        setCreateTask(false);
+        reset();
+    }
 
     return (
         <ContentGroup>
-            <form className={styles.container} onSubmit={onSubmit}>
-                <Input className={styles.field} defaultValue={"A new task"} {...register("taskName")} autoFocus>Name</Input>
-                <Button variant={"field"}>Create</Button>
-                <Button variant={"field"} onClick={() => setCreateTask(false)}>Cancel</Button>
+            <form className={styles.container} onSubmit={onSubmit} onReset={onReset}>
+                <Input className={styles.field} {...register("taskName")} autoFocus>Name</Input>
+                <Button variant="field">Create</Button>
+                <Button variant="field" type="reset">Cancel</Button>
             </form>
         </ContentGroup>
     )

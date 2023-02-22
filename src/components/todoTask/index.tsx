@@ -3,9 +3,9 @@ import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
 import {useEffect, useState} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
-import {getValue, update} from "@/libs/ldo";
+import {update} from "@/libs/ldo";
 import {useForm} from "react-hook-form";
-import {todo} from "@/vocabularies";
+import {todo, todoNamespace} from "@/vocabularies";
 import styles from "./styles.module.css"
 import Button from "@/components/button";
 import Input from "@/components/input";
@@ -46,7 +46,7 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
     });
     const [editMode, setEditMode] = useState<boolean>(false);
     const description = task?.description || "";
-    useEffect(() => setValue("done", task?.status?.["@id"] === todo.complete), [task?.status])
+    useEffect(() => setValue("done", task?.status?.["@id"] === todo.completeValue), [task?.status])
 
     if (taskError) {
         return <ErrorDetails error={taskError}/>
@@ -78,7 +78,7 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
     }
 
     const onChange = handleSubmit(async (data, event) => {
-        task.status = getValue(event?.target.checked ? todo.complete : todo.incomplete);
+        task.status = event?.target.checked ? todo.complete : todo.incomplete;
         await update(task, resourceUrl, fetch);
         await mutateTask(task.$clone());
     });

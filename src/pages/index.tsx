@@ -7,7 +7,7 @@ import TodoList from "@/components/todoList";
 import {getResourceUrl} from "@/libs/ldo";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import SetupPrompt from "@/components/setupPrompt";
-import {todo} from "@/vocabularies";
+import {todoNamespace} from "@/vocabularies";
 import {DocumentShape} from "@/ldo/todo.typings";
 import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
 import {WebIdProfileShape} from "@/ldo/solid.typings";
@@ -21,7 +21,7 @@ export default function Home() {
         error: profileError,
         isLoading: profileIsLoading
     } = useSubject<WebIdProfileShape>(webId, getResourceUrl(webId), WebIdProfileShapeFactory);
-    const storages = useTypeStorage(profile, todo.TodoList);
+    const storages = useTypeStorage(profile, todoNamespace.TodoList);
     const {
         data: storage,
         error: storageError,
