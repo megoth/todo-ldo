@@ -12,6 +12,7 @@ import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
 import {WebIdProfileShape} from "@/ldo/solid.typings";
 import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
 import Redirect from "@/components/redirect";
+import useLocalStorage from "use-local-storage";
 
 export default function HomePage() {
     const {session: {info: {webId, isLoggedIn}}} = useSession();
@@ -26,6 +27,7 @@ export default function HomePage() {
         error: storageError,
         isLoading: storageIsLoading,
     } = useSubject<DocumentShape>(storages?.[0], getResourceUrl(storages?.[0]), DocumentShapeFactory);
+    const [preferredList] = useLocalStorage("preferredList", null);
 
     if (profileError || storageError) {
         return <ErrorDetails error={profileError || storageError}/>
@@ -43,10 +45,10 @@ export default function HomePage() {
         <Layout loading={profileIsLoading || storageIsLoading}>
             {!storages?.length && <SetupPrompt profile={profile}/>}
             {storages && storages.length > 1 && <div>TODO: MULTIPLE STORAGES, PLEASE CHOOSE ONE!</div>}
-            {storages && storage?.list && storage?.list?.length > 1 && <Redirect url={"/list"}/>}
+            {storages && storage?.list && storage?.list?.length > 1 && !preferredList && <Redirect url={"/list"}/>}
             {storage?.list && storage?.list?.length === 0 && <div>TODO: NO LIST YET</div>}
-            {storage?.list && storage?.list?.length === 1 &&
-                <Redirect url={`/list/${encodeURIComponent(storage?.list?.[0]?.["@id"]!)}`}/>}
+            {storage?.list && (preferredList || storage?.list?.length === 1) &&
+                <Redirect url={`/list/${encodeURIComponent(preferredList || storage?.list?.[0]?.["@id"]!)}`}/>}
         </Layout>
     );
 }

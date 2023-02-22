@@ -2,7 +2,7 @@ import useSubject from "@/hooks/useSubject";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TodoListTitle from "@/components/todoList/title";
 import Button from "@/components/button";
 import ContentGroup from "@/components/contentGroup";
@@ -11,6 +11,7 @@ import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import TodoListCreateTask from "@/components/todoList/createTask";
 import {FiEdit2, FiPlusSquare} from "react-icons/fi";
 import FlexBar from "@/components/flexBar";
+import useLocalStorage from "use-local-storage";
 
 interface TodoListProps {
     listUrl: string | undefined;
@@ -24,8 +25,15 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
         error: listError,
         isLoading,
     } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
+    const [_, setPreferredList] = useLocalStorage<string>("preferredList", listUrl!);
     const [editTitle, setEditTitle] = useState<boolean>(false);
     const [createTask, setCreateTask] = useState<boolean>(false);
+    useEffect(() => {
+        if (!listUrl) {
+            return;
+        }
+        setPreferredList(listUrl)
+    }, [listUrl, setPreferredList])
 
     if (listError) {
         return <ErrorDetails error={listError}/>
