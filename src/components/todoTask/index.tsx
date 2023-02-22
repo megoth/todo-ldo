@@ -17,7 +17,7 @@ import {namedNode} from "@rdfjs/data-model";
 interface TodoTaskProps {
     listUrl: string | undefined;
     taskUrl: string | undefined;
-    resourceUrl: string | undefined;
+    resourceUrl: string | null | undefined;
 }
 
 interface FormData {

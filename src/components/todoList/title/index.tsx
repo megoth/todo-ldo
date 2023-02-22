@@ -12,7 +12,7 @@ import {Dispatch, SetStateAction, useEffect} from "react";
 
 interface TodoListTitleProps {
     listUrl: string | undefined;
-    resourceUrl: string | undefined;
+    resourceUrl: string | null | undefined;
     editModeState: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 

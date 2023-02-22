@@ -2,7 +2,7 @@ import {LinkedDataObject} from "ldo";
 import {Headers} from "cross-fetch";
 import {v4 as uuidv4} from 'uuid';
 
-export function createSubjectUrl(resourceUrl: string | undefined, id?: string): string {
+export function createSubjectUrl(resourceUrl: string | null | undefined, id?: string): string {
     return `${resourceUrl}#${id || uuidv4()}`;
 }
 
@@ -14,7 +14,7 @@ export function getValue<T>(term: string): {"@id": T} {
     return {"@id": term} as {"@id": T};
 }
 
-export async function update(subject: LinkedDataObject<any>, resourceUrl: string | undefined, fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response>): Promise<Response> {
+export async function update(subject: LinkedDataObject<any>, resourceUrl: string | null | undefined, fetch: (input: (RequestInfo | URL), init?: RequestInit) => Promise<Response>): Promise<Response> {
     if (!resourceUrl) {
         throw new Error("No resource URL given");
     }

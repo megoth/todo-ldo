@@ -15,7 +15,7 @@ import ContentGroup from "@/components/contentGroup";
 
 interface TodoListCreateTaskProps {
     listUrl: string | undefined;
-    resourceUrl: string | undefined;
+    resourceUrl: string | null | undefined;
     createTaskState: [boolean, Dispatch<SetStateAction<boolean>>];
 }
 

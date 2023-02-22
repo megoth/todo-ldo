@@ -13,7 +13,7 @@ import TodoListCreateTask from "@/components/todoList/createTask";
 
 interface TodoListProps {
     listUrl: string | undefined;
-    resourceUrl: string | undefined;
+    resourceUrl: string | null | undefined;
 }
 
 

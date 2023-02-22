@@ -3,7 +3,6 @@ import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
-import TodoList from "@/components/todoList";
 import {getResourceUrl} from "@/libs/ldo";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import SetupPrompt from "@/components/setupPrompt";
@@ -12,10 +11,12 @@ import {DocumentShape} from "@/ldo/todo.typings";
 import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
 import {WebIdProfileShape} from "@/ldo/solid.typings";
 import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
+import {useRouter} from "next/router";
 
 export default function Home() {
     const {session, sessionRequestInProgress} = useSession();
     const {webId, isLoggedIn} = session.info;
+    const router = useRouter();
     const {
         data: profile,
         error: profileError,
@@ -64,9 +65,7 @@ export default function Home() {
         return <div>TODO: NO LIST YET</div>
     }
 
-    return (
-        <Layout>
-            <TodoList listUrl={storage?.list?.[0]?.["@id"]!} resourceUrl={getResourceUrl(storage?.list?.[0]?.["@id"])!}/>
-        </Layout>
-    )
+    router.push(`/list/${encodeURIComponent(storage?.list?.[0]?.["@id"]!)}`);
+
+    return <Loading />
 }
