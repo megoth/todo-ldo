@@ -41,7 +41,7 @@ export default function Home() {
         return <ErrorDetails error={profileError || storageError}/>
     }
 
-    if (!profile || profileIsLoading || sessionRequestInProgress) {
+    if (!profile || profileIsLoading || sessionRequestInProgress || !storage || storageIsLoading) {
         return <Loading/>
     }
 
@@ -51,10 +51,6 @@ export default function Home() {
 
     if (storages.length > 1) {
         return <div>TODO: MULTIPLE STORAGES, PLEASE CHOOSE ONE!</div>
-    }
-
-    if (!storage || storageIsLoading) {
-        return <Loading/>
     }
 
     if (storage?.list && storage?.list?.length > 1) {
