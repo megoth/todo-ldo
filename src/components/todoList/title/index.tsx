@@ -8,19 +8,20 @@ import {ListShape} from "@/ldo/todo.typings";
 import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import Button from "@/components/button";
 import styles from "./styles.module.css";
-import {Dispatch, SetStateAction, useEffect} from "react";
+import {useEffect} from "react";
 
 interface TodoListTitleProps {
     listUrl: string | undefined;
     resourceUrl: string | null | undefined;
-    editModeState: [boolean, Dispatch<SetStateAction<boolean>>];
+    editMode: boolean;
+    onSubmitted: () => void;
 }
 
 interface FormData {
     listName: string;
 }
 
-export default function TodoListTitle({listUrl, resourceUrl, editModeState}: TodoListTitleProps) {
+export default function TodoListTitle({listUrl, resourceUrl, editMode, onSubmitted}: TodoListTitleProps) {
     const {fetch} = useSession();
     const {
         data: list,
@@ -37,7 +38,6 @@ export default function TodoListTitle({listUrl, resourceUrl, editModeState}: Tod
             listName: ""
         }
     });
-    const [editMode, setEditMode] = editModeState;
     useEffect(() => setValue("listName", list?.name || ""), [list?.name]);
 
     if (!list) {
@@ -49,15 +49,15 @@ export default function TodoListTitle({listUrl, resourceUrl, editModeState}: Tod
         list.name = data.listName;
         await update(list, resourceUrl, fetch);
         await mutateList(list.$clone());
-        setEditMode(false);
         reset(data);
+        onSubmitted();
     });
 
     const onReset = () => {
         reset({
             listName: list?.name || ""
         });
-        setEditMode(false);
+        onSubmitted();
     };
 
     if (editMode && !isSubmitting) {

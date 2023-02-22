@@ -7,7 +7,7 @@ import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import {todoNamespace} from "@/vocabularies";
 import Loading from "@/components/loading";
-import ListIndex from "@/components/listIndex";
+import TodoListIndex from "@/components/todoListIndex";
 
 export default function ListIndexPage() {
     const {
@@ -26,7 +26,7 @@ export default function ListIndexPage() {
 
     return (
         <Layout loading={profileIsLoading} error={profileError}>
-            <ListIndex storages={storages} />
+            <TodoListIndex storages={storages} />
         </Layout>
     );
 }

@@ -3,8 +3,8 @@ import {createSubjectUrl, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useForm} from "react-hook-form";
 import useSubject from "@/hooks/useSubject";
-import {ListShape, TaskShape} from "@/ldo/todo.typings";
-import {ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
+import {DocumentShape, ListShape, TaskShape} from "@/ldo/todo.typings";
+import {DocumentShapeFactory, ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import {LinkedDataObject} from "ldo";
 import {todo} from "@/vocabularies";
 import styles from "@/components/todoList/title/styles.module.css";
@@ -12,46 +12,47 @@ import Input from "@/components/input";
 import Button from "@/components/button";
 import Loading from "@/components/loading";
 import ContentGroup from "@/components/contentGroup";
+import ErrorDetails from "@/components/errorDetails";
 
-interface TodoListCreateTaskProps {
-    listUrl: string | undefined;
+interface TodoListIndexCreateListProps {
     resourceUrl: string | null | undefined;
     editMode: boolean;
     onSubmitted: () => void;
 }
 
 interface FormData {
-    taskName: string;
+    listName: string;
 }
 
-export default function TodoListCreateTask({listUrl, editMode, resourceUrl, onSubmitted}: TodoListCreateTaskProps) {
+export default function TodoListIndexCreateList({resourceUrl, editMode, onSubmitted}: TodoListIndexCreateListProps) {
+    const {data: storage, error: storageError, isLoading: storageIsLoading, mutate: mutateStorage} = useSubject<DocumentShape>(resourceUrl, resourceUrl, DocumentShapeFactory);
     const {fetch} = useSession();
     const {register, handleSubmit, reset} = useForm<FormData>({
         defaultValues: {
-            taskName: "A new task"
+            listName: "A new list"
         }
     });
-    const {
-        data: list,
-        mutate: mutateList
-    } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
 
     if (!editMode) {
         return null;
     }
 
-    if (!list) {
-        return <Loading/>
+    if (storageError) {
+        return <ErrorDetails error={storageError}/>
+    }
+
+    if (!storage || storageIsLoading) {
+        return <Loading />
     }
 
     const onSubmit = handleSubmit(async (data, event) => {
-        const task = TaskShapeFactory.new(createSubjectUrl(resourceUrl)) as LinkedDataObject<TaskShape>;
-        task.type = todo.Task;
-        task.description = data.taskName;
-        await update(task, resourceUrl, fetch);
-        list.task?.unshift(task);
+        const list = ListShapeFactory.new(createSubjectUrl(resourceUrl)) as LinkedDataObject<ListShape>;
+        list.type = todo.List;
+        list.name = data.listName;
         await update(list, resourceUrl, fetch);
-        await mutateList(list.$clone());
+        storage?.list?.push(list);
+        await update(storage, resourceUrl, fetch);
+        await mutateStorage(storage.$clone());
         reset();
         onSubmitted();
     });
@@ -64,7 +65,7 @@ export default function TodoListCreateTask({listUrl, editMode, resourceUrl, onSu
     return (
         <ContentGroup>
             <form className={styles.container} onSubmit={onSubmit} onReset={onReset}>
-                <Input className={styles.field} {...register("taskName")} autoFocus>Name</Input>
+                <Input className={styles.field} {...register("listName")} autoFocus>Name</Input>
                 <Button variant="field">Create</Button>
                 <Button variant="field" type="reset">Cancel</Button>
             </form>

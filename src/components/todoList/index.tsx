@@ -24,10 +24,8 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
         error: listError,
         isLoading,
     } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
-    const editTitleState = useState<boolean>(false)
-    const [editTitle, setEditTitle] = editTitleState;
-    const createTaskState = useState<boolean>(false);
-    const [createTask, setCreateTask] = createTaskState;
+    const [editTitle, setEditTitle] = useState<boolean>(false);
+    const [createTask, setCreateTask] = useState<boolean>(false);
 
     if (listError) {
         return <ErrorDetails error={listError}/>
@@ -39,7 +37,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
 
     return (
         <>
-            <TodoListTitle editModeState={editTitleState} listUrl={listUrl} resourceUrl={resourceUrl}/>
+            <TodoListTitle listUrl={listUrl} resourceUrl={resourceUrl} editMode={editTitle} onSubmitted={() => setEditTitle(false)}/>
             <FlexBar>
                 {!editTitle && (
                     <Button shadow={"full"} onClick={() => setEditTitle(true)}>
@@ -54,7 +52,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
                     </Button>
                 )}
             </FlexBar>
-            <TodoListCreateTask listUrl={listUrl} resourceUrl={resourceUrl} createTaskState={createTaskState}/>
+            <TodoListCreateTask listUrl={listUrl} resourceUrl={resourceUrl} editMode={createTask} onSubmitted={() => setCreateTask(false)}/>
             <div>
                 {list.task?.map((task) => (
                     <ContentGroup key={task["@id"]}>

@@ -43,8 +43,7 @@ export default function HomePage() {
         <Layout loading={profileIsLoading || storageIsLoading}>
             {!storages?.length && <SetupPrompt profile={profile}/>}
             {storages && storages.length > 1 && <div>TODO: MULTIPLE STORAGES, PLEASE CHOOSE ONE!</div>}
-            {storages && storage?.list && storage?.list?.length > 1 &&
-                <div>TODO: MULTIPLE LISTS, PLEASE CHOOSE ONE!</div>}
+            {storages && storage?.list && storage?.list?.length > 1 && <Redirect url={"/list"}/>}
             {storage?.list && storage?.list?.length === 0 && <div>TODO: NO LIST YET</div>}
             {storage?.list && storage?.list?.length === 1 &&
                 <Redirect url={`/list/${encodeURIComponent(storage?.list?.[0]?.["@id"]!)}`}/>}

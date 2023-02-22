@@ -27,13 +27,13 @@ export default function DarkModeSelector({className, ...props}: Props) {
         >
             {darkMode ? (
                 <>
-                    <BsSunglasses/>
                     <span>Dark mode</span>
+                    <BsSunglasses/>
                 </>
             ) : (
                 <>
-                    <BsSun/>
                     <span>Light mode</span>
+                    <BsSun/>
                 </>
             )}
         </Button>
