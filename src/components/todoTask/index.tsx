@@ -9,11 +9,13 @@ import {todo} from "@/vocabularies";
 import styles from "./styles.module.css"
 import Button from "@/components/button";
 import Input from "@/components/input";
-import {TaskShape} from "@/ldo/todo.typings";
-import {TaskShapeFactory} from "@/ldo/todo.ldoFactory";
+import {ListShape, TaskShape} from "@/ldo/todo.typings";
+import {ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import CheckboxMark from "@/components/checkboxMark";
+import {namedNode} from "@rdfjs/data-model";
 
 interface TodoTaskProps {
+    listUrl: string | undefined;
     taskUrl: string | undefined;
     resourceUrl: string | undefined;
 }
@@ -23,22 +25,30 @@ interface FormData {
     description: string;
 }
 
-export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
+export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps) {
+    const {
+        data: list,
+        error: listError,
+        isLoading: listIsLoading,
+        mutate: mutateList
+    } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
     const {
         data: task,
         error: taskError,
-        isLoading,
+        isLoading: taskIsLoading,
         mutate: mutateTask
     } = useSubject<TaskShape>(taskUrl, resourceUrl, TaskShapeFactory);
     const {fetch} = useSession();
-    const {reset, setValue, register, handleSubmit, control: {
-        _formState: {
-            isSubmitting
-        },
-        _formValues: {
-            done
+    const {
+        reset, setValue, register, handleSubmit, control: {
+            _formState: {
+                isSubmitting
+            },
+            _formValues: {
+                done
+            }
         }
-    }} = useForm<FormData>({
+    } = useForm<FormData>({
         defaultValues: {
             description: task?.description,
             done: false,
@@ -48,11 +58,11 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
     const description = task?.description || "";
     useEffect(() => setValue("done", task?.status?.["@id"] === todo.completeValue), [task?.status])
 
-    if (taskError) {
-        return <ErrorDetails error={taskError}/>
+    if (listError || taskError) {
+        return <ErrorDetails error={listError || taskError}/>
     }
 
-    if (!taskUrl || !task || isLoading) {
+    if (!listUrl || !list || listIsLoading || !taskUrl || !task || taskIsLoading) {
         return <Loading/>
     }
 
@@ -92,7 +102,16 @@ export default function TodoTask({taskUrl, resourceUrl}: TodoTaskProps) {
     });
 
     const onRemove = async () => {
-        console.log("TODO REMOVE");
+        const taskList = list.task!;
+        const taskIndex = taskList.findIndex((t) => t["@id"] === task["@id"])
+        task.$dataset().deleteMatches(namedNode(task["@id"]!));
+        await update(task, resourceUrl, fetch);
+        list.task = [
+            ...taskList.slice(0, taskIndex),
+            ...taskList.slice(taskIndex + 1)
+        ];
+        await update(list, resourceUrl, fetch);
+        await mutateList(list.$clone());
     }
 
     return (

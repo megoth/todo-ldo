@@ -47,7 +47,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
             <div>
                 {list.task?.map((task) => (
                     <ContentGroup key={task["@id"]}>
-                        <TodoTask taskUrl={task["@id"]} resourceUrl={resourceUrl}/>
+                        <TodoTask listUrl={list["@id"]} taskUrl={task["@id"]} resourceUrl={resourceUrl}/>
                     </ContentGroup>
                 ))}
             </div>
