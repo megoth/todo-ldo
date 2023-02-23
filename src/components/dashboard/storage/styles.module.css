@@ -1,0 +1,11 @@
+.storage {
+}
+
+.lists {
+    display: flex;
+    gap: 0.5em;
+}
+
+.list {
+    min-width: 300px;
+}

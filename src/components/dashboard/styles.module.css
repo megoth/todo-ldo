@@ -1,0 +1,14 @@
+.dashboard {
+
+}
+
+.storages {
+    display: flex;
+    gap: 1em;
+    overflow: auto;
+    padding: 1em;
+}
+
+.storage {
+    min-width: 300px;
+}
