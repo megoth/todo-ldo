@@ -44,10 +44,10 @@ export default function Layout({children, loading, error, noContainer}: LayoutPr
             <div className={styles.layoutContainer}>
                 <LayoutHeader/>
                 <main className={styles.layoutMain}>
-                    {noContainer && <LayoutContent children={children}/>}
+                    {noContainer && <LayoutContent>{children}</LayoutContent>}
                     {!noContainer && (
                         <Container>
-                            <LayoutContent children={children}/>
+                            <LayoutContent>{children}</LayoutContent>
                         </Container>
                     )}
                 </main>
