@@ -23,7 +23,7 @@ export default function DashboardStorage({className, style, profile, storageUrl,
     } = useSubject<DocumentShape>(storageUrl, getResourceUrl(storageUrl), DocumentShapeFactory);
     const ownStorage = profile.storage.find((s) => s["@id"] === storageUrl) !== null;
     return (
-        <div className={clsx(styles.storage, className)} style={{...style, minWidth: 300 * ((storage?.list?.length || 0) + 1)}} {...props}>
+        <div className={clsx(styles.storage, className)} style={{...style, minWidth: 320 * ((storage?.list?.length || 0) + 1)}} {...props}>
             <h2>
                 {ownStorage && "Your storage"}
                 {!ownStorage && "Someone else's storage"}
@@ -34,6 +34,7 @@ export default function DashboardStorage({className, style, profile, storageUrl,
                 ))}
                 <div className={styles.list}>
                     <h3>Add list</h3>
+                    <p>TODO: Controls to add list here</p>
                 </div>
             </div>
         </div>
