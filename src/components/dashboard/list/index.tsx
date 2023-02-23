@@ -8,6 +8,8 @@ import {ButtonHTMLAttributes, DetailedHTMLProps} from "react";
 import clsx from "clsx";
 import ContentGroup from "@/components/contentGroup";
 import Button from "@/components/button";
+import Link from "next/link";
+import {getListUrl} from "@/libs/list";
 
 type DashboardListProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
     listUrl: string | undefined;
@@ -31,7 +33,9 @@ export default function DashboardList({className, listUrl, resourceUrl, ...props
 
     return (
         <div className={clsx(styles.list, className)} {...props}>
-            <h3>{list.name}</h3>
+            <h3>
+                <Link href={getListUrl(list)}>{list.name}</Link>
+            </h3>
             {list.task?.map((task) => (
                 <ContentGroup key={task["@id"]}>{task.description}</ContentGroup>
             ))}

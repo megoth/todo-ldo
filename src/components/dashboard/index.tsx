@@ -21,6 +21,7 @@ export default function Dashboard({profile}: DashboardProps) {
                 {storages?.map((storageUrl) => <DashboardStorage key={storageUrl} className={styles.storage} profile={profile} storageUrl={storageUrl}/>)}
                 <div className={styles.storage}>
                     <h2>Add storage</h2>
+                    <p>TODO: Controls to add storage here</p>
                 </div>
             </div>
         </div>
