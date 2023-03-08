@@ -1,4 +1,3 @@
-import {Dispatch, SetStateAction} from "react";
 import {createSubjectUrl, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useForm} from "react-hook-form";
@@ -7,24 +6,23 @@ import {ListShape, TaskShape} from "@/ldo/todo.typings";
 import {ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import {LinkedDataObject} from "ldo";
 import {todo} from "@/vocabularies";
-import styles from "@/components/todoList/title/styles.module.css";
-import Input from "@/components/input";
 import Button from "@/components/button";
 import Loading from "@/components/loading";
-import ContentGroup from "@/components/contentGroup";
+import {useModal} from "react-modal-hook";
+import FormModal from "@/components/form-modal";
+import {FiPlusSquare} from "react-icons/fi";
+import Input from "@/components/input";
 
 interface TodoListCreateTaskProps {
-    listUrl: string | undefined;
+    listUrl: string | null | undefined;
     resourceUrl: string | null | undefined;
-    editMode: boolean;
-    onSubmitted: () => void;
 }
 
 interface FormData {
     taskName: string;
 }
 
-export default function TodoListCreateTask({listUrl, editMode, resourceUrl, onSubmitted}: TodoListCreateTaskProps) {
+export default function TodoListCreateTask({listUrl, resourceUrl}: TodoListCreateTaskProps) {
     const {fetch} = useSession();
     const {register, handleSubmit, reset} = useForm<FormData>({
         defaultValues: {
@@ -35,39 +33,43 @@ export default function TodoListCreateTask({listUrl, editMode, resourceUrl, onSu
         data: list,
         mutate: mutateList
     } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
-
-    if (!editMode) {
-        return null;
-    }
+    const [showModal, hideModal] = useModal(() => {
+        return (
+            <form onSubmit={onSubmit(list!)} onReset={onReset}>
+                <FormModal hideModal={hideModal} title={"Create task"}>
+                    <Input {...register("taskName")} autoFocus>Task description</Input>
+                </FormModal>
+            </form>
+        );
+    }, [list]);
 
     if (!list) {
         return <Loading/>
     }
 
-    const onSubmit = handleSubmit(async (data, event) => {
-        const task = TaskShapeFactory.new(createSubjectUrl(resourceUrl)) as LinkedDataObject<TaskShape>;
-        task.type = todo.Task;
-        task.description = data.taskName;
-        await update(task, resourceUrl, fetch);
-        list.task?.unshift(task);
-        await update(list, resourceUrl, fetch);
-        await mutateList(list.$clone());
-        reset();
-        onSubmitted();
-    });
+    function onSubmit(list: LinkedDataObject<ListShape>) {
+        return handleSubmit(async (data) => {
+            const task = TaskShapeFactory.new(createSubjectUrl(resourceUrl)) as LinkedDataObject<TaskShape>;
+            task.type = todo.Task;
+            task.description = data.taskName;
+            await update(task, resourceUrl, fetch);
+            list.task?.unshift(task);
+            await update(list, resourceUrl, fetch);
+            await mutateList(list.$clone());
+            reset();
+            hideModal();
+        })
+    }
 
-    const onReset = () => {
+    function onReset() {
         reset();
-        onSubmitted();
+        hideModal();
     }
 
     return (
-        <ContentGroup>
-            <form className={styles.container} onSubmit={onSubmit} onReset={onReset}>
-                <Input className={styles.field} {...register("taskName")} autoFocus>Name</Input>
-                <Button variant="field">Create</Button>
-                <Button variant="field" type="reset">Cancel</Button>
-            </form>
-        </ContentGroup>
+        <Button onClick={showModal}>
+            <span>Add task</span>
+            <span className="icon"><FiPlusSquare/></span>
+        </Button>
     )
 }

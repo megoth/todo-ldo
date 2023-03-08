@@ -6,14 +6,12 @@ import {useSession} from "@inrupt/solid-ui-react";
 import {remove, update} from "@/libs/ldo";
 import {useForm} from "react-hook-form";
 import {todo} from "@/vocabularies";
-import styles from "./styles.module.css"
 import Button from "@/components/button";
 import Input from "@/components/input";
 import {ListShape, TaskShape} from "@/ldo/todo.typings";
 import {ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
-import CheckboxMark from "@/components/checkboxMark";
-import {namedNode} from "@rdfjs/data-model";
 import {FiDelete, FiEdit2} from "react-icons/fi";
+import Checkbox from "@/components/checkbox";
 
 interface TodoTaskProps {
     listUrl: string | undefined;
@@ -84,13 +82,13 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
 
     if (editMode && !isSubmitting) {
         return (
-            <form className={styles.container} onSubmit={onSubmit} onReset={onReset}>
-                <div className={styles.field}>
+            <form onSubmit={onSubmit} onReset={onReset}>
+                <div>
                     <Input defaultValue={description} {...register("description")}>Description</Input>
                 </div>
                 <div>
-                    <Button variant="field">Save</Button>
-                    <Button variant="field" type="reset">Cancel</Button>
+                    <Button>Save</Button>
+                    <Button type="reset">Cancel</Button>
                 </div>
             </form>
         )
@@ -117,24 +115,26 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.field}>
-                <CheckboxMark disabled={isSubmitting} {...register("done")} onChange={onChange}>
+        <div className="list-item">
+            <div className="list-item-content">
+                <Checkbox disabled={isSubmitting} {...register("done")} onChange={onChange}>
                     <span style={{textDecoration: done ? "line-through" : "none"}}>{description}</span>
-                </CheckboxMark>
+                </Checkbox>
             </div>
-            {done && (
-                <Button type={"button"} variant={"link"} onClick={onRemove}>
-                    <span>Remove</span>
-                    <FiDelete />
-                </Button>
-            )}
-            {!done && (
-                <Button variant={"link"} onClick={() => setEditMode(!editMode)}>
-                    <span>Change</span>
-                    <FiEdit2 />
-                </Button>
-            )}
+            <div className="list-item-controls">
+                {done && (
+                    <Button variant="danger" onClick={onRemove}>
+                        <span>Remove</span>
+                        <span className="icon"><FiDelete/></span>
+                    </Button>
+                )}
+                {!done && (
+                    <Button onClick={() => setEditMode(!editMode)}>
+                        <span>Change</span>
+                        <span className="icon"><FiEdit2/></span>
+                    </Button>
+                )}
+            </div>
         </div>
     )
 }

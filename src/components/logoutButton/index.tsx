@@ -3,5 +3,5 @@ import Button from "@/components/button";
 
 export default function LogoutButton() {
     const {logout} = useSession();
-    return <Button onClick={() => logout()}>Log out</Button>
+    return <Button className="is-dark" onClick={() => logout()}>Log out</Button>
 }

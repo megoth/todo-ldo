@@ -2,20 +2,20 @@ import useSubject from "@/hooks/useSubject";
 import {DocumentShape, ListShape} from "@/ldo/todo.typings";
 import {DocumentShapeFactory, ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import ContentGroup from "@/components/contentGroup";
-import styles from "@/components/todoListIndex/storage/styles.module.css";
 import Button from "@/components/button";
 import {FiDelete} from "react-icons/fi";
 import Loading from "@/components/loading";
 import {getResourceUrl, remove, update} from "@/libs/ldo";
 import ErrorDetails from "@/components/errorDetails";
 import {useSession} from "@inrupt/solid-ui-react";
+import Link from "next/link";
 
 interface TodoListIndexListProps {
     listUrl: string | null | undefined;
     resourceUrl: string | null | undefined;
 }
 
-export default function TodoListIndexList({ listUrl, resourceUrl }: TodoListIndexListProps) {
+export default function TodoListIndexList({listUrl, resourceUrl}: TodoListIndexListProps) {
     const {fetch} = useSession();
     const {
         data: storage,
@@ -34,7 +34,7 @@ export default function TodoListIndexList({ listUrl, resourceUrl }: TodoListInde
     }
 
     if (!storage || storageIsLoading || !list || listIsLoading) {
-        return <Loading />
+        return <Loading/>
     }
 
     const onDelete = async () => {
@@ -58,16 +58,19 @@ export default function TodoListIndexList({ listUrl, resourceUrl }: TodoListInde
     };
 
     return (
-        <ContentGroup key={list["@id"]}>
-            <div className={styles.container}>
-                <Button className={styles.field} variant="link" href={`/list/${encodeURIComponent(list["@id"]!)}`}>
-                    {list.name || "[Unnamed list]"} ({list.task?.length} tasks)
-                </Button>
-                <Button variant="link" onClick={onDelete}>
+        <div className="list-item">
+            <div className="list-item-content">
+                <Link className="list-item-title" href={`/list/${encodeURIComponent(list["@id"]!)}`}>
+                    {list.name || "[Unnamed list]"}
+                </Link>
+                <div className="list-item-description">{list.task?.length} tasks</div>
+            </div>
+            <div className="list-item-controls">
+                <Button variant="danger" onClick={onDelete}>
                     <span>Delete</span>
-                    <FiDelete />
+                    <span className="icon"><FiDelete/></span>
                 </Button>
             </div>
-        </ContentGroup>
+        </div>
     )
 }

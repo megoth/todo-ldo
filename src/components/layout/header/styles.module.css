@@ -1,15 +1,6 @@
 .header {
     background-color: var(--text-color, black);
     color: var(--background-color, white);
-    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189, 189, 189, 0.6);
-}
-
-html.light .header {
-    box-shadow: 7px 7px 15px #c3c3c3, 9px 9px 16px rgba(189, 189, 189, 0.6);
-}
-
-html.dark .header {
-    box-shadow: -8px -4px 8px 0px rgba(255, 255, 255, 0.05), 8px 4px 12px 0px rgba(0, 0, 0, 0.5);
 }
 
 .headerContent {
@@ -17,6 +8,11 @@ html.dark .header {
     align-items: center;
 }
 
-.appName {
+a.appName {
+    color: var(--background-color, white);
     flex-grow: 1;
+}
+a.appName:focus,
+a.appName:hover {
+    color: var(--background-color, white);
 }

@@ -10,8 +10,8 @@ type SubmitButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElemen
 
 export default function SubmitButton({children, ...props}: SubmitButtonProps) {
     return (
-        <FlexBar align="center">
-            <Button variant="primary" shadow="full" type="submit" {...props}>{children}</Button>
+        <FlexBar align="center" className="mb-5">
+            <Button variant="primary" type="submit" {...props}>{children}</Button>
         </FlexBar>
     )
 }

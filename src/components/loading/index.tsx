@@ -1,3 +1,3 @@
 export default function Loading() {
-    return <div>Loading</div>
+    return <progress className={"progress"} max={100}>Loading</progress>
 }

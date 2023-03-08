@@ -48,24 +48,26 @@ export default function Layout({children, loading, error}: LayoutProps) {
                     </Container>
                 </main>
                 {isLoggedIn && (
-                    <Container>
-                        <Navigation/>
-                    </Container>
-                )}
-                <Footer>
-                    {developerMode && (
-                        <>
-                            <ToolBox>
-                                <FooterNavigation/>
-                            </ToolBox>
-                        </>
-                    )}
-                    {!developerMode && (
+                    <>
                         <Container>
-                            <FooterNavigation/>
+                            <Navigation/>
                         </Container>
-                    )}
-                </Footer>
+                        <Footer>
+                            {developerMode && (
+                                <>
+                                    <ToolBox>
+                                        <FooterNavigation/>
+                                    </ToolBox>
+                                </>
+                            )}
+                            {!developerMode && (
+                                <Container>
+                                    <FooterNavigation/>
+                                </Container>
+                            )}
+                        </Footer>
+                    </>
+                )}
             </div>
         </>
     )

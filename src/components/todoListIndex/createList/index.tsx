@@ -1,4 +1,3 @@
-import {Dispatch, SetStateAction} from "react";
 import {createSubjectUrl, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useForm} from "react-hook-form";
@@ -7,7 +6,6 @@ import {DocumentShape, ListShape, TaskShape} from "@/ldo/todo.typings";
 import {DocumentShapeFactory, ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import {LinkedDataObject} from "ldo";
 import {todo} from "@/vocabularies";
-import styles from "@/components/todoList/title/styles.module.css";
 import Input from "@/components/input";
 import Button from "@/components/button";
 import Loading from "@/components/loading";
@@ -64,10 +62,10 @@ export default function TodoListIndexCreateList({resourceUrl, editMode, onSubmit
 
     return (
         <ContentGroup>
-            <form className={styles.container} onSubmit={onSubmit} onReset={onReset}>
-                <Input className={styles.field} {...register("listName")} autoFocus>Name</Input>
-                <Button variant="field">Create</Button>
-                <Button variant="field" type="reset">Cancel</Button>
+            <form onSubmit={onSubmit} onReset={onReset}>
+                <Input {...register("listName")} autoFocus>Name</Input>
+                <Button>Create</Button>
+                <Button type="reset">Cancel</Button>
             </form>
         </ContentGroup>
     )

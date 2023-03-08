@@ -2,15 +2,11 @@ import useSubject from "@/hooks/useSubject";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
-import {useState} from "react";
-import TodoListTitle from "@/components/todoList/title";
-import Button from "@/components/button";
-import ContentGroup from "@/components/contentGroup";
 import {ListShape} from "@/ldo/todo.typings";
 import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import TodoListCreateTask from "@/components/todoList/createTask";
-import {FiEdit2, FiPlusSquare} from "react-icons/fi";
 import FlexBar from "@/components/flexBar";
+import TodoListChangeName from "@/components/todoList/changeName";
 
 interface TodoListProps {
     listUrl: string | undefined;
@@ -24,8 +20,6 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
         error: listError,
         isLoading,
     } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
-    const [editTitle, setEditTitle] = useState<boolean>(false);
-    const [createTask, setCreateTask] = useState<boolean>(false);
 
     if (listError) {
         return <ErrorDetails error={listError}/>
@@ -37,29 +31,16 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
 
     return (
         <>
-            <TodoListTitle listUrl={listUrl} resourceUrl={resourceUrl} editMode={editTitle} onSubmitted={() => setEditTitle(false)}/>
+            <h1 className="title">{list.name}</h1>
             <FlexBar>
-                {!editTitle && (
-                    <Button shadow={"half"} onClick={() => setEditTitle(true)}>
-                        <span>Change name</span>
-                        <FiEdit2/>
-                    </Button>
-                )}
-                {!createTask && (
-                    <Button shadow={"half"} onClick={() => setCreateTask(true)}>
-                        <span>Add task</span>
-                        <FiPlusSquare/>
-                    </Button>
-                )}
+                <TodoListChangeName listUrl={listUrl} resourceUrl={resourceUrl}/>
+                <TodoListCreateTask listUrl={listUrl} resourceUrl={resourceUrl} />
             </FlexBar>
-            <TodoListCreateTask listUrl={listUrl} resourceUrl={resourceUrl} editMode={createTask} onSubmitted={() => setCreateTask(false)}/>
-            <div>
+            <ul className="list has-visible-pointer-controls">
                 {list.task?.map((task) => (
-                    <ContentGroup key={task["@id"]}>
-                        <TodoTask listUrl={list["@id"]} taskUrl={task["@id"]} resourceUrl={resourceUrl}/>
-                    </ContentGroup>
+                    <TodoTask key={task["@id"]} listUrl={list["@id"]} taskUrl={task["@id"]} resourceUrl={resourceUrl}/>
                 ))}
-            </div>
+            </ul>
         </>
     )
 }

@@ -20,7 +20,7 @@ export default function SetupPrompt({profile}: SetupPromptProps) {
                     <p>Should we setup your Pod to store Todo lists?</p>
                 </ContentGroup>
                 <FlexBar align="center">
-                    <Button href="/setup" variant="primary" shadow="full">Let&#39;s get started!</Button>
+                    <Button href="/setup" variant="primary">Let&#39;s get started!</Button>
                 </FlexBar>
             </TextContent>
         </>

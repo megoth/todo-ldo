@@ -25,7 +25,7 @@ export default function LoginForm() {
         }
     }
 
-    return <div>
+    return <div className="buttons">
         {providers.map((provider) => (
             <Button key={provider.loginIri} onClick={(event) => onIDPClick(event as MouseEvent<HTMLButtonElement>, provider)}>{provider.label}</Button>
         ))}

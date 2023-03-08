@@ -38,7 +38,8 @@ export default function ToolBox({children}: ToolBoxProps) {
                 {developerMode && session.info.isLoggedIn && subjects.map((subject) => (
                     <li key={`${subject.resourceUrl}-${subject.ldo["@id"]}`}>
                         <Button type={"button"} className={clsx({
-                            [styles.selectedBar]: selectedSubject === subject
+                            "is-dark": selectedSubject !== subject,
+                            "is-selected": selectedSubject === subject
                         })} onClick={() => setSelectedSubject(subject)}>{getUrlEnd(subject.resourceUrl)}</Button>
                     </li>
                 ))}

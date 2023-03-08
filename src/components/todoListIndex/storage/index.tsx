@@ -4,8 +4,8 @@ import {getResourceUrl} from "@/libs/ldo";
 import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
 import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
-import Button from "@/components/button";
 import TodoListIndexList from "@/components/todoListIndex/list";
+import Link from "next/link";
 
 interface TodoListIndexStorageProps {
     storageUrl?: string;
@@ -31,12 +31,14 @@ export default function TodoListIndexStorage({showStorage, storageUrl}: TodoList
         <>
             {showStorage && (
                 <h2>
-                    <Button variant="link" href={storage["@id"]}>Storage</Button>
+                    <Link href={storage["@id"]!}>Storage</Link>
                 </h2>
             )}
-            {storage.list?.map((list) => (
-                <TodoListIndexList key={list["@id"]} listUrl={list["@id"]} resourceUrl={storageUrl} />
-            ))}
+            <ul className="list has-visible-pointer-controls">
+                {storage.list?.map((list) => (
+                    <TodoListIndexList key={list["@id"]} listUrl={list["@id"]} resourceUrl={storageUrl} />
+                ))}
+            </ul>
         </>
     )
 }

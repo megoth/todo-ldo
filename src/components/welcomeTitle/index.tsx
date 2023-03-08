@@ -8,7 +8,7 @@ interface WelcomeTitleProps {
 
 export default function WelcomeTitle({profile}: WelcomeTitleProps) {
     return (
-        <h1>
+        <h1 className="title">
             <span>Welcome, </span>
             <a href={profile["@id"]}>{getName(profile)}</a>
         </h1>

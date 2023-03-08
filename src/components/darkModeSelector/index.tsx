@@ -21,6 +21,7 @@ export default function DarkModeSelector({className, ...props}: Props) {
 
     return (
         <Button
+            className="is-dark"
             type="button"
             onClick={() => toggleDarkMode(!darkMode)}
             {...props}
@@ -28,12 +29,12 @@ export default function DarkModeSelector({className, ...props}: Props) {
             {darkMode ? (
                 <>
                     <span>Dark mode</span>
-                    <BsSunglasses/>
+                    <span className="icon"><BsSunglasses/></span>
                 </>
             ) : (
                 <>
                     <span>Light mode</span>
-                    <BsSun/>
+                    <span className="icon"><BsSun/></span>
                 </>
             )}
         </Button>

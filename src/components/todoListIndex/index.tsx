@@ -14,12 +14,12 @@ export default function TodoListIndex({storages}: TodoListIndexPageProps) {
     const showStorage = !!storages && storages.length > 1;
     return (
         <>
-            <h1>Todo Lists</h1>
+            <h1 className="title">Todo Lists</h1>
             {!showStorage && (
                 <FlexBar>
-                    <Button shadow={"half"} onClick={() => setCreateList(storages?.[0])}>
+                    <Button variant="primary" onClick={() => setCreateList(storages?.[0])}>
                         <span>Create new list</span>
-                        <FiPlusSquare/>
+                        <span className="icon"><FiPlusSquare/></span>
                     </Button>
                 </FlexBar>
             )}

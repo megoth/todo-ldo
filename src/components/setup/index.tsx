@@ -1,12 +1,9 @@
-import Layout from "@/components/layout";
 import {LinkedDataObject} from "ldo";
 import TextContent from "@/components/textContent";
-import CheckboxToggle from "@/components/checkboxToggle";
 import useTypeIndexResources from "@/hooks/useTypeIndexResources";
 import Loading from "@/components/loading";
 import Input from "@/components/input";
 import {useForm} from "react-hook-form";
-import FormError from "@/components/formError";
 import SubmitButton from "@/components/submitButton";
 import ContentGroup from "@/components/contentGroup";
 import {solid, todo} from "@/vocabularies";
@@ -16,6 +13,7 @@ import {DocumentShapeFactory, ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import {DocumentShape, ListShape} from "@/ldo/todo.typings";
 import {TypeRegistrationShape, WebIdProfileShape} from "@/ldo/solid.typings";
 import {TypeRegistrationShapeFactory} from "@/ldo/solid.ldoFactory";
+import Checkbox from "@/components/checkbox";
 
 interface SetupPageProps {
     profile: LinkedDataObject<WebIdProfileShape>
@@ -34,15 +32,21 @@ export default function SetupPage({profile}: SetupPageProps) {
     const {fetch} = useSession();
     const {
         control: {
-            _formState: {
-                isSubmitted
-            },
             _formValues: {
                 storageIsCreated,
                 indexIsUpdated,
                 listIsCreated,
             }
-        }, register, handleSubmit, formState: {errors}, setValue
+        },
+        register,
+        handleSubmit,
+        formState: {
+            errors,
+            isValid,
+            isSubmitted,
+            isSubmitSuccessful,
+        },
+        setValue
     } = useForm<FormData>();
     const {publicTypeIndex, privateTypeIndex} = useTypeIndexResources(profile);
     const suggestedStoragePath = `${profile.storage?.[0]?.["@id"]}todo.ttl`;
@@ -75,14 +79,14 @@ export default function SetupPage({profile}: SetupPageProps) {
     });
 
     if (publicTypeIndex.isLoading || privateTypeIndex.isLoading) {
-        return <Loading />
+        return <Loading/>
     }
 
     return (
         <>
-            <h1>Setting up your Pod</h1>
+            <h1 className="title">Setting up your Pod</h1>
             <TextContent>
-                {isSubmitted ? (
+                {isSubmitSuccessful ? (
                     <>
                         <ContentGroup>
                             <ul>
@@ -97,19 +101,19 @@ export default function SetupPage({profile}: SetupPageProps) {
                     <form onSubmit={onSubmit}>
                         <ContentGroup>
                             <p>First, We need to set up a storage for Todo lists on your Pod.</p>
-                            <p>We&#39;ve suggested a path for you, but you can change this if you want.</p>
                             <Input
                                 defaultValue={suggestedStoragePath}
+                                help={"We've suggested a path for you, but you can change this if you want"}
+                                error={{
+                                    "You must provide a valid URL": errors.storagePath?.type === "pattern",
+                                    "You must provide a path": errors.storagePath?.type === "required",
+                                }}
                                 {...register("storagePath", {
                                     required: true,
                                     pattern: /[Hh][Tt][Tt][Pp][Ss]?:\/\/(?:(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)(?:\.(?:[a-zA-Z\u00a1-\uffff0-9]+-?)*[a-zA-Z\u00a1-\uffff0-9]+)*(?:\.(?:[a-zA-Z\u00a1-\uffff]{2,}))(?::\d{2,5})?(?:\/[^\s]*)?/g
                                 })}>
                                 Storage
                             </Input>
-                            {errors.storagePath?.type === "pattern" &&
-                                <FormError>You must provide a valid URL</FormError>}
-                            {errors.storagePath?.type === "required" &&
-                                <FormError>You must provide a path</FormError>}
                         </ContentGroup>
                         <ContentGroup>
                             <p>
@@ -117,25 +121,27 @@ export default function SetupPage({profile}: SetupPageProps) {
                                 this storage in the future.
                             </p>
                             {privateTypeIndex.error && <>
-                                <p>We don&#39;t have access to a private index for this, so we&#39;ll add this link
+                                <p className="help is-warning">We don&#39;t have access to a private index for this, so
+                                    we&#39;ll add this link
                                     publicly.</p>
                             </>}
                             {!privateTypeIndex.error && <>
-                                <p>If you prefer, you can make this link private.</p>
-                                <CheckboxToggle {...register("private")}>Make this link private</CheckboxToggle>
+                                <Checkbox {...register("private")}
+                                          help="If you prefer, you can make this link private">Make this link
+                                    private</Checkbox>
                             </>}
                         </ContentGroup>
                         <ContentGroup>
                             <p>Finally, let&#39;s create your first todo list, to get you started.</p>
-                            <p>You can name the list if you want</p>
-                            <Input defaultValue={"My Todo List"} {...register("listName")}>
-                                Storage
+                            <Input defaultValue={"My Todo List"} {...register("listName")}
+                                   help="You can leave the list's name blank if you want">
+                                List Name
                             </Input>
                         </ContentGroup>
                         <SubmitButton>Set up my Pod for me</SubmitButton>
-                        {Object.keys(errors).length > 0 && (
-                            <ContentGroup>
-                                <FormError>Some fields are invalid, please check for errors.</FormError>
+                        {isSubmitted && !isValid && (
+                            <ContentGroup className={"help is-danger"}>
+                                Some fields are invalid, please check for errors.
                             </ContentGroup>
                         )}
                     </form>
