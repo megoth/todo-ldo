@@ -4,8 +4,9 @@ import {getResourceUrl} from "@/libs/ldo";
 import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
 import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
-import TodoListIndexList from "@/components/todoListIndex/list";
+import TodoListIndexItem from "src/components/todoListIndex/item";
 import Link from "next/link";
+import {ActiveControlsContextProvider} from "@/contexts/activeControls";
 
 interface TodoListIndexStorageProps {
     storageUrl?: string;
@@ -28,7 +29,7 @@ export default function TodoListIndexStorage({showStorage, storageUrl}: TodoList
     }
 
     return (
-        <>
+        <ActiveControlsContextProvider>
             {showStorage && (
                 <h2>
                     <Link href={storage["@id"]!}>Storage</Link>
@@ -36,9 +37,9 @@ export default function TodoListIndexStorage({showStorage, storageUrl}: TodoList
             )}
             <ul className="list has-visible-pointer-controls">
                 {storage.list?.map((list) => (
-                    <TodoListIndexList key={list["@id"]} listUrl={list["@id"]} resourceUrl={storageUrl} />
+                    <TodoListIndexItem key={list["@id"]} listUrl={list["@id"]} resourceUrl={storageUrl} />
                 ))}
             </ul>
-        </>
+        </ActiveControlsContextProvider>
     )
 }
