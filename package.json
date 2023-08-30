@@ -25,7 +25,7 @@
     "clsx": "^1.2.1",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.5",
-    "ldo": "^0.0.11",
+    "ldo": "^1.0.3",
     "next": "13.1.5",
     "prismjs": "^1.29.0",
     "react": "18.2.0",
@@ -41,7 +41,8 @@
   },
   "devDependencies": {
     "@types/jsonld": "^1.5.8",
+    "@types/n3": "^1.16.0",
     "@types/shexj": "^2.1.4",
-    "ldo-cli": "^2.0.0"
+    "ldo-cli": "^3.0.1"
   }
 }

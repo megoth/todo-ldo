@@ -1,11 +1,11 @@
-import {LinkedDataObject} from "ldo";
 import {useEffect, useState} from "react";
 import {solidNamespace} from "@/vocabularies";
 import useTypeIndexResources from "@/hooks/useTypeIndexResources";
 import {NamedNode} from "@rdfjs/types";
-import {WebIdProfileShape} from "@/ldo/solid.typings";
+import {WebIdProfile} from "@/ldo/solid.typings";
+import {getDataset} from "ldo";
 
-export default function useTypeStorage(profile: LinkedDataObject<WebIdProfileShape> | null | undefined, type: NamedNode) {
+export default function useTypeStorage(profile: WebIdProfile | null | undefined, type: NamedNode) {
     const [storages, setStorages] = useState<string[] | null>(null);
 
     const {
@@ -27,7 +27,10 @@ export default function useTypeStorage(profile: LinkedDataObject<WebIdProfileSha
     } = useTypeIndexResources(profile);
 
     useEffect(() => {
-        const quads = [...(publicTypeIndex?.$dataset().toArray() || []), ...(privateTypeIndex?.$dataset().toArray() || [])];
+        if (!publicTypeIndex || !privateTypeIndex) {
+            return setStorages([]);
+        }
+        const quads = [...(getDataset(publicTypeIndex).toArray() || []), ...(getDataset(privateTypeIndex).toArray() || [])];
         const typeRegistrations = quads.filter((q) => q.predicate.equals(solidNamespace.forClass) && q.object.equals(type)).map(({ subject }) => subject.value);
         const storages = quads.filter((q) => typeRegistrations.indexOf(q.subject.value) >= 0 && q.predicate.equals(solidNamespace.instance)).map(({ object }) => object.value);
         const resourcesAreLoading = publicTypeIsLoading || preferencesIsLoading || privateTypeIsLoading;

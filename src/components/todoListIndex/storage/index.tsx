@@ -1,12 +1,12 @@
 import useSubject from "@/hooks/useSubject";
-import {DocumentShape} from "@/ldo/todo.typings";
 import {getResourceUrl} from "@/libs/ldo";
 import ErrorDetails from "@/components/errorDetails";
 import Loading from "@/components/loading";
-import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
 import TodoListIndexItem from "src/components/todoListIndex/item";
 import Link from "next/link";
 import {ActiveControlsContextProvider} from "@/contexts/activeControls";
+import {Document} from "@/ldo/todo.typings";
+import {DocumentShapeType} from "@/ldo/todo.shapeTypes";
 
 interface TodoListIndexStorageProps {
     storageUrl?: string;
@@ -18,7 +18,7 @@ export default function TodoListIndexStorage({showStorage, storageUrl}: TodoList
         data: storage,
         error: storageError,
         isLoading: storageIsLoading
-    } = useSubject<DocumentShape>(storageUrl, getResourceUrl(storageUrl), DocumentShapeFactory);
+    } = useSubject<Document>(storageUrl, getResourceUrl(storageUrl), DocumentShapeType);
 
     if (storageError) {
         return <ErrorDetails error={storageError}/>

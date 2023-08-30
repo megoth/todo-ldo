@@ -2,9 +2,6 @@ import {createSubjectUrl, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {useForm} from "react-hook-form";
 import useSubject from "@/hooks/useSubject";
-import {ListShape, TaskShape} from "@/ldo/todo.typings";
-import {ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
-import {LinkedDataObject} from "ldo";
 import {todo} from "@/vocabularies";
 import Button from "@/components/button";
 import Loading from "@/components/loading";
@@ -12,6 +9,9 @@ import {useModal} from "react-modal-hook";
 import FormModal from "@/components/form-modal";
 import {FiPlusSquare} from "react-icons/fi";
 import Input from "@/components/input";
+import {List} from "@/ldo/todo.typings";
+import {ListShapeType, TaskShapeType} from "@/ldo/todo.shapeTypes";
+import {createLdoDataset, getDataset, startTransaction} from "ldo";
 
 interface TodoListCreateTaskProps {
     listUrl: string | null | undefined;
@@ -32,7 +32,7 @@ export default function TodoListCreateTask({listUrl, resourceUrl}: TodoListCreat
     const {
         data: list,
         mutate: mutateList
-    } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
+    } = useSubject<List>(listUrl, resourceUrl, ListShapeType);
     const [showModal, hideModal] = useModal(() => {
         return (
             <form onSubmit={onSubmit(list!)} onReset={onReset}>
@@ -47,15 +47,24 @@ export default function TodoListCreateTask({listUrl, resourceUrl}: TodoListCreat
         return <Loading/>
     }
 
-    function onSubmit(list: LinkedDataObject<ListShape>) {
+    function onSubmit(list: List) {
         return handleSubmit(async (data) => {
-            const task = TaskShapeFactory.new(createSubjectUrl(resourceUrl)) as LinkedDataObject<TaskShape>;
+            const dataset = createLdoDataset(getDataset(list));
+            const task = dataset.usingType(TaskShapeType).fromSubject(createSubjectUrl(resourceUrl));
+
+            // UPDATE TASK
+            startTransaction(task);
             task.type = todo.Task;
             task.description = data.taskName;
             await update(task, resourceUrl, fetch);
+
+            // UPDATE LIST
+            startTransaction(list);
             list.task?.unshift(task);
             await update(list, resourceUrl, fetch);
-            await mutateList(list.$clone());
+
+            // CLEAN UP
+            await mutateList();
             reset();
             hideModal();
         })

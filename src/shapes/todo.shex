@@ -2,19 +2,20 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX todo: <https://icanhasweb.net/vocab/todo.ttl#>
+PREFIX shape: <https://icanhasweb.net/shapes/todo.ttl#>
 
-todo:DocumentShape EXTRA rdf:type {
+shape:Document EXTRA rdf:type {
   rdf:type [todo:Document] ;
-  todo:list @todo:ListShape* ;
+  todo:list @shape:List* ;
 }
 
-todo:ListShape EXTRA rdf:type {
+shape:List EXTRA rdf:type {
   rdf:type [todo:List] ;
   todo:name xsd:string? ;
-  todo:task @todo:TaskShape* ;
+  todo:task @shape:Task* ;
 }
 
-todo:TaskShape EXTRA rdf:type {
+shape:Task EXTRA rdf:type {
   rdf:type [todo:Task] ;
   todo:description xsd:string ;
   todo:status [todo:complete todo:incomplete]? ;

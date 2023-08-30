@@ -1,13 +1,13 @@
 import Layout from "@/components/layout";
 import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
-import {WebIdProfileShape} from "@/ldo/solid.typings";
 import {getResourceUrl} from "@/libs/ldo";
-import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import {todoNamespace} from "@/vocabularies";
 import Loading from "@/components/loading";
 import TodoListIndex from "@/components/todoListIndex";
+import {WebIdProfile} from "@/ldo/solid.typings";
+import {WebIdProfileShapeType} from "@/ldo/solid.shapeTypes";
 
 export default function ListIndexPage() {
     const {
@@ -17,7 +17,7 @@ export default function ListIndexPage() {
         data: profile,
         error: profileError,
         isLoading: profileIsLoading
-    } = useSubject<WebIdProfileShape>(webId, getResourceUrl(webId), WebIdProfileShapeFactory);
+    } = useSubject<WebIdProfile>(webId, getResourceUrl(webId), WebIdProfileShapeType);
     const storages = useTypeStorage(profile, todoNamespace.TodoList);
 
     if (profileIsLoading) {

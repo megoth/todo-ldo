@@ -1,11 +1,11 @@
 import useSubject from "@/hooks/useSubject";
-import {DocumentShape, ListShape} from "@/ldo/todo.typings";
-import {DocumentShapeFactory, ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import Loading from "@/components/loading";
 import {getResourceUrl} from "@/libs/ldo";
 import ErrorDetails from "@/components/errorDetails";
 import Link from "next/link";
 import TodoListIndexItemControls from "@/components/todoListIndex/item/controls";
+import {Document, List} from "@/ldo/todo.typings";
+import {DocumentShapeType, ListShapeType} from "@/ldo/todo.shapeTypes";
 
 interface TodoListIndexListProps {
     listUrl: string | null | undefined;
@@ -18,12 +18,12 @@ export default function TodoListIndexItem({listUrl, resourceUrl}: TodoListIndexL
         error: storageError,
         isLoading: storageIsLoading,
         mutate: mutateStorage,
-    } = useSubject<DocumentShape>(resourceUrl, getResourceUrl(resourceUrl), DocumentShapeFactory);
+    } = useSubject<Document>(resourceUrl, getResourceUrl(resourceUrl), DocumentShapeType);
     const {
         data: list,
         error: listError,
         isLoading: listIsLoading
-    } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
+    } = useSubject<List>(listUrl, resourceUrl, ListShapeType);
 
     if (storageError) {
         return <ErrorDetails error={storageError || listError}/>

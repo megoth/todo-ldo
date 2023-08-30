@@ -9,7 +9,7 @@ export const todoSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "https://icanhasweb.net/vocab/todo.ttl#DocumentShape",
+      id: "https://icanhasweb.net/shapes/todo.ttl#Document",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -27,7 +27,7 @@ export const todoSchema: Schema = {
             {
               type: "TripleConstraint",
               predicate: "https://icanhasweb.net/vocab/todo.ttl#list",
-              valueExpr: "https://icanhasweb.net/vocab/todo.ttl#ListShape",
+              valueExpr: "https://icanhasweb.net/shapes/todo.ttl#List",
               min: 0,
               max: -1,
             },
@@ -37,7 +37,7 @@ export const todoSchema: Schema = {
       },
     },
     {
-      id: "https://icanhasweb.net/vocab/todo.ttl#ListShape",
+      id: "https://icanhasweb.net/shapes/todo.ttl#List",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -65,7 +65,7 @@ export const todoSchema: Schema = {
             {
               type: "TripleConstraint",
               predicate: "https://icanhasweb.net/vocab/todo.ttl#task",
-              valueExpr: "https://icanhasweb.net/vocab/todo.ttl#TaskShape",
+              valueExpr: "https://icanhasweb.net/shapes/todo.ttl#Task",
               min: 0,
               max: -1,
             },
@@ -75,7 +75,7 @@ export const todoSchema: Schema = {
       },
     },
     {
-      id: "https://icanhasweb.net/vocab/todo.ttl#TaskShape",
+      id: "https://icanhasweb.net/shapes/todo.ttl#Task",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",

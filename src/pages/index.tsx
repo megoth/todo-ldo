@@ -7,11 +7,11 @@ import {getResourceUrl} from "@/libs/ldo";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import SetupPrompt from "@/components/setupPrompt";
 import {todoNamespace} from "@/vocabularies";
-import {DocumentShape} from "@/ldo/todo.typings";
-import {DocumentShapeFactory} from "@/ldo/todo.ldoFactory";
-import {WebIdProfileShape} from "@/ldo/solid.typings";
-import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
 import Redirect from "@/components/redirect";
+import {WebIdProfileShapeType} from "@/ldo/solid.shapeTypes";
+import {WebIdProfile} from "@/ldo/solid.typings";
+import {DocumentShapeType} from "@/ldo/todo.shapeTypes";
+import {Document} from "@/ldo/todo.typings";
 
 export default function HomePage() {
     const {session: {info: {webId, isLoggedIn}}} = useSession();
@@ -19,13 +19,13 @@ export default function HomePage() {
         data: profile,
         error: profileError,
         isLoading: profileIsLoading
-    } = useSubject<WebIdProfileShape>(webId, getResourceUrl(webId), WebIdProfileShapeFactory);
+    } = useSubject<WebIdProfile>(webId, getResourceUrl(webId), WebIdProfileShapeType);
     const storages = useTypeStorage(profile, todoNamespace.TodoList);
     const {
         data: storage,
         error: storageError,
         isLoading: storageIsLoading,
-    } = useSubject<DocumentShape>(storages?.[0], getResourceUrl(storages?.[0]), DocumentShapeFactory);
+    } = useSubject<Document>(storages?.[0], getResourceUrl(storages?.[0]), DocumentShapeType);
 
     if (profileError || storageError) {
         return <ErrorDetails error={profileError || storageError}/>

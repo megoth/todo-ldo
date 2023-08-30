@@ -5,6 +5,7 @@ import styles from "./styles.module.css";
 import clsx from "clsx";
 import Code from "@/components/code";
 import Button from "@/components/button";
+import {toTurtle} from "ldo";
 
 interface ToolBoxProps {
     children?: ReactNode;
@@ -13,7 +14,7 @@ interface ToolBoxProps {
 export default function ToolBox({children}: ToolBoxProps) {
     const {developerMode, subjects} = useContext(DeveloperModeContext);
     const {session} = useSession();
-    const [selectedSubject, setSelectedSubject] = useState<SubjectNode | null>(null);
+    const [selectedSubject, setSelectedSubject] = useState<SubjectNode<any> | null>(null);
     const [turtle, setTurtle] = useState<string>();
 
     useEffect(() => {
@@ -28,7 +29,7 @@ export default function ToolBox({children}: ToolBoxProps) {
             return;
         }
         (async () => {
-            setTurtle(await selectedSubject.ldo.$toTurtle())
+            setTurtle(await toTurtle(selectedSubject.ldo))
         })();
     }, [selectedSubject]);
 

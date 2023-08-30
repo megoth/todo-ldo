@@ -1,13 +1,12 @@
-import {LinkedDataObject} from "ldo";
 import WelcomeTitle from "@/components/welcomeTitle";
 import TextContent from "@/components/textContent";
 import Button from "@/components/button";
 import ContentGroup from "@/components/contentGroup";
-import {WebIdProfileShape} from "@/ldo/solid.typings";
 import FlexBar from "@/components/flexBar";
+import {WebIdProfile} from "@/ldo/solid.typings";
 
 interface SetupPromptProps {
-    profile: LinkedDataObject<WebIdProfileShape>
+    profile: WebIdProfile
 }
 
 export default function SetupPrompt({profile}: SetupPromptProps) {

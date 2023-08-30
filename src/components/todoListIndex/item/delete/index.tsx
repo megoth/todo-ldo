@@ -1,18 +1,16 @@
 import Button from "@/components/button";
 import {FiDelete} from "react-icons/fi";
-import {TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import {remove, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
-import {LinkedDataObject} from "ldo";
-import {DocumentShape, ListShape} from "@/ldo/todo.typings";
-import {KeyedMutator} from "swr/_internal";
+import {Document, List} from "@/ldo/todo.typings";
+import {startTransaction} from "ldo";
 
 interface Props {
     className?: string;
-    list: LinkedDataObject<ListShape>;
-    mutateStorage: KeyedMutator<LinkedDataObject<DocumentShape> | null>;
+    list: List;
+    mutateStorage: () => void;
     resourceUrl: string | null | undefined;
-    storage: LinkedDataObject<DocumentShape>;
+    storage: Document;
 }
 
 export function TodoListIndexItemDelete({className, list, mutateStorage, resourceUrl, storage}: Props) {
@@ -23,19 +21,21 @@ export function TodoListIndexItemDelete({className, list, mutateStorage, resourc
         const listIndex = lists.findIndex((l) => l["@id"] === list["@id"])
         // First removing tasks connected to item
         await Promise.all(list.task!.map(async (task) => {
-            const shape = await TaskShapeFactory.parse(task["@id"]!, storage.$dataset());
-            return remove(shape, storage["@id"], fetch);
+            startTransaction(task);
+            return remove(task, storage["@id"], fetch);
         }));
         // const tasks = await Promise.all(item.task!.map((task) => remove(task, resourceUrl, fetch)));
         // Then removing the item itself
+        startTransaction(list);
         await remove(list, resourceUrl, fetch);
         // Then removing item from index
+        startTransaction(storage);
         storage.list = [
             ...lists.slice(0, listIndex),
             ...lists.slice(listIndex + 1)
         ];
         await update(storage, resourceUrl, fetch);
-        await mutateStorage(storage.$clone());
+        return mutateStorage();
     };
     return (
         <Button className={className} variant="danger" onClick={onDelete}>

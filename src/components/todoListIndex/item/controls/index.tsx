@@ -1,18 +1,16 @@
 import {TodoListIndexItemDelete} from "@/components/todoListIndex/item/delete";
-import {LinkedDataObject} from "ldo";
-import {DocumentShape, ListShape} from "@/ldo/todo.typings";
-import {KeyedMutator} from "swr/_internal";
 import React, {useContext, useState} from "react";
 import clsx from "clsx";
 import {FiMoreHorizontal} from "react-icons/fi";
 import ActiveControlsContext from "@/contexts/activeControls";
+import {Document, List} from "@/ldo/todo.typings";
 
 interface Props {
     id: string;
-    list: LinkedDataObject<ListShape>;
-    mutateStorage: KeyedMutator<LinkedDataObject<DocumentShape> | null>;
+    list: List;
+    mutateStorage: (storage: Document) => void;
     resourceUrl: string | null | undefined;
-    storage: LinkedDataObject<DocumentShape>;
+    storage: Document;
 }
 
 export default function TodoListIndexListControls({id, list, mutateStorage, resourceUrl, storage}: Props) {

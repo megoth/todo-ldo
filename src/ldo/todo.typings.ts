@@ -7,34 +7,34 @@ import { ContextDefinition } from "jsonld";
  */
 
 /**
- * DocumentShape Type
+ * Document Type
  */
-export interface DocumentShape {
+export interface Document {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: {
     "@id": "Document";
   };
-  list?: ListShape[];
+  list?: List[];
 }
 
 /**
- * ListShape Type
+ * List Type
  */
-export interface ListShape {
+export interface List {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: {
     "@id": "List";
   };
   name?: string;
-  task?: TaskShape[];
+  task?: Task[];
 }
 
 /**
- * TaskShape Type
+ * Task Type
  */
-export interface TaskShape {
+export interface Task {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: {

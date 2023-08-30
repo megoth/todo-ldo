@@ -3,6 +3,8 @@ import {getValue} from "@/libs/ldo";
 
 export const solidNamespace = namespace("http://www.w3.org/ns/solid/terms#");
 export const solid = {
+    forClass: solidNamespace.forClass,
+    TypeIndex: getValue<"TypeIndex">(solidNamespace.TypeIndex.value),
     TypeRegistration: getValue<"TypeRegistration">(solidNamespace.TypeRegistration.value)
 }
 export const todoNamespace = namespace("https://icanhasweb.net/vocab/todo.ttl#");
@@ -14,5 +16,5 @@ export const todo = {
     List: getValue<"List">(todoNamespace.List.value),
     Task: getValue<"Task">(todoNamespace.Task.value),
     TodoDocument: getValue<"Document">(todoNamespace.TodoDocument.value),
-    TodoList: getValue<string>(todoNamespace.TodoList.value),
+    TodoList: getValue<"TodoList">(todoNamespace.TodoList.value),
 };

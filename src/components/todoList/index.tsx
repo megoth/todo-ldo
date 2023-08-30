@@ -2,11 +2,11 @@ import useSubject from "@/hooks/useSubject";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
 import TodoTask from "@/components/todoTask";
-import {ListShape} from "@/ldo/todo.typings";
-import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
 import TodoListCreateTask from "@/components/todoList/createTask";
 import FlexBar from "@/components/flexBar";
 import TodoListChangeName from "@/components/todoList/changeName";
+import {List} from "@/ldo/todo.typings";
+import {ListShapeType} from "@/ldo/todo.shapeTypes";
 
 interface TodoListProps {
     listUrl: string | undefined;
@@ -19,7 +19,7 @@ export default function TodoList({listUrl, resourceUrl}: TodoListProps) {
         data: list,
         error: listError,
         isLoading,
-    } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
+    } = useSubject<List>(listUrl, resourceUrl, ListShapeType);
 
     if (listError) {
         return <ErrorDetails error={listError}/>

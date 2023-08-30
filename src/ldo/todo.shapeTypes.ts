@@ -1,7 +1,7 @@
 import { ShapeType } from "ldo";
 import { todoSchema } from "./todo.schema";
 import { todoContext } from "./todo.context";
-import { DocumentShape, ListShape, TaskShape } from "./todo.typings";
+import { Document, List, Task } from "./todo.typings";
 
 /**
  * =============================================================================
@@ -10,28 +10,28 @@ import { DocumentShape, ListShape, TaskShape } from "./todo.typings";
  */
 
 /**
- * DocumentShape ShapeType
+ * Document ShapeType
  */
-export const DocumentShapeShapeType: ShapeType<DocumentShape> = {
+export const DocumentShapeType: ShapeType<Document> = {
   schema: todoSchema,
-  shape: "https://icanhasweb.net/vocab/todo.ttl#DocumentShape",
+  shape: "https://icanhasweb.net/shapes/todo.ttl#Document",
   context: todoContext,
 };
 
 /**
- * ListShape ShapeType
+ * List ShapeType
  */
-export const ListShapeShapeType: ShapeType<ListShape> = {
+export const ListShapeType: ShapeType<List> = {
   schema: todoSchema,
-  shape: "https://icanhasweb.net/vocab/todo.ttl#ListShape",
+  shape: "https://icanhasweb.net/shapes/todo.ttl#List",
   context: todoContext,
 };
 
 /**
- * TaskShape ShapeType
+ * Task ShapeType
  */
-export const TaskShapeShapeType: ShapeType<TaskShape> = {
+export const TaskShapeType: ShapeType<Task> = {
   schema: todoSchema,
-  shape: "https://icanhasweb.net/vocab/todo.ttl#TaskShape",
+  shape: "https://icanhasweb.net/shapes/todo.ttl#Task",
   context: todoContext,
 };

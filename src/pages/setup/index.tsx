@@ -4,9 +4,9 @@ import useSubject from "@/hooks/useSubject";
 import ErrorDetails from "@/components/errorDetails";
 import {getResourceUrl} from "@/libs/ldo";
 import Setup from "@/components/setup";
-import {WebIdProfileShape} from "@/ldo/solid.typings";
-import {WebIdProfileShapeFactory} from "@/ldo/solid.ldoFactory";
 import Loading from "@/components/loading";
+import {WebIdProfile} from "@/ldo/solid.typings";
+import {WebIdProfileShapeType} from "@/ldo/solid.shapeTypes";
 
 export default function SetupPage() {
     const {session: {info: {webId, isLoggedIn}}} = useSession();
@@ -14,7 +14,7 @@ export default function SetupPage() {
         data: profile,
         error: profileError,
         isLoading: profileIsLoading
-    } = useSubject<WebIdProfileShape>(webId, getResourceUrl(webId), WebIdProfileShapeFactory);
+    } = useSubject<WebIdProfile>(webId, getResourceUrl(webId), WebIdProfileShapeType);
 
     if (!isLoggedIn) {
         return <Layout/>

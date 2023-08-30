@@ -2,11 +2,11 @@ import { ShapeType } from "ldo";
 import { solidSchema } from "./solid.schema";
 import { solidContext } from "./solid.context";
 import {
-  ContainerShape,
-  ResourceShape,
-  TypeIndexShape,
-  TypeRegistrationShape,
-  WebIdProfileShape,
+  Container,
+  Resource,
+  TypeIndex,
+  TypeRegistration,
+  WebIdProfile,
 } from "./solid.typings";
 
 /**
@@ -16,47 +16,46 @@ import {
  */
 
 /**
- * ContainerShape ShapeType
+ * Container ShapeType
  */
-export const ContainerShapeShapeType: ShapeType<ContainerShape> = {
+export const ContainerShapeType: ShapeType<Container> = {
   schema: solidSchema,
-  shape: "http://www.w3.org/ns/solid/terms#ContainerShape",
+  shape: "https://icanhasweb.net/shapes/solid.ttl#Container",
   context: solidContext,
 };
 
 /**
- * ResourceShape ShapeType
+ * Resource ShapeType
  */
-export const ResourceShapeShapeType: ShapeType<ResourceShape> = {
+export const ResourceShapeType: ShapeType<Resource> = {
   schema: solidSchema,
-  shape: "http://www.w3.org/ns/solid/terms#ResourceShape",
+  shape: "https://icanhasweb.net/shapes/solid.ttl#Resource",
   context: solidContext,
 };
 
 /**
- * TypeIndexShape ShapeType
+ * TypeIndex ShapeType
  */
-export const TypeIndexShapeShapeType: ShapeType<TypeIndexShape> = {
+export const TypeIndexShapeType: ShapeType<TypeIndex> = {
   schema: solidSchema,
-  shape: "http://www.w3.org/ns/solid/terms#TypeIndexShape",
+  shape: "https://icanhasweb.net/shapes/solid.ttl#TypeIndex",
   context: solidContext,
 };
 
 /**
- * TypeRegistrationShape ShapeType
+ * TypeRegistration ShapeType
  */
-export const TypeRegistrationShapeShapeType: ShapeType<TypeRegistrationShape> =
-  {
-    schema: solidSchema,
-    shape: "http://www.w3.org/ns/solid/terms#TypeRegistrationShape",
-    context: solidContext,
-  };
+export const TypeRegistrationShapeType: ShapeType<TypeRegistration> = {
+  schema: solidSchema,
+  shape: "https://icanhasweb.net/shapes/solid.ttl#TypeRegistration",
+  context: solidContext,
+};
 
 /**
- * WebIdProfileShape ShapeType
+ * WebIdProfile ShapeType
  */
-export const WebIdProfileShapeShapeType: ShapeType<WebIdProfileShape> = {
+export const WebIdProfileShapeType: ShapeType<WebIdProfile> = {
   schema: solidSchema,
-  shape: "http://www.w3.org/ns/solid/terms#WebIdProfileShape",
+  shape: "https://icanhasweb.net/shapes/solid.ttl#WebIdProfile",
   context: solidContext,
 };

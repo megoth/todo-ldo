@@ -26,10 +26,6 @@ export const solidContext: ContextDefinition = {
     "@id": "http://www.w3.org/ns/solid/terms#forClass",
     "@type": "@id",
   },
-  instanceContainer: {
-    "@id": "http://www.w3.org/ns/solid/terms#instanceContainer",
-    "@type": "@id",
-  },
   instance: {
     "@id": "http://www.w3.org/ns/solid/terms#instance",
     "@type": "@id",

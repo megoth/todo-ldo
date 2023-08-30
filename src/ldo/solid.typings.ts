@@ -7,9 +7,9 @@ import { ContextDefinition } from "jsonld";
  */
 
 /**
- * ContainerShape Type
+ * Container Type
  */
-export interface ContainerShape {
+export interface Container {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type:
@@ -22,9 +22,9 @@ export interface ContainerShape {
 }
 
 /**
- * ResourceShape Type
+ * Resource Type
  */
-export interface ResourceShape {
+export interface Resource {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: {
@@ -33,9 +33,9 @@ export interface ResourceShape {
 }
 
 /**
- * TypeIndexShape Type
+ * TypeIndex Type
  */
-export interface TypeIndexShape {
+export interface TypeIndex {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: {
@@ -44,9 +44,9 @@ export interface TypeIndexShape {
 }
 
 /**
- * TypeRegistrationShape Type
+ * TypeRegistration Type
  */
-export interface TypeRegistrationShape {
+export interface TypeRegistration {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: {
@@ -55,12 +55,15 @@ export interface TypeRegistrationShape {
   forClass: {
     "@id": string;
   };
+  instance: {
+    "@id": string;
+  };
 }
 
 /**
- * WebIdProfileShape Type
+ * WebIdProfile Type
  */
-export interface WebIdProfileShape {
+export interface WebIdProfile {
   "@id"?: string;
   "@context"?: ContextDefinition;
   type: {

@@ -8,10 +8,11 @@ import {useForm} from "react-hook-form";
 import {todo} from "@/vocabularies";
 import Button from "@/components/button";
 import Input from "@/components/input";
-import {ListShape, TaskShape} from "@/ldo/todo.typings";
-import {ListShapeFactory, TaskShapeFactory} from "@/ldo/todo.ldoFactory";
 import {FiDelete, FiEdit2} from "react-icons/fi";
 import Checkbox from "@/components/checkbox";
+import {List, Task} from "@/ldo/todo.typings";
+import {ListShapeType, TaskShapeType} from "@/ldo/todo.shapeTypes";
+import {startTransaction} from "ldo";
 
 interface TodoTaskProps {
     listUrl: string | undefined;
@@ -30,13 +31,13 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
         error: listError,
         isLoading: listIsLoading,
         mutate: mutateList
-    } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
+    } = useSubject<List>(listUrl, resourceUrl, ListShapeType);
     const {
         data: task,
         error: taskError,
         isLoading: taskIsLoading,
         mutate: mutateTask
-    } = useSubject<TaskShape>(taskUrl, resourceUrl, TaskShapeFactory);
+    } = useSubject<Task>(taskUrl, resourceUrl, TaskShapeType);
     const {fetch} = useSession();
     const {
         reset, setValue, register, handleSubmit, control: {
@@ -67,9 +68,14 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
 
     const onSubmit = handleSubmit(async (data, event) => {
         event?.preventDefault();
+
+        // UPDATE TASK
+        startTransaction(task);
         task.description = data.description;
         await update(task, resourceUrl, fetch);
-        await mutateTask(task.$clone());
+
+        // CLEAN UP
+        await mutateTask();
         setEditMode(false);
     });
 
@@ -95,23 +101,26 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
     }
 
     const onChange = handleSubmit(async (data, event) => {
+        startTransaction(task);
         task.status = event?.target.checked ? todo.complete : todo.incomplete;
         await update(task, resourceUrl, fetch);
-        await mutateTask(task.$clone());
+        await mutateTask();
     });
 
     const onRemove = async () => {
         const tasks = list.task!;
         const taskIndex = tasks.findIndex((t) => t["@id"] === task["@id"])
         // First removing task itself
+        startTransaction(task);
         await remove(task, resourceUrl, fetch);
         // Then removing task from list
+        startTransaction(list);
         list.task = [
             ...tasks.slice(0, taskIndex),
             ...tasks.slice(taskIndex + 1)
         ];
         await update(list, resourceUrl, fetch);
-        await mutateList(list.$clone());
+        await mutateList();
     }
 
     return (

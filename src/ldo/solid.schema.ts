@@ -9,7 +9,7 @@ export const solidSchema: Schema = {
   type: "Schema",
   shapes: [
     {
-      id: "http://www.w3.org/ns/solid/terms#ContainerShape",
+      id: "https://icanhasweb.net/shapes/solid.ttl#Container",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -33,12 +33,13 @@ export const solidSchema: Schema = {
                 {
                   type: "TripleConstraint",
                   predicate: "http://www.w3.org/ns/ldp#contains",
-                  valueExpr: "http://www.w3.org/ns/solid/terms#ContainerShape",
+                  valueExpr:
+                    "https://icanhasweb.net/shapes/solid.ttl#Container",
                 },
                 {
                   type: "TripleConstraint",
                   predicate: "http://www.w3.org/ns/ldp#contains",
-                  valueExpr: "http://www.w3.org/ns/solid/terms#ResourceShape",
+                  valueExpr: "https://icanhasweb.net/shapes/solid.ttl#Resource",
                 },
               ],
               min: 0,
@@ -50,7 +51,7 @@ export const solidSchema: Schema = {
       },
     },
     {
-      id: "http://www.w3.org/ns/solid/terms#ResourceShape",
+      id: "https://icanhasweb.net/shapes/solid.ttl#Resource",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -66,7 +67,7 @@ export const solidSchema: Schema = {
       },
     },
     {
-      id: "http://www.w3.org/ns/solid/terms#TypeIndexShape",
+      id: "https://icanhasweb.net/shapes/solid.ttl#TypeIndex",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -110,7 +111,7 @@ export const solidSchema: Schema = {
       },
     },
     {
-      id: "http://www.w3.org/ns/solid/terms#TypeRegistrationShape",
+      id: "https://icanhasweb.net/shapes/solid.ttl#TypeRegistration",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",
@@ -134,34 +135,12 @@ export const solidSchema: Schema = {
               },
             },
             {
-              type: "OneOf",
-              expressions: [
-                {
-                  type: "TripleConstraint",
-                  predicate:
-                    "http://www.w3.org/ns/solid/terms#instanceContainer",
-                  valueExpr: {
-                    type: "Shape",
-                    expression: {
-                      type: "TripleConstraint",
-                      predicate:
-                        "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
-                      valueExpr: {
-                        type: "NodeConstraint",
-                        values: ["http://www.w3.org/ns/ldp#Container"],
-                      },
-                    },
-                  },
-                },
-                {
-                  type: "TripleConstraint",
-                  predicate: "http://www.w3.org/ns/solid/terms#instance",
-                  valueExpr: {
-                    type: "NodeConstraint",
-                    nodeKind: "iri",
-                  },
-                },
-              ],
+              type: "TripleConstraint",
+              predicate: "http://www.w3.org/ns/solid/terms#instance",
+              valueExpr: {
+                type: "NodeConstraint",
+                nodeKind: "iri",
+              },
             },
           ],
         },
@@ -169,7 +148,7 @@ export const solidSchema: Schema = {
       },
     },
     {
-      id: "http://www.w3.org/ns/solid/terms#WebIdProfileShape",
+      id: "https://icanhasweb.net/shapes/solid.ttl#WebIdProfile",
       type: "ShapeDecl",
       shapeExpr: {
         type: "Shape",

@@ -5,13 +5,13 @@ import FormModal from "@/components/form-modal";
 import {update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
-import {ListShape} from "@/ldo/todo.typings";
-import {ListShapeFactory} from "@/ldo/todo.ldoFactory";
+import {List} from "@/ldo/todo.typings";
 import {useForm} from "react-hook-form";
 import {useEffect} from "react";
 import Loading from "@/components/loading";
-import {LinkedDataObject} from "ldo";
 import Input from "@/components/input";
+import {ListShapeType} from "@/ldo/todo.shapeTypes";
+import {startTransaction} from "ldo";
 
 interface TodoListChangeNameProps {
     listUrl: string | undefined;
@@ -27,7 +27,7 @@ export default function TodoListChangeName({listUrl, resourceUrl}: TodoListChang
     const {
         data: list,
         mutate: mutateList
-    } = useSubject<ListShape>(listUrl, resourceUrl, ListShapeFactory);
+    } = useSubject<List>(listUrl, resourceUrl, ListShapeType);
     const {reset, setValue, register, handleSubmit} = useForm<FormData>({
         defaultValues: {
             listName: ""
@@ -50,17 +50,18 @@ export default function TodoListChangeName({listUrl, resourceUrl}: TodoListChang
         hideModal();
     }
 
-    function onSubmit(list: LinkedDataObject<ListShape>) {
+    function onSubmit(list: List) {
         return handleSubmit(async (data, event) => {
             event?.preventDefault();
+            startTransaction(list);
             list.name = data.listName;
             await update(list, resourceUrl, fetch);
-            await mutateList(list.$clone());
+            await mutateList();
             close(data);
         });
     }
 
-    function onReset(list: LinkedDataObject<ListShape>) {
+    function onReset(list: List) {
         return () => close({
             listName: list.name || ""
         });
