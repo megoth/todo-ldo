@@ -8,7 +8,7 @@ import {startTransaction} from "ldo";
 interface Props {
     className?: string;
     list: List;
-    mutateStorage: () => void;
+    mutateStorage: (storage?: Document) => void;
     resourceUrl: string | null | undefined;
     storage: Document;
 }

@@ -8,7 +8,7 @@ import {Document, List} from "@/ldo/todo.typings";
 interface Props {
     id: string;
     list: List;
-    mutateStorage: (storage: Document) => void;
+    mutateStorage: (storage?: Document) => void;
     resourceUrl: string | null | undefined;
     storage: Document;
 }
