@@ -1,7 +1,7 @@
 import Button from "@/components/button";
 import {FiEdit2} from "react-icons/fi";
 import {useModal} from "react-modal-hook";
-import FormModal from "@/components/form-modal";
+import FormModal from "src/components/formModal";
 import {update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
@@ -53,9 +53,9 @@ export default function TodoListChangeName({listUrl, resourceUrl}: TodoListChang
     function onSubmit(list: List) {
         return handleSubmit(async (data, event) => {
             event?.preventDefault();
-            startTransaction(list);
-            list.name = data.listName;
-            await update(list, resourceUrl, fetch);
+            await update(list, resourceUrl, fetch, (list) => {
+                list.name = data.listName;
+            });
             await mutateList();
             close(data);
         });

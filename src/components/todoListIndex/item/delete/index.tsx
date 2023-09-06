@@ -20,21 +20,17 @@ export function TodoListIndexItemDelete({className, list, mutateStorage, resourc
         const lists = storage.list!;
         const listIndex = lists.findIndex((l) => l["@id"] === list["@id"])
         // First removing tasks connected to item
-        await Promise.all(list.task!.map(async (task) => {
-            startTransaction(task);
-            return remove(task, storage["@id"], fetch);
-        }));
-        // const tasks = await Promise.all(item.task!.map((task) => remove(task, resourceUrl, fetch)));
+        await Promise.all(list.task!.map(async (task) => remove(task, storage["@id"], fetch)));
         // Then removing the item itself
-        startTransaction(list);
         await remove(list, resourceUrl, fetch);
         // Then removing item from index
-        startTransaction(storage);
-        storage.list = [
-            ...lists.slice(0, listIndex),
-            ...lists.slice(listIndex + 1)
-        ];
-        await update(storage, resourceUrl, fetch);
+        await update(storage, resourceUrl, fetch, (storage) => {
+            storage.list = [
+                ...lists.slice(0, listIndex),
+                ...lists.slice(listIndex + 1)
+            ];
+        });
+        // Clean up
         return mutateStorage();
     };
     return (

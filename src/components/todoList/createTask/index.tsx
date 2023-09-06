@@ -6,7 +6,7 @@ import {todo} from "@/vocabularies";
 import Button from "@/components/button";
 import Loading from "@/components/loading";
 import {useModal} from "react-modal-hook";
-import FormModal from "@/components/form-modal";
+import FormModal from "src/components/formModal";
 import {FiPlusSquare} from "react-icons/fi";
 import Input from "@/components/input";
 import {List} from "@/ldo/todo.typings";
@@ -53,15 +53,15 @@ export default function TodoListCreateTask({listUrl, resourceUrl}: TodoListCreat
             const task = dataset.usingType(TaskShapeType).fromSubject(createSubjectUrl(resourceUrl));
 
             // UPDATE TASK
-            startTransaction(task);
-            task.type = todo.Task;
-            task.description = data.taskName;
-            await update(task, resourceUrl, fetch);
+            await update(task, resourceUrl, fetch, (task) => {
+                task.type = todo.Task;
+                task.description = data.taskName;
+            });
 
             // UPDATE LIST
-            startTransaction(list);
-            list.task?.unshift(task);
-            await update(list, resourceUrl, fetch);
+            await update(list, resourceUrl, fetch, (list) => {
+                list.task?.unshift(task);
+            });
 
             // CLEAN UP
             await mutateList();

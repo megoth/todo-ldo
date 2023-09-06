@@ -70,9 +70,9 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
         event?.preventDefault();
 
         // UPDATE TASK
-        startTransaction(task);
-        task.description = data.description;
-        await update(task, resourceUrl, fetch);
+        await update(task, resourceUrl, fetch, (task) => {
+            task.description = data.description;
+        });
 
         // CLEAN UP
         await mutateTask();
@@ -101,9 +101,9 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
     }
 
     const onChange = handleSubmit(async (data, event) => {
-        startTransaction(task);
-        task.status = event?.target.checked ? todo.complete : todo.incomplete;
-        await update(task, resourceUrl, fetch);
+        await update(task, resourceUrl, fetch, (task) => {
+            task.status = event?.target.checked ? todo.complete : todo.incomplete;
+        });
         await mutateTask();
     });
 
@@ -111,15 +111,15 @@ export default function TodoTask({listUrl, taskUrl, resourceUrl}: TodoTaskProps)
         const tasks = list.task!;
         const taskIndex = tasks.findIndex((t) => t["@id"] === task["@id"])
         // First removing task itself
-        startTransaction(task);
         await remove(task, resourceUrl, fetch);
         // Then removing task from list
-        startTransaction(list);
-        list.task = [
-            ...tasks.slice(0, taskIndex),
-            ...tasks.slice(taskIndex + 1)
-        ];
-        await update(list, resourceUrl, fetch);
+        await update(list, resourceUrl, fetch, (list) => {
+            list.task = [
+                ...tasks.slice(0, taskIndex),
+                ...tasks.slice(taskIndex + 1)
+            ];
+        });
+        // Clean up
         await mutateList();
     }
 

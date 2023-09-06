@@ -18,10 +18,8 @@ interface FormData {
 export default function DeleteAppDataButton() {
     const {fetch, session: {info: {webId}}} = useSession();
     const {
-        register,
         handleSubmit,
         formState: {
-            isSubmitSuccessful,
             isSubmitted,
         },
     } = useForm<FormData>();
@@ -41,7 +39,7 @@ export default function DeleteAppDataButton() {
         error: privateTypeIndexError,
         isLoading: privateTypeIndexIsLoading,
         mutate: mutatePrivateTypeIndex
-    } = useSubject<TypeIndex>(profile?.publicTypeIndex?.["@id"], profile?.publicTypeIndex?.["@id"], TypeIndexShapeType);
+    } = useSubject<TypeIndex>(profile?.privateTypeIndex?.["@id"], profile?.privateTypeIndex?.["@id"], TypeIndexShapeType);
     const storages = useTypeStorage(profile, todoNamespace.TodoList) || [];
 
     if (profileError || publicTypeIndexError || privateTypeIndexError) {
@@ -52,21 +50,25 @@ export default function DeleteAppDataButton() {
         return <Loading/>
     }
 
-    const deleteTypeRegistration = async (typeIndex: TypeIndex) => {
+    const deleteTypeRegistration = async (typeIndex: TypeIndex, mutateIndex: () => Promise<any>) => {
         const dataset = getDataset(typeIndex);
-        const registrationSubjects = dataset
+        const registrations = dataset
             .toArray()
             .filter(({predicate, object}) => predicate.equals(solid.forClass) && object.equals(todoNamespace.TodoList));
-        return Promise.all(registrationSubjects.map(async ({subject}) => {
+        await Promise.all(registrations.map(async ({subject}) => {
             const registration = createLdoDataset(dataset).usingType(TypeRegistrationShapeType).fromSubject(subject.value);
-            startTransaction(registration);
             await remove(registration, typeIndex["@id"], fetch);
         }));
-    }
+        if (registrations.length > 0) {
+            await mutateIndex();
+        }
+    };
 
     const onDelete = handleSubmit(async () => {
-        await deleteTypeRegistration(publicTypeIndex).then(() => mutatePublicTypeIndex());
-        await deleteTypeRegistration(privateTypeIndex).then(() => mutatePrivateTypeIndex());
+        // Update references to storages
+        await deleteTypeRegistration(publicTypeIndex, mutatePublicTypeIndex);
+        await deleteTypeRegistration(privateTypeIndex, mutatePrivateTypeIndex);
+        // Delete storage resources themselves
         await Promise.all(storages.map((storageUrl) => fetch(storageUrl, {
             method: "DELETE"
         })));

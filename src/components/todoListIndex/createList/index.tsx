@@ -51,13 +51,13 @@ export default function TodoListIndexCreateList({resourceUrl, editMode, onSubmit
     const onSubmit = handleSubmit(async (data, event) => {
         const dataset = createLdoDataset(getDataset(storage));
         const list = dataset.usingType(ListShapeType).fromSubject(createSubjectUrl(resourceUrl));
-        startTransaction(list);
-        list.type = todo.List;
-        list.name = data.listName;
-        await update(list, resourceUrl, fetch);
-        startTransaction(storage);
-        storage?.list?.unshift(list);
-        await update(storage, resourceUrl, fetch);
+        await update(list, resourceUrl, fetch, (list) => {
+            list.type = todo.List;
+            list.name = data.listName;
+        });
+        await update(storage, resourceUrl, fetch, (storage) => {
+            storage?.list?.unshift(list);
+        });
         await mutateStorage();
         reset();
         onSubmitted();

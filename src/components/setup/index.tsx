@@ -10,7 +10,7 @@ import {createSubjectUrl, getValue, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import Checkbox from "@/components/checkbox";
 import {WebIdProfile} from "@/ldo/solid.typings";
-import {createLdoDataset, getDataset, startTransaction} from "ldo";
+import {createLdoDataset, getDataset} from "ldo";
 import {DocumentShapeType, ListShapeType} from "@/ldo/todo.shapeTypes";
 import {TypeRegistrationShapeType} from "@/ldo/solid.shapeTypes";
 import {useState} from "react";
@@ -53,37 +53,39 @@ export default function SetupPage({profile}: SetupPageProps) {
     const suggestedStoragePath = `${profile.storage?.[0]?.["@id"]}todo.ttl`;
     const [list, setList] = useState<List | null>(null);
 
-    const onSubmit = handleSubmit(async (data) => {
+    const onSubmit = handleSubmit(async (form) => {
         const todoDataset = createLdoDataset(getDataset(profile.storage));
 
         // Adding resource to Pod
-        const todoDocument = todoDataset.usingType(DocumentShapeType).fromSubject(data.storagePath);
-        startTransaction(todoDocument);
-        todoDocument.type = todo.TodoDocument;
-        await update(todoDocument, data.storagePath, fetch);
+        const todoDocument = todoDataset.usingType(DocumentShapeType).fromSubject(form.storagePath);
+        await update(todoDocument, form.storagePath, fetch, (doc) => {
+            doc.type = todo.TodoDocument;
+        });
         setValue("storageIsCreated", true);
 
         // Adding resource to TypeIndex
-        const typeIndexUrl = data.private ? privateTypeIndex.data?.["@id"]! : publicTypeIndex.data?.["@id"]!;
-        const typeRegistry = todoDataset.usingType(TypeRegistrationShapeType).fromSubject(createSubjectUrl(typeIndexUrl));
-        startTransaction(typeRegistry);
-        typeRegistry.type = solid.TypeRegistration;
-        typeRegistry.forClass = todo.TodoList;
-        typeRegistry.instance = getValue(data.storagePath);
-        await update(typeRegistry, typeIndexUrl, fetch);
+        const typeIndexUrl = form.private ? privateTypeIndex.data?.["@id"]! : publicTypeIndex.data?.["@id"]!;
+        const typeRegistryUrl = createSubjectUrl(typeIndexUrl);
+        const typeRegistry = todoDataset.usingType(TypeRegistrationShapeType).fromSubject(typeRegistryUrl);
+        await update(typeRegistry, typeIndexUrl, fetch, (typeRegistry) => {
+            typeRegistry.type = solid.TypeRegistration;
+            typeRegistry.forClass = todo.TodoList;
+            typeRegistry.instance = getValue(form.storagePath);
+        });
         setValue("indexIsUpdated", true);
 
-        // Creating the first todo list and updating todo index
-        const list = todoDataset.usingType(ListShapeType).fromSubject(createSubjectUrl(data.storagePath));
-        startTransaction(list);
-        list.type =  todo.List;
-        list.name = data.listName;
-        await update(list, data.storagePath, fetch);
-
-        startTransaction(todoDocument);
-        todoDocument.list?.push(list);
-        await update(todoDocument, data.storagePath, fetch);
+        // Creating the first list and updating index
+        const listUrl = createSubjectUrl(form.storagePath);
+        const list = todoDataset.usingType(ListShapeType).fromSubject(listUrl);
+        await update(list, form.storagePath, fetch, (list) => {
+            list.type = todo.List;
+            list.name = form.listName;
+        });
+        await update(todoDocument, form.storagePath, fetch, (todoDocument) => {
+            todoDocument.list?.push(list);
+        });
         setValue("listIsCreated", true);
+
         setList(list);
     });
 
