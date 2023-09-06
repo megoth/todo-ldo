@@ -13,6 +13,8 @@ import {WebIdProfile} from "@/ldo/solid.typings";
 import {createLdoDataset, getDataset, startTransaction} from "ldo";
 import {DocumentShapeType, ListShapeType} from "@/ldo/todo.shapeTypes";
 import {TypeRegistrationShapeType} from "@/ldo/solid.shapeTypes";
+import {useState} from "react";
+import {List} from "@/ldo/todo.typings";
 
 interface SetupPageProps {
     profile: WebIdProfile
@@ -49,6 +51,7 @@ export default function SetupPage({profile}: SetupPageProps) {
     } = useForm<FormData>();
     const {publicTypeIndex, privateTypeIndex} = useTypeIndexResources(profile);
     const suggestedStoragePath = `${profile.storage?.[0]?.["@id"]}todo.ttl`;
+    const [list, setList] = useState<List | null>(null);
 
     const onSubmit = handleSubmit(async (data) => {
         const todoDataset = createLdoDataset(getDataset(profile.storage));
@@ -76,9 +79,12 @@ export default function SetupPage({profile}: SetupPageProps) {
         list.type =  todo.List;
         list.name = data.listName;
         await update(list, data.storagePath, fetch);
+
+        startTransaction(todoDocument);
         todoDocument.list?.push(list);
         await update(todoDocument, data.storagePath, fetch);
         setValue("listIsCreated", true);
+        setList(list);
     });
 
     if (publicTypeIndex.isLoading || privateTypeIndex.isLoading) {
@@ -89,7 +95,7 @@ export default function SetupPage({profile}: SetupPageProps) {
         <>
             <h1 className="title">Setting up your Pod</h1>
             <TextContent>
-                {isSubmitSuccessful ? (
+                {isSubmitSuccessful && list ? (
                     <>
                         <ContentGroup>
                             <ul>
@@ -98,7 +104,7 @@ export default function SetupPage({profile}: SetupPageProps) {
                                 <li>Created list: {listIsCreated ? "Success!" : "In progress!"}</li>
                             </ul>
                         </ContentGroup>
-                        <SubmitButton href={"/"}>Let&#39;s get to your first todo list!</SubmitButton>
+                        <SubmitButton href={list ? `/list/${encodeURIComponent(list["@id"]!)}` : "/"}>Let&#39;s get to your first todo list!</SubmitButton>
                     </>
                 ) : (
                     <form onSubmit={onSubmit}>
