@@ -14,7 +14,7 @@ export default function FormModal({children, hideModal, title}: FormModalProps) 
             <div className="modal-card">
                 <div className="modal-card-head">
                     <div className="modal-card-title">{title}</div>
-                    <button className="delete" onClick={hideModal} aria-label="Close modal"/>
+                    <button className="delete" onClick={hideModal} aria-label="Close modal" type="reset"/>
                 </div>
                 <div className="modal-card-body">{children}</div>
                 <div className="modal-card-foot">

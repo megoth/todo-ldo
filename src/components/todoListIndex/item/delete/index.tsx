@@ -3,7 +3,6 @@ import {FiDelete} from "react-icons/fi";
 import {remove, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import {Document, List} from "@/ldo/todo.typings";
-import {startTransaction} from "ldo";
 
 interface Props {
     className?: string;

@@ -10,7 +10,7 @@ import ContentGroup from "@/components/contentGroup";
 import ErrorDetails from "@/components/errorDetails";
 import {Document} from "@/ldo/todo.typings";
 import {DocumentShapeType, ListShapeType} from "@/ldo/todo.shapeTypes";
-import {createLdoDataset, getDataset, startTransaction} from "ldo";
+import {createLdoDataset, getDataset} from "ldo";
 
 interface TodoListIndexCreateListProps {
     resourceUrl: string | null | undefined;

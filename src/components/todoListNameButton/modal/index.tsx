@@ -1,7 +1,4 @@
-import Button from "@/components/button";
-import {FiEdit2} from "react-icons/fi";
-import {useModal} from "react-modal-hook";
-import FormModal from "src/components/formModal";
+import FormModal from "@/components/formModal";
 import {update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
@@ -11,9 +8,9 @@ import {useEffect} from "react";
 import Loading from "@/components/loading";
 import Input from "@/components/input";
 import {ListShapeType} from "@/ldo/todo.shapeTypes";
-import {startTransaction} from "ldo";
 
-interface TodoListChangeNameProps {
+interface Props {
+    hideModal: () => void;
     listUrl: string | undefined;
     resourceUrl: string | null | undefined;
 }
@@ -22,10 +19,11 @@ interface FormData {
     listName: string;
 }
 
-export default function TodoListChangeName({listUrl, resourceUrl}: TodoListChangeNameProps) {
+export default function TodoListNameButtonModal({hideModal, listUrl, resourceUrl}: Props) {
     const {fetch} = useSession();
     const {
         data: list,
+        isLoading,
         mutate: mutateList
     } = useSubject<List>(listUrl, resourceUrl, ListShapeType);
     const {reset, setValue, register, handleSubmit} = useForm<FormData>({
@@ -35,46 +33,35 @@ export default function TodoListChangeName({listUrl, resourceUrl}: TodoListChang
     });
     useEffect(() => setValue("listName", list?.name || ""), [list?.name]);
 
-    const [showModal, hideModal] = useModal(() => {
-        return (
-            <form onSubmit={onSubmit(list!)} onReset={onReset(list!)}>
-                <FormModal hideModal={hideModal} title={"Change name"}>
-                    <Input {...register("listName")} autoFocus>List name</Input>
-                </FormModal>
-            </form>
-        );
-    }, [list]);
-
-    function close(data: FormData) {
-        reset(data);
-        hideModal();
-    }
-
     function onSubmit(list: List) {
-        return handleSubmit(async (data, event) => {
-            event?.preventDefault();
+        return handleSubmit(async (data) => {
             await update(list, resourceUrl, fetch, (list) => {
                 list.name = data.listName;
             });
             await mutateList();
-            close(data);
+            reset(data);
+            hideModal();
         });
     }
 
     function onReset(list: List) {
-        return () => close({
-            listName: list.name || ""
-        });
+        return () => {
+            reset({
+                listName: list.name || ""
+            });
+            hideModal();
+        };
     }
 
-    if (!list) {
+    if (isLoading || !list) {
         return <Loading/>
     }
 
     return (
-        <Button onClick={showModal}>
-            <span>Change name</span>
-            <span className="icon"><FiEdit2/></span>
-        </Button>
+        <form onSubmit={onSubmit(list!)} onReset={onReset(list!)}>
+            <FormModal hideModal={hideModal} title={"Change name"}>
+                <Input {...register("listName")} autoFocus>List name</Input>
+            </FormModal>
+        </form>
     )
 }

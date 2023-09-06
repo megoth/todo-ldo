@@ -3,17 +3,15 @@ import {useSession} from "@inrupt/solid-ui-react";
 import {useForm} from "react-hook-form";
 import useSubject from "@/hooks/useSubject";
 import {todo} from "@/vocabularies";
-import Button from "@/components/button";
 import Loading from "@/components/loading";
-import {useModal} from "react-modal-hook";
-import FormModal from "src/components/formModal";
-import {FiPlusSquare} from "react-icons/fi";
+import FormModal from "@/components/formModal";
 import Input from "@/components/input";
 import {List} from "@/ldo/todo.typings";
 import {ListShapeType, TaskShapeType} from "@/ldo/todo.shapeTypes";
-import {createLdoDataset, getDataset, startTransaction} from "ldo";
+import {createLdoDataset, getDataset} from "ldo";
 
-interface TodoListCreateTaskProps {
+interface Props {
+    hideModal: () => void;
     listUrl: string | null | undefined;
     resourceUrl: string | null | undefined;
 }
@@ -22,7 +20,7 @@ interface FormData {
     taskName: string;
 }
 
-export default function TodoListCreateTask({listUrl, resourceUrl}: TodoListCreateTaskProps) {
+export default function TodoTaskCreateButtonModal({hideModal, listUrl, resourceUrl}: Props) {
     const {fetch} = useSession();
     const {register, handleSubmit, reset} = useForm<FormData>({
         defaultValues: {
@@ -33,15 +31,6 @@ export default function TodoListCreateTask({listUrl, resourceUrl}: TodoListCreat
         data: list,
         mutate: mutateList
     } = useSubject<List>(listUrl, resourceUrl, ListShapeType);
-    const [showModal, hideModal] = useModal(() => {
-        return (
-            <form onSubmit={onSubmit(list!)} onReset={onReset}>
-                <FormModal hideModal={hideModal} title={"Create task"}>
-                    <Input {...register("taskName")} autoFocus>Task description</Input>
-                </FormModal>
-            </form>
-        );
-    }, [list]);
 
     if (!list) {
         return <Loading/>
@@ -76,9 +65,10 @@ export default function TodoListCreateTask({listUrl, resourceUrl}: TodoListCreat
     }
 
     return (
-        <Button onClick={showModal}>
-            <span>Add task</span>
-            <span className="icon"><FiPlusSquare/></span>
-        </Button>
+        <form onSubmit={onSubmit(list!)} onReset={onReset}>
+            <FormModal hideModal={hideModal} title={"Create task"}>
+                <Input {...register("taskName")} autoFocus>Task description</Input>
+            </FormModal>
+        </form>
     )
 }
