@@ -1,5 +1,5 @@
+import React, {ReactNode, useContext} from "react";
 import Head from "next/head";
-import {ReactNode, useContext} from "react";
 import {useSession} from "@inrupt/solid-ui-react";
 import Loading from "@/components/loading";
 import LoginForm from "@/components/loginForm";

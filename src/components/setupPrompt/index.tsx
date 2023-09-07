@@ -1,3 +1,4 @@
+import React from "react";
 import WelcomeTitle from "@/components/welcomeTitle";
 import TextContent from "@/components/textContent";
 import Button from "@/components/button";

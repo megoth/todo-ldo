@@ -1,3 +1,4 @@
+import React from "react";
 import FormModal from "@/components/formModal";
 import {update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";

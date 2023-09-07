@@ -1,4 +1,4 @@
-import {ButtonHTMLAttributes, DetailedHTMLProps, forwardRef, ReactNode} from "react";
+import React, {ButtonHTMLAttributes, DetailedHTMLProps, forwardRef, ReactNode} from "react";
 import styles from "./styles.module.css";
 
 type CheckboxProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {

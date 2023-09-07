@@ -1,3 +1,4 @@
+import React from "react";
 import Button from "@/components/button";
 import {FiDelete} from "react-icons/fi";
 import {remove, update} from "@/libs/ldo";

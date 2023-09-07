@@ -8,7 +8,7 @@ interface Props extends HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
     className?: string;
 }
 
-export default function DarkModeSelector({className, ...props}: Props) {
+export default function DarkModeSelector({...props}: Props) {
     const [darkMode, setDarkMode] = useLocalStorage<boolean>("darkMode", prefersDarkModeScheme());
     useEffect(() => toggleDarkMode(darkMode));
 

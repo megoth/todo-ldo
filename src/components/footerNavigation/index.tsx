@@ -1,3 +1,4 @@
+import React from "react";
 import DeveloperModeButton from "@/components/developerModeButton";
 import {useSession} from "@inrupt/solid-ui-react";
 import styles from "./styles.module.css";

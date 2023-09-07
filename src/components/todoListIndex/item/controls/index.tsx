@@ -1,5 +1,5 @@
+import React, {useContext} from "react";
 import {TodoListIndexItemDelete} from "@/components/todoListIndex/item/delete";
-import React, {useContext, useState} from "react";
 import clsx from "clsx";
 import {FiMoreHorizontal} from "react-icons/fi";
 import ActiveControlsContext from "@/contexts/activeControls";

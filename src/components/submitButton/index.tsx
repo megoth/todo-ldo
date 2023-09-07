@@ -1,4 +1,4 @@
-import {AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps, ReactNode} from "react";
+import React, {AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps, ReactNode} from "react";
 import Button from "@/components/button";
 import FlexBar from "@/components/flexBar";
 

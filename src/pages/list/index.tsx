@@ -1,3 +1,4 @@
+import React from "react";
 import Layout from "@/components/layout";
 import {useSession} from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";

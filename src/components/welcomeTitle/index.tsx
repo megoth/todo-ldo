@@ -1,3 +1,4 @@
+import React from "react";
 import {getName} from "@/libs/profile";
 import {WebIdProfile} from "@/ldo/solid.typings";
 

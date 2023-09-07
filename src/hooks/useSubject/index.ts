@@ -48,4 +48,4 @@ export default function useSubject<T extends LdoBase>(subjectUrl: string | undef
     }, [resourceUrl, response.data])
 
     return response;
-};
+}

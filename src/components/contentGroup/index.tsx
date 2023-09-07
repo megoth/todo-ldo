@@ -1,4 +1,4 @@
-import {ButtonHTMLAttributes, DetailedHTMLProps, ReactNode} from "react";
+import React, {ButtonHTMLAttributes, DetailedHTMLProps, ReactNode} from "react";
 import clsx from "clsx";
 
 type ContentGroupProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLDivElement>, HTMLDivElement> & {

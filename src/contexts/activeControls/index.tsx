@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useState} from "react";
+import React, {createContext, ReactNode, useState} from "react";
 
 interface ActiveControlsContextProps {
     activeControlsId: string | null;
@@ -7,7 +7,7 @@ interface ActiveControlsContextProps {
 
 const ActiveControlsContext = createContext<ActiveControlsContextProps>({
     activeControlsId: null,
-    toggleActiveControlsId: (id) => {},
+    toggleActiveControlsId: () => {},
 });
 export default ActiveControlsContext;
 

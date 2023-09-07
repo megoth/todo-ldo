@@ -21,4 +21,4 @@ export default function useResource(url: string | undefined | null): SWRResponse
         }
         return response.text();
     })
-};
+}

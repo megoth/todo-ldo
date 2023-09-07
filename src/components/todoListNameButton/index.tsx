@@ -1,3 +1,4 @@
+import React from "react";
 import Button from "@/components/button";
 import {FiEdit2} from "react-icons/fi";
 import {useModal} from "react-modal-hook";

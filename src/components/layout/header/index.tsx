@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./styles.module.css";
 import Container from "@/components/container";
 import {useSession} from "@inrupt/solid-ui-react";

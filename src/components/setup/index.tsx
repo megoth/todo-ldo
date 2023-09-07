@@ -1,3 +1,4 @@
+import React, {useState} from "react";
 import TextContent from "@/components/textContent";
 import useTypeIndexResources from "@/hooks/useTypeIndexResources";
 import Loading from "@/components/loading";
@@ -13,7 +14,6 @@ import {WebIdProfile} from "@/ldo/solid.typings";
 import {createLdoDataset, getDataset} from "ldo";
 import {DocumentShapeType, ListShapeType} from "@/ldo/todo.shapeTypes";
 import {TypeRegistrationShapeType} from "@/ldo/solid.shapeTypes";
-import {useState} from "react";
 import {List} from "@/ldo/todo.typings";
 
 interface SetupPageProps {
@@ -64,7 +64,7 @@ export default function SetupPage({profile}: SetupPageProps) {
         setValue("storageIsCreated", true);
 
         // Adding resource to TypeIndex
-        const typeIndexUrl = form.private ? privateTypeIndex.data?.["@id"]! : publicTypeIndex.data?.["@id"]!;
+        const typeIndexUrl = form.private ? privateTypeIndex.data?.["@id"] : publicTypeIndex.data?.["@id"];
         const typeRegistryUrl = createSubjectUrl(typeIndexUrl);
         const typeRegistry = todoDataset.usingType(TypeRegistrationShapeType).fromSubject(typeRegistryUrl);
         await update(typeRegistry, typeIndexUrl, fetch, (typeRegistry) => {

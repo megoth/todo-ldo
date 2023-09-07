@@ -1,3 +1,4 @@
+import React from "react";
 import {useSession} from "@inrupt/solid-ui-react";
 import Button from "@/components/button";
 

@@ -1,5 +1,5 @@
-import {ReactNode, useContext, useEffect, useState} from "react";
-import DeveloperModeContext, {SubjectNode} from "@/contexts/developerMode";
+import React, {ReactNode, useContext, useEffect, useState} from "react";
+import DeveloperModeContext, { NodeBase, SubjectNode } from "@/contexts/developerMode";
 import {useSession} from "@inrupt/solid-ui-react";
 import styles from "./styles.module.css";
 import clsx from "clsx";
@@ -14,7 +14,7 @@ interface ToolBoxProps {
 export default function ToolBox({children}: ToolBoxProps) {
     const {developerMode, subjects} = useContext(DeveloperModeContext);
     const {session} = useSession();
-    const [selectedSubject, setSelectedSubject] = useState<SubjectNode<any> | null>(null);
+    const [selectedSubject, setSelectedSubject] = useState<SubjectNode<NodeBase> | null>(null);
     const [turtle, setTurtle] = useState<string>();
 
     useEffect(() => {

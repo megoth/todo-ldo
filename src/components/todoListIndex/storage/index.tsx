@@ -1,3 +1,4 @@
+import React from "react";
 import useSubject from "@/hooks/useSubject";
 import {getResourceUrl} from "@/libs/ldo";
 import ErrorDetails from "@/components/errorDetails";

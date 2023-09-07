@@ -1,4 +1,4 @@
-import {DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
+import React, {DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
 import styles from "./styles.module.css";
 import clsx from "clsx";
 
