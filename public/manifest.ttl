@@ -13,7 +13,8 @@ app:solid-app
 An experiment using Linked Data Object and ShEx shapes to handle data for a Solid app handling todo lists
 """ ;
     manifest:appUrl <https://todo-ldo-megoth.vercel.app/> ;
-    manifest:supports app:list .
+    manifest:supports app:list ;
+    manifest:iconUrl </icon.png> .
 
 app:list
     a manifest:Support ;

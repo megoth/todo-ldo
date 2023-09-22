@@ -39,6 +39,7 @@ export default function Layout({children, loading, error}: LayoutProps) {
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
                 <link rel="solid-app-manifest" href="/manifest.ttl#solid-app"/>
+                <link rel="icon" type="image/png" sizes="512x512" href="/icon.png"/>
             </Head>
             <div className={styles.layoutContainer}>
                 <LayoutHeader/>
