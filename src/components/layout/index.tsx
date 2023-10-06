@@ -2,7 +2,6 @@ import React, {ReactNode, useContext} from "react";
 import Head from "next/head";
 import {useSession} from "@inrupt/solid-ui-react";
 import Loading from "@/components/loading";
-import LoginForm from "@/components/loginForm";
 import LayoutHeader from "@/components/layout/header";
 import Container from "@/components/container";
 import ToolBox from "@/components/toolBox";

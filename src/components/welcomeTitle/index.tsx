@@ -1,9 +1,8 @@
 import React from "react";
-import {getName} from "@/libs/profile";
-import {WebIdProfile} from "@/ldo/solid.typings";
+import { getName, SolidProfile } from "ldo-solid-profile";
 
 interface WelcomeTitleProps {
-    profile: WebIdProfile
+    profile: SolidProfile
 }
 
 export default function WelcomeTitle({profile}: WelcomeTitleProps) {

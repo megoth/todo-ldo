@@ -6,7 +6,6 @@ import {
   Resource,
   TypeIndex,
   TypeRegistration,
-  WebIdProfile,
 } from "./solid.typings";
 
 /**
@@ -48,14 +47,5 @@ export const TypeIndexShapeType: ShapeType<TypeIndex> = {
 export const TypeRegistrationShapeType: ShapeType<TypeRegistration> = {
   schema: solidSchema,
   shape: "https://icanhasweb.net/shapes/solid.ttl#TypeRegistration",
-  context: solidContext,
-};
-
-/**
- * WebIdProfile ShapeType
- */
-export const WebIdProfileShapeType: ShapeType<WebIdProfile> = {
-  schema: solidSchema,
-  shape: "https://icanhasweb.net/shapes/solid.ttl#WebIdProfile",
   context: solidContext,
 };

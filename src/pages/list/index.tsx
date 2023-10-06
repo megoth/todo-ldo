@@ -7,8 +7,7 @@ import useTypeStorage from "@/hooks/useTypeStorage";
 import {todoNamespace} from "@/vocabularies";
 import Loading from "@/components/loading";
 import TodoListIndex from "@/components/todoListIndex";
-import {WebIdProfile} from "@/ldo/solid.typings";
-import {WebIdProfileShapeType} from "@/ldo/solid.shapeTypes";
+import { SolidProfile, SolidProfileShapeType } from "ldo-solid-profile";
 
 export default function ListIndexPage() {
     const {
@@ -18,7 +17,7 @@ export default function ListIndexPage() {
         data: profile,
         error: profileError,
         isLoading: profileIsLoading
-    } = useSubject<WebIdProfile>(webId, getResourceUrl(webId), WebIdProfileShapeType);
+    } = useSubject<SolidProfile>(webId, getResourceUrl(webId), SolidProfileShapeType);
     const storages = useTypeStorage(profile, todoNamespace.TodoList);
 
     if (profileIsLoading) {

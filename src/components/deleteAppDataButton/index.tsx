@@ -1,9 +1,9 @@
 import React from "react";
 import { useSession } from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
-import { TypeIndex, WebIdProfile } from "@/ldo/solid.typings";
+import { TypeIndex } from "@/ldo/solid.typings";
 import { getResourceUrl, remove } from "@/libs/ldo";
-import { TypeIndexShapeType, TypeRegistrationShapeType, WebIdProfileShapeType } from "@/ldo/solid.shapeTypes";
+import { TypeIndexShapeType, TypeRegistrationShapeType } from "@/ldo/solid.shapeTypes";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import { solid, todoNamespace } from "@/vocabularies";
 import Loading from "@/components/loading";
@@ -12,6 +12,7 @@ import { createLdoDataset, getDataset } from "ldo";
 import { useForm } from "react-hook-form";
 import Redirect from "@/components/redirect";
 import SubmitButton from "@/components/submitButton";
+import { SolidProfile, SolidProfileShapeType } from "ldo-solid-profile";
 
 interface FormData {
 }
@@ -28,7 +29,7 @@ export default function DeleteAppDataButton() {
     data: profile,
     error: profileError,
     isLoading: profileIsLoading
-  } = useSubject<WebIdProfile>(webId, getResourceUrl(webId), WebIdProfileShapeType);
+  } = useSubject<SolidProfile>(webId, getResourceUrl(webId), SolidProfileShapeType);
   const {
     data: publicTypeIndex,
     error: publicTypeIndexError,

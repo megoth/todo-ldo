@@ -27,15 +27,3 @@ shape:TypeRegistration EXTRA rdf:type {
     solid:forClass IRI ;
     solid:instance IRI ;
 }
-
-shape:WebIdProfile EXTRA rdf:type {
-  rdf:type [ foaf:Person ] ;
-  foaf:name xsd:string? ;
-  vcard:fn xsd:string? ;
-  space:storage IRI+ ;
-  space:preferencesFile IRI? ;
-  solid:publicTypeIndex IRI? ;
-  solid:privateTypeIndex IRI? ;
-}
-
-

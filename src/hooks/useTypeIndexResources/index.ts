@@ -1,11 +1,12 @@
 import useSubject from "@/hooks/useSubject";
 import {getResourceUrl} from "@/libs/ldo";
-import {TypeIndex, WebIdProfile} from "@/ldo/solid.typings";
-import {TypeIndexShapeType, WebIdProfileShapeType} from "@/ldo/solid.shapeTypes";
+import {TypeIndex} from "@/ldo/solid.typings";
+import {TypeIndexShapeType} from "@/ldo/solid.shapeTypes";
+import { SolidProfile, SolidProfileShapeType } from "ldo-solid-profile";
 
-export default function useTypeIndexResources(profile: WebIdProfile | null | undefined) {
+export default function useTypeIndexResources(profile: SolidProfile | null | undefined) {
     const publicTypeIndex = useSubject<TypeIndex>(profile?.publicTypeIndex?.["@id"], getResourceUrl(profile?.publicTypeIndex?.["@id"]), TypeIndexShapeType);
-    const preferences = useSubject<WebIdProfile>(profile?.["@id"], getResourceUrl(profile?.preferencesFile?.["@id"]), WebIdProfileShapeType);
+    const preferences = useSubject<SolidProfile>(profile?.["@id"], getResourceUrl(profile?.preferencesFile?.["@id"]), SolidProfileShapeType);
     const privateTypeIndex = useSubject<TypeIndex>(preferences.data?.privateTypeIndex?.["@id"], getResourceUrl(preferences?.data?.privateTypeIndex?.["@id"]), TypeIndexShapeType);
 
     return {

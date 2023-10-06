@@ -4,10 +4,10 @@ import TextContent from "@/components/textContent";
 import Button from "@/components/button";
 import ContentGroup from "@/components/contentGroup";
 import FlexBar from "@/components/flexBar";
-import {WebIdProfile} from "@/ldo/solid.typings";
+import { SolidProfile } from "ldo-solid-profile";
 
 interface SetupPromptProps {
-    profile: WebIdProfile
+    profile: SolidProfile
 }
 
 export default function SetupPrompt({profile}: SetupPromptProps) {

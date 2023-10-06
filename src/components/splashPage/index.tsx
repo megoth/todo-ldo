@@ -1,7 +1,6 @@
 import React from "react";
 import ContentGroup from "@/components/contentGroup";
 import LoginForm from "@/components/loginForm";
-import Link from "next/link";
 
 export default function SplashPage() {
   return (

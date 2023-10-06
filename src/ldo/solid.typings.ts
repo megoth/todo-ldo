@@ -59,28 +59,3 @@ export interface TypeRegistration {
     "@id": string;
   };
 }
-
-/**
- * WebIdProfile Type
- */
-export interface WebIdProfile {
-  "@id"?: string;
-  "@context"?: ContextDefinition;
-  type: {
-    "@id": "Person";
-  };
-  name?: string;
-  fn?: string;
-  storage: {
-    "@id": string;
-  }[];
-  preferencesFile?: {
-    "@id": string;
-  };
-  publicTypeIndex?: {
-    "@id": string;
-  };
-  privateTypeIndex?: {
-    "@id": string;
-  };
-}

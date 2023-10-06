@@ -6,8 +6,7 @@ import ErrorDetails from "@/components/errorDetails";
 import {getResourceUrl} from "@/libs/ldo";
 import Setup from "@/components/setup";
 import Loading from "@/components/loading";
-import {WebIdProfile} from "@/ldo/solid.typings";
-import {WebIdProfileShapeType} from "@/ldo/solid.shapeTypes";
+import { SolidProfile, SolidProfileShapeType } from "ldo-solid-profile";
 
 export default function SetupPage() {
     const {session: {info: {webId, isLoggedIn}}} = useSession();
@@ -15,7 +14,7 @@ export default function SetupPage() {
         data: profile,
         error: profileError,
         isLoading: profileIsLoading
-    } = useSubject<WebIdProfile>(webId, getResourceUrl(webId), WebIdProfileShapeType);
+    } = useSubject<SolidProfile>(webId, getResourceUrl(webId), SolidProfileShapeType);
 
     if (!isLoggedIn) {
         return <Layout/>

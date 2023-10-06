@@ -2,10 +2,10 @@ import {useEffect, useState} from "react";
 import {solidNamespace} from "@/vocabularies";
 import useTypeIndexResources from "@/hooks/useTypeIndexResources";
 import {NamedNode} from "@rdfjs/types";
-import {WebIdProfile} from "@/ldo/solid.typings";
 import {getDataset} from "ldo";
+import { SolidProfile } from "ldo-solid-profile";
 
-export default function useTypeStorage(profile: WebIdProfile | null | undefined, type: NamedNode) {
+export default function useTypeStorage(profile: SolidProfile | null | undefined, type: NamedNode) {
     const [storages, setStorages] = useState<string[] | null>(null);
 
     const {

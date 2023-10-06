@@ -10,14 +10,14 @@ import {solid, todo} from "@/vocabularies";
 import {createSubjectUrl, getValue, update} from "@/libs/ldo";
 import {useSession} from "@inrupt/solid-ui-react";
 import Checkbox from "@/components/checkbox";
-import {WebIdProfile} from "@/ldo/solid.typings";
 import {createLdoDataset, getDataset} from "ldo";
 import {DocumentShapeType, ListShapeType} from "@/ldo/todo.shapeTypes";
 import {TypeRegistrationShapeType} from "@/ldo/solid.shapeTypes";
 import {List} from "@/ldo/todo.typings";
+import { SolidProfile } from "ldo-solid-profile";
 
 interface SetupPageProps {
-    profile: WebIdProfile
+    profile: SolidProfile
 }
 
 interface FormData {
