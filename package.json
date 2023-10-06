@@ -27,6 +27,7 @@
     "eslint-config-next": "13.1.5",
     "ldo": "^1.0.3",
     "ldo-solid-profile": "^0.0.4",
+    "ldo-solid-storage": "^0.0.1",
     "next": "13.1.5",
     "prismjs": "^1.29.0",
     "react": "18.2.0",

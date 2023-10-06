@@ -1,36 +1,13 @@
 import { ShapeType } from "ldo";
 import { solidSchema } from "./solid.schema";
 import { solidContext } from "./solid.context";
-import {
-  Container,
-  Resource,
-  TypeIndex,
-  TypeRegistration,
-} from "./solid.typings";
+import { TypeIndex, TypeRegistration } from "./solid.typings";
 
 /**
  * =============================================================================
  * LDO ShapeTypes solid
  * =============================================================================
  */
-
-/**
- * Container ShapeType
- */
-export const ContainerShapeType: ShapeType<Container> = {
-  schema: solidSchema,
-  shape: "https://icanhasweb.net/shapes/solid.ttl#Container",
-  context: solidContext,
-};
-
-/**
- * Resource ShapeType
- */
-export const ResourceShapeType: ShapeType<Resource> = {
-  schema: solidSchema,
-  shape: "https://icanhasweb.net/shapes/solid.ttl#Resource",
-  context: solidContext,
-};
 
 /**
  * TypeIndex ShapeType
