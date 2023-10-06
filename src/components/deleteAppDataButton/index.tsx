@@ -1,9 +1,7 @@
 import React from "react";
 import { useSession } from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
-import { TypeIndex } from "@/ldo/solid.typings";
 import { getResourceUrl, remove } from "@/libs/ldo";
-import { TypeIndexShapeType, TypeRegistrationShapeType } from "@/ldo/solid.shapeTypes";
 import useTypeStorage from "@/hooks/useTypeStorage";
 import { solid, todoNamespace } from "@/vocabularies";
 import Loading from "@/components/loading";
@@ -13,6 +11,7 @@ import { useForm } from "react-hook-form";
 import Redirect from "@/components/redirect";
 import SubmitButton from "@/components/submitButton";
 import { SolidProfile, SolidProfileShapeType } from "ldo-solid-profile";
+import { TypeIndex, TypeIndexShapeType, TypeRegistrationShapeType } from "ldo-type-index";
 
 interface FormData {
 }

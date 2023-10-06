@@ -12,9 +12,9 @@ import {useSession} from "@inrupt/solid-ui-react";
 import Checkbox from "@/components/checkbox";
 import {createLdoDataset, getDataset} from "ldo";
 import {DocumentShapeType, ListShapeType} from "@/ldo/todo.shapeTypes";
-import {TypeRegistrationShapeType} from "@/ldo/solid.shapeTypes";
 import {List} from "@/ldo/todo.typings";
 import { SolidProfile } from "ldo-solid-profile";
+import { TypeRegistrationShapeType } from "ldo-type-index";
 
 interface SetupPageProps {
     profile: SolidProfile
