@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:ldo": "ldo build --input src/shapes --output src/ldo"
+    "build:ldo": "ldo build --input src/shapes --output src/ldo",
+    "open:cypress": "cypress open"
   },
   "dependencies": {
     "@inrupt/solid-ui-react": "^2.9.0",
@@ -39,13 +40,17 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.4",
     "@types/jsonld": "^1.5.8",
     "@types/n3": "^1.16.0",
     "@types/shexj": "^2.1.4",
     "@types/uuid": "^9.0.3",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
+    "cypress": "^13.2.0",
+    "cypress-wait-until": "^2.0.1",
     "eslint": "^8.48.0",
+    "eslint-plugin-cypress": "^2.14.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-unused-imports": "^3.0.0",
     "ldo-cli": "^3.0.1"

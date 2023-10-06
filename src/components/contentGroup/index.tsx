@@ -1,10 +1,15 @@
-import React, {ButtonHTMLAttributes, DetailedHTMLProps, ReactNode} from "react";
+import React, { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
 import clsx from "clsx";
 
 type ContentGroupProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
-    children: ReactNode;
+  children: ReactNode;
+  variant?: "content";
 }
 
-export default function ContentGroup({ children, className, ...props}: ContentGroupProps) {
-    return <div {...props} className={clsx("box", className)}>{children}</div>
+export default function ContentGroup({ children, className, variant, ...props }: ContentGroupProps) {
+  return (
+    <div {...props} className={clsx("box", className)}>
+      <div className={variant}>{children}</div>
+    </div>
+  );
 }

@@ -9,5 +9,8 @@
   "plugins": [
     "@typescript-eslint",
     "unused-imports"
-  ]
+  ],
+  "globals": {
+    "cy": true
+  }
 }

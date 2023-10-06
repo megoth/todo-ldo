@@ -12,6 +12,7 @@ import FooterNavigation from "@/components/footerNavigation";
 import Footer from "@/components/footer";
 import DeveloperModeContext from "@/contexts/developerMode";
 import ErrorDetails from "@/components/errorDetails";
+import SplashPage from "@/components/splashPage";
 
 interface LayoutProps {
     children?: ReactNode;
@@ -44,7 +45,7 @@ export default function Layout({children, loading, error}: LayoutProps) {
                 <main className={styles.layoutMain}>
                     <Container>
                         {isLoggedIn && children}
-                        {!isLoggedIn && !sessionRequestInProgress && <LoginForm/>}
+                        {!isLoggedIn && !sessionRequestInProgress && <SplashPage/>}
                     </Container>
                 </main>
                 {isLoggedIn && (
