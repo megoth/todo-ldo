@@ -1,0 +1,83 @@
+@prefix todo:        <#> .
+@prefix dcterms:     <http://purl.org/dc/terms/> .
+@prefix owl:         <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:         <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:        <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann:        <http://purl.org/vocab/vann/> .
+@prefix xsd:         <http://www.w3.org/2001/XMLSchema#> .
+
+todo:
+    a                             owl:Ontology ;
+    owl:versionInfo               "0.1" ;
+    dcterms:title                 "Todo vocabulary"@en-US ;
+    dcterms:description           """An example Todo vocabulary."""@en-US ;
+    dcterms:creator               <https://icanhasweb.net/#me> ;
+    dcterms:issued                "2023-01-19"^^xsd:date ;
+    dcterms:license               "http://purl.org/NET/rdflicense/MIT1.0.ttl" ;
+    vann:preferredNamespacePrefix "todo" ;
+    vann:preferredNamespaceUri    "https://icanhasweb.net/vocab/todo.ttl#" .
+
+todo:Document
+    a                rdfs:Class ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "The class for a document that contains todo lists"@en-US .
+
+todo:list
+    a                rdf:Property ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "A list contained within the list document"@en-US ;
+    rdfs:domain      todo:Document ;
+    rdfs:range       todo:List .
+
+todo:List
+    a                rdfs:Class ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "The class for a list of todo tasks"@en-US .
+
+todo:name
+    a                rdf:Property ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "Name for the todo list"@en-US ;
+    rdfs:domain      todo:List ;
+    rdfs:range       xsd:string .
+
+todo:task
+    a                rdf:Property ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "A task in a todo list"@en-US ;
+    rdfs:domain      todo:List ;
+    rdfs:range       todo:Task .
+
+todo:Task
+    a                rdfs:Class ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "The class for a todo task"@en-US .
+
+todo:description
+    a                rdf:Property ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "A description of a todo task"@en-US ;
+    rdfs:domain      todo:Task ;
+    rdfs:range       xsd:string .
+
+todo:status
+    a                rdf:Property ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "The status of a given task"@en-US ;
+    rdfs:domain      todo:Task ;
+    rdfs:range       todo:Status .
+
+todo:Status
+    a                rdfs:Class ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "The class of a task status"@en-US .
+
+todo:incomplete
+    a                todo:Status ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "A task is incomplete"@en-US .
+
+todo:complete
+    a                todo:Status ;
+    rdfs:isDefinedBy todo: ;
+    rdfs:label       "A task is complete"@en-US .

@@ -1,0 +1,22 @@
+@prefix app: <#> .
+@prefix manifest: <https://github.com/megoth/ldo-solid-app-manifest/ontology.ttl#> .
+@prefix todo: <https://todo-ldo-megoth.vercel.app/ontology.ttl#> .
+
+</>
+    a manifest:Document ;
+    manifest:list app:solid-app .
+
+app:solid-app
+    a manifest:Manifest ;
+    manifest:appName "Solid Todo" ;
+    manifest:appDescription """
+An experiment using Linked Data Object and ShEx shapes to handle data for a Solid app handling todo lists
+""" ;
+    manifest:appUrl <https://todo-ldo-megoth.vercel.app/> ;
+    manifest:supports app:list ;
+    manifest:iconUrl </icon.png> .
+
+app:list
+    a manifest:Support ;
+    manifest:type todo:List ;
+    manifest:url "https://todo-ldo-megoth.vercel.app/list/[url]" .
