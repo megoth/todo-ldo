@@ -1,17 +1,16 @@
 import React from "react";
 import { useSession } from "@inrupt/solid-ui-react";
 import useSubject from "@/hooks/useSubject";
-import { getResourceUrl, remove } from "@/libs/ldo";
+import { getResourceUrl } from "@/libs/ldo";
 import useTypeStorage from "@/hooks/useTypeStorage";
-import { solid, todoNamespace } from "@/vocabularies";
+import { todoNamespace } from "@/vocabularies";
 import Loading from "@/components/loading";
 import ErrorDetails from "@/components/errorDetails";
-import { createLdoDataset, getDataset } from "ldo";
 import { useForm } from "react-hook-form";
 import Redirect from "@/components/redirect";
 import SubmitButton from "@/components/submitButton";
 import { SolidProfile, SolidProfileShapeType } from "ldo-solid-profile";
-import { TypeIndex, TypeIndexShapeType, TypeRegistrationShapeType } from "ldo-type-index";
+import { deleteTypeRegistration, TypeIndex, TypeIndexShapeType } from "ldo-type-index";
 
 interface FormData {
 }
@@ -51,24 +50,10 @@ export default function DeleteAppDataButton() {
     return <Loading />;
   }
 
-  async function deleteTypeRegistration(typeIndex: TypeIndex, mutateIndex: () => void) {
-    const dataset = getDataset(typeIndex);
-    const registrations = dataset
-      .toArray()
-      .filter(({ predicate, object }) => predicate.equals(solid.forClass) && object.equals(todoNamespace.TodoList));
-    await Promise.all(registrations.map(async ({ subject }) => {
-      const registration = createLdoDataset(dataset).usingType(TypeRegistrationShapeType).fromSubject(subject.value);
-      await remove(registration, typeIndex["@id"], fetch);
-    }));
-    if (registrations.length > 0) {
-      await mutateIndex();
-    }
-  }
-
   const onDelete = handleSubmit(async () => {
     // Update references to storages
-    await deleteTypeRegistration(publicTypeIndex, mutatePublicTypeIndex);
-    await deleteTypeRegistration(privateTypeIndex, mutatePrivateTypeIndex);
+    await deleteTypeRegistration(publicTypeIndex, todoNamespace.TodoList, fetch).then(() => mutatePublicTypeIndex());
+    await deleteTypeRegistration(privateTypeIndex, todoNamespace.TodoList, fetch).then(() => mutatePrivateTypeIndex());
     // Delete storage resources themselves
     await Promise.all(storages.map((storageUrl) => fetch(storageUrl, {
       method: "DELETE"

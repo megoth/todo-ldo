@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
-import {solidNamespace} from "@/vocabularies";
 import useTypeIndexResources from "@/hooks/useTypeIndexResources";
 import {NamedNode} from "@rdfjs/types";
 import {getDataset} from "ldo";
 import { SolidProfile } from "ldo-solid-profile";
+import { solid } from "ldo-type-index";
 
 export default function useTypeStorage(profile: SolidProfile | null | undefined, type: NamedNode) {
     const [storages, setStorages] = useState<string[] | null>(null);
@@ -31,8 +31,8 @@ export default function useTypeStorage(profile: SolidProfile | null | undefined,
                 return setStorages([]);
             }
             const quads = [...(getDataset(publicTypeIndex).toArray() || []), ...(getDataset(privateTypeIndex).toArray() || [])];
-            const typeRegistrations = quads.filter((q) => q.predicate.equals(solidNamespace.forClass) && q.object.equals(type)).map(({subject}) => subject.value);
-            const storages = quads.filter((q) => typeRegistrations.indexOf(q.subject.value) >= 0 && q.predicate.equals(solidNamespace.instance)).map(({object}) => object.value);
+            const typeRegistrations = quads.filter((q) => q.predicate.equals(solid.forClass) && q.object.equals(type)).map(({subject}) => subject.value);
+            const storages = quads.filter((q) => typeRegistrations.indexOf(q.subject.value) >= 0 && q.predicate.equals(solid.instance)).map(({object}) => object.value);
             const resourcesAreLoading = publicTypeIsLoading || preferencesIsLoading || privateTypeIsLoading;
             const errorsOccurred = publicTypeIndexError || preferencesError || privateTypeIndexError;
             if (resourcesAreLoading) {

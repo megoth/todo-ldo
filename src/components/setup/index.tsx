@@ -6,7 +6,7 @@ import Input from "@/components/input";
 import { useForm } from "react-hook-form";
 import SubmitButton from "@/components/submitButton";
 import ContentGroup from "@/components/contentGroup";
-import { solid, todo } from "@/vocabularies";
+import { todo } from "@/vocabularies";
 import { createSubjectUrl, getValue, update } from "@/libs/ldo";
 import { useSession } from "@inrupt/solid-ui-react";
 import Checkbox from "@/components/checkbox";
@@ -14,7 +14,7 @@ import { createLdoDataset, getDataset } from "ldo";
 import { DocumentShapeType, ListShapeType } from "@/ldo/todo.shapeTypes";
 import { List } from "@/ldo/todo.typings";
 import { SolidProfile } from "ldo-solid-profile";
-import { TypeRegistrationShapeType } from "ldo-type-index";
+import { solid, TypeRegistrationShapeType } from "ldo-type-index";
 import ErrorDetails from "@/components/errorDetails";
 
 interface SetupPageProps {
